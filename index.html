@@ -1483,51 +1483,47 @@
     }
 
     async function handlePostSubmit(e) {
-  e.preventDefault();
-  
-  // BARU: Tunggu auth ready (bukan reject terus)
-  showToast('⏳ Menyediakan sambungan...');
-  const uid = await waitForAuth(5000);
-  
-  if (!uid) {
-    showToast('❌ Auth gagal. Sila refresh page & cuba lagi.');
-    return;
-  }
-  
-  const newPost = {
-    author: document.getElementById('postAuthor').value.trim(),
-    authorZone: document.getElementById('postZone').value,
-    category: document.getElementById('postCategory').value,
-    title: document.getElementById('postTitle').value.trim(),
-    content: document.getElementById('postContent').value.trim(),
-    phone: document.getElementById('postWhatsApp').value.trim(),
-    timestamp: Date.now(),
-    likes: 0,
-    liked: false,
-    ownerUid: uid  // Guaranteed non-null
-  };
-  
-  try {
-    await push(ref(db, 'community_posts'), newPost);
-    document.getElementById('communityForm').reset();
-    closePostModal();
-    showToast('✅ Hantaran diterbitkan!');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  } catch (err) {
-    // BARU: Error message SEBENAR untuk debug
-    console.error('=== POST FAILED ===');
-    console.error('Code:', err.code);
-    console.error('Message:', err.message);
-    console.error('UID:', currentUid);
-    console.error('Payload:', newPost);
-    
-    if (err.code === 'PERMISSION_DENIED') {
-      showToast(`❌ Permission ditolak. UID: ${currentUid ? 'OK' : 'NULL'}`);
-    } else {
-      showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat tidak diketahui'}`);
+      e.preventDefault();
+      
+      if (!currentUid) {
+        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        return;
+      }
+      
+      const newPost = {
+        author: document.getElementById('postAuthor').value.trim(),
+        authorZone: document.getElementById('postZone').value,
+        category: document.getElementById('postCategory').value,
+        title: document.getElementById('postTitle').value.trim(),
+        content: document.getElementById('postContent').value.trim(),
+        phone: document.getElementById('postWhatsApp').value.trim(),
+        timestamp: Date.now(),
+        likes: 0,
+        liked: false,
+        ownerUid: currentUid
+      };
+      
+      try {
+        await push(ref(db, 'community_posts'), newPost);
+        document.getElementById('communityForm').reset();
+        closePostModal();
+        showToast('✅ Hantaran diterbitkan!');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error('=== POST FAILED ===');
+        console.error('Code:', err.code);
+        console.error('Message:', err.message);
+        console.error('UID:', currentUid);
+        console.error('Payload:', newPost);
+        
+        if (err.code === 'PERMISSION_DENIED') {
+          showToast(`❌ Permission ditolak. UID: ${currentUid ? 'OK' : 'NULL'}`);
+        } else {
+          showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat tidak diketahui'}`);
+        }
+      }
     }
-  }
-}334
+
     async function togglePostLike(postId) {
       const post = communityPosts.find(p => p.id === postId);
       if (!post) return;
@@ -1554,47 +1550,47 @@
     }
 
     // ========== UPDATED: nama dari localStorage + error handling lebih jelas ==========
-   async function handleAddComment(e, postId) {
-  e.preventDefault();
-  
-  const uid = await waitForAuth(5000);
-  if (!uid) {
-    showToast('❌ Auth gagal. Sila refresh page.');
-    return;
-  }
-  
-  const input = document.getElementById(`commentInput_${postId}`);
-  if (!input || !input.value.trim()) return;
+    async function handleAddComment(e, postId) {
+      e.preventDefault();
+      
+      if (!currentUid) {
+        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        return;
+      }
+      
+      const input = document.getElementById(`commentInput_${postId}`);
+      if (!input || !input.value.trim()) return;
 
-  let commenterName = localStorage.getItem('dapur_kita_my_name');
-  if (!commenterName) {
-    const entered = (prompt('Nama anda untuk balasan komuniti:') || '').trim();
-    commenterName = entered || 'Jiran Setempat';
-    if (entered) localStorage.setItem('dapur_kita_my_name', entered);
-  }
-  const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting';
+      let commenterName = localStorage.getItem('dapur_kita_my_name');
+      if (!commenterName) {
+        const entered = (prompt('Nama anda untuk balasan komuniti:') || '').trim();
+        commenterName = entered || 'Jiran Setempat';
+        if (entered) localStorage.setItem('dapur_kita_my_name', entered);
+      }
+      const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting';
 
-  const newComment = {
-    author: commenterName,
-    zone: commenterZone,
-    text: input.value.trim(),
-    timestamp: Date.now(),
-    ownerUid: uid
-  };
+      const newComment = {
+        author: commenterName,
+        zone: commenterZone,
+        text: input.value.trim(),
+        timestamp: Date.now(),
+        ownerUid: currentUid
+      };
 
-  try {
-    await push(ref(db, `community_posts/${postId}/comments`), newComment);
-    input.value = '';
-    showToast('✅ Balasan dihantar!');
-  } catch (err) {
-    console.error("Comment failed:", err);
-    if (String(err.message || '').toLowerCase().includes('permission')) {
-      showToast('❌ Rules block. Semak Firebase Rules.');
-    } else {
-      showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat rangkaian'}`);
+      try {
+        await push(ref(db, `community_posts/${postId}/comments`), newComment);
+        input.value = '';
+        showToast('✅ Balasan dihantar!');
+      } catch (err) {
+        console.error("Comment failed:", err);
+        if (String(err.message || '').toLowerCase().includes('permission')) {
+          showToast('❌ Rules block. Semak Firebase Rules.');
+        } else {
+          showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat rangkaian'}`);
+        }
+      }
     }
-  }
-}
+
     // ==========================================
     // 11. KATALOG
     // ==========================================
