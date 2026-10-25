@@ -98,7 +98,7 @@
     </div>
   </div>
 
-  <!-- ================= BANNER STATUS FIREBASE (BARU) ================= -->
+  <!-- ================= BANNER STATUS FIREBASE ================= -->
   <div id="firebaseStatusBanner" class="hidden bg-rose-50 border-b-2 border-rose-200 px-4 py-2 shadow-sm">
     <div class="max-w-4xl mx-auto flex items-center gap-2.5 text-xs text-rose-800">
       <i class="fa-solid fa-triangle-exclamation text-rose-500 text-sm flex-shrink-0"></i>
@@ -533,7 +533,6 @@
           <i class="fa-brands fa-whatsapp text-lg"></i>
           <span>Hubungi Penjual WhatsApp</span>
         </a>
-        <!-- Butang Edit & Padam (hanya untuk pemilik) -->
         <div id="ownerActions" class="hidden mt-2 grid grid-cols-2 gap-2">
           <button id="editVendorBtn" class="btn-tactile py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow">
             <i class="fa-solid fa-pen"></i><span>Edit Menu</span>
@@ -713,6 +712,8 @@
       onValue,
       remove
     } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+    import { getAuth, signInAnonymously, onAuthStateChanged } 
+      from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCE5EzPWa7m-M7thhXwl9V5E59BvVGA7v8",
@@ -731,7 +732,27 @@
     const db = getDatabase(app);
 
     // ==========================================
-    // 1. STATE
+    // 1a. INIT AUTH + ANONYMOUS SIGN-IN
+    // ==========================================
+    const auth = getAuth(app);
+    let currentUid = null;
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUid = user.uid;
+        console.log('✅ Anonymous auth ready. UID:', currentUid);
+        try { renderVendors(); } catch (e) {}
+        try { renderCommunityPosts(); } catch (e) {}
+      } else {
+        signInAnonymously(auth).catch((err) => {
+          console.error('❌ Anonymous sign-in gagal:', err);
+          showToast('⚠️ Auth gagal — Edit/Hapus tak berfungsi.');
+        });
+      }
+    });
+
+    // ==========================================
+    // 2. STATE
     // ==========================================
     let currentVendors = [];
     let communityPosts = [];
@@ -748,19 +769,16 @@
     let swRegistration = null;
     let menuLayout = localStorage.getItem('dapur_kita_layout') || 'wide';
     let isInitialDataLoaded = false;
-    // Tracking peniaga: senarai ID vendor yang didaftarkan dari peranti ini
     let myVendorIds = [];
-    // Tracking mod edit (null = cipta baru, string = edit vendor sedia ada)
     let editingVendorId = null;
 
-    // Tracking status sambungan Firebase (untuk diagnostic)
     let firebaseStatus = {
       vendors: { ok: false, count: 0, error: null, lastUpdate: null },
       posts: { ok: false, count: 0, error: null, lastUpdate: null }
     };
 
     // ==========================================
-    // 2. HELPER: STATUS BANNER + DIAGNOSTIC
+    // 3. HELPER: STATUS BANNER + DIAGNOSTIC
     // ==========================================
     function updateFirebaseStatusBanner() {
       const banner = document.getElementById('firebaseStatusBanner');
@@ -796,10 +814,10 @@
       }
     }
 
-    // Debug helper untuk user taip di Console
     window.debugFirebase = function() {
       console.log('=== 🔍 DEBUG FIREBASE DAPUR KITA ===');
       console.log('📡 databaseURL:', firebaseConfig.databaseURL);
+      console.log('🔑 Current UID:', currentUid || '(belum auth)');
       console.log('');
       console.log('📦 Vendors Status:', firebaseStatus.vendors);
       console.log('  • Berjaya:', firebaseStatus.vendors.ok);
@@ -816,19 +834,17 @@
       console.log('');
       console.log('💡 Tips: Jika ada error PERMISSION_DENIED → semak Firebase Rules.');
       console.log('💡 Tips: Jika vendors count = 0 tapi data ada → semak struktur (perlu child key unik).');
-      return { vendors: firebaseStatus.vendors, posts: firebaseStatus.posts, state: currentVendors.length };
+      return { uid: currentUid, vendors: firebaseStatus.vendors, posts: firebaseStatus.posts, state: currentVendors.length };
     };
 
     // ==========================================
-    // 3. VALIDATION: NORMALIZE DATA DARI FIREBASE
+    // 4. VALIDATION: NORMALIZE DATA DARI FIREBASE
     // ==========================================
     function normalizeVendors(data) {
       if (!data) return { items: [], structureIssue: null };
       
       const keys = Object.keys(data);
-      
-      // Detect struktur FLAT salah (field terus bawah "vendors" tanpa parent key unik)
-      const knownVendorFields = ['kitchenName','menuTitle','price','zone','status','delivery','phone','category','image','desc','createdAt','neighborhood'];
+      const knownVendorFields = ['kitchenName','menuTitle','price','zone','status','delivery','phone','category','image','desc','createdAt','neighborhood','ownerUid'];
       const flatKeys = keys.filter(k => knownVendorFields.includes(k));
       
       if (flatKeys.length > 0 && flatKeys.length === keys.length) {
@@ -839,14 +855,12 @@
       }
       
       if (flatKeys.length > 0) {
-        // Sebahagian flat — kemungkinan besar user taip data manual salah
         return { 
           items: [], 
           structureIssue: `STRUKTUR BERCAMPUR: ${flatKeys.length} field terus dijumpai di bawah "vendors". Pastikan SETIAP menu ada parent key unik.` 
         };
       }
       
-      // Struktur betul — map dengan validation
       const items = [];
       const invalidKeys = [];
       
@@ -856,7 +870,6 @@
           invalidKeys.push(key);
           return;
         }
-        // Warning kalau item takde menuTitle
         if (!item.menuTitle) {
           console.warn(`⚠️ Vendor "${key}" tiada field "menuTitle". Item mungkin tak dipaparkan dengan betul.`);
         }
@@ -871,10 +884,9 @@
     }
 
     // ==========================================
-    // 4. REALTIME SYNC (FIXED WITH ERROR HANDLING)
+    // 5. REALTIME SYNC
     // ==========================================
     function initRealtimeSync() {
-      // === VENDORS ===
       const vendorsRef = ref(db, 'vendors');
       onValue(vendorsRef, (snapshot) => {
         const data = snapshot.val();
@@ -896,7 +908,6 @@
           showToast('⚠️ Struktur data Firebase salah. Buka Console untuk semak.');
         }
         
-        // Simpan error detail untuk empty state
         window.__vendorsStructureIssue = structureIssue;
         updateFirebaseStatusBanner();
         renderVendors();
@@ -913,11 +924,10 @@
         currentVendors = [];
         window.__vendorsStructureIssue = null;
         updateFirebaseStatusBanner();
-        renderVendors(); // ← PENTING: tunjuk empty state
+        renderVendors();
         showToast('⚠️ Gagal baca data. Semak Firebase Rules / Console.');
       });
 
-      // === COMMUNITY POSTS ===
       const postsRef = ref(db, 'community_posts');
       onValue(postsRef, (snapshot) => {
         const data = snapshot.val();
@@ -978,7 +988,7 @@
     }
 
     // ==========================================
-    // 5. PWA ENVIRONMENT
+    // 6. PWA ENVIRONMENT
     // ==========================================
     function setupPWAEnvironment() {
       const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="120" fill="#15803d"/><path d="M165 110v110c0 28 22 50 50 50h0V395c0 14 11 25 25 25s25-11 25-25V270c28 0 50-22 50-50V110" stroke="#ffffff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M205 110v75M275 110v75M240 110v75" stroke="#ffffff" stroke-width="24" stroke-linecap="round"/><path d="M345 110c-26 0-45 28-45 65 0 35 18 55 35 60v160c0 14 11 25 25 25s25-11 25-25V115c0-3-1-5-15-5z" fill="#ffffff"/></svg>`;
@@ -1040,7 +1050,7 @@
     function dismissInstallBanner() { document.getElementById('pwaInstallBanner').classList.add('hidden'); }
 
     // ==========================================
-    // 6. NOTIFIKASI
+    // 7. NOTIFIKASI
     // ==========================================
     function checkNotificationStatus() {
       const banner = document.getElementById('notificationBanner');
@@ -1107,7 +1117,7 @@
     }
 
     // ==========================================
-    // 7. SPLASH SCREEN
+    // 8. SPLASH SCREEN
     // ==========================================
     function initSplashScreen() {
       const splash = document.getElementById('splashScreen');
@@ -1140,7 +1150,7 @@
     }
 
     // ==========================================
-    // 8. MODAL & TAB
+    // 9. MODAL & TAB
     // ==========================================
     function openModalWithAnimation(id) {
       triggerHaptic();
@@ -1162,7 +1172,6 @@
     function closePostModal() { closeModalWithAnimation('postModal'); }
 
     function openRegisterModal() {
-      // Reset ke mod "cipta baru"
       editingVendorId = null;
       document.getElementById('registerModalTitle').innerText = 'Daftar Dapur Anda (Iklan Percuma)';
       document.getElementById('registerSubmitBtn').innerText = 'Terbitkan Menu Ke Direktori';
@@ -1180,17 +1189,15 @@
     function openInfoModal() { openModalWithAnimation('infoModal'); }
     function closeInfoModal() { closeModalWithAnimation('infoModal'); }
 
-    // ========== BARU: Buka modal edit untuk peniaga ==========
     function openEditModal(id) {
       const item = currentVendors.find(v => v.id === id);
       if (!item) { showToast('Menu tidak dijumpai'); return; }
+      if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
       editingVendorId = id;
 
-      // Tukar tajuk & butang
       document.getElementById('registerModalTitle').innerText = 'Edit Menu Dapur Anda';
       document.getElementById('registerSubmitBtn').innerText = 'Simpan Perubahan';
 
-      // Prefill semua field
       document.getElementById('regKitchenName').value = item.kitchenName || '';
       document.getElementById('regMenuTitle').value = item.menuTitle || '';
       document.getElementById('regPrice').value = item.price || '';
@@ -1201,7 +1208,6 @@
       document.getElementById('regDelivery').value = item.delivery || '';
       document.getElementById('regDesc').value = item.desc || '';
 
-      // Prefill gambar jika ada
       if (item.image) {
         uploadedImageBase64 = item.image;
         document.getElementById('imagePreview').src = item.image;
@@ -1214,21 +1220,19 @@
       openModalWithAnimation('registerModal');
     }
 
-    // ========== BARU: Padam menu (dengan pengesahan) ==========
     async function deleteVendor(id) {
+      if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
       const item = currentVendors.find(v => v.id === id);
       const nameLabel = item?.menuTitle || 'menu ini';
       const ok = confirm(`Adakah anda pasti mahu memadam "${nameLabel}"?\n\nTindakan ini tidak boleh dibatalkan.`);
       if (!ok) return;
       try {
         await remove(ref(db, `vendors/${id}`));
-        // Kemaskini tracking tempatan
         const idx = myVendorIds.indexOf(id);
         if (idx > -1) {
           myVendorIds.splice(idx, 1);
           localStorage.setItem('dapur_kita_my_vendors', JSON.stringify(myVendorIds));
         }
-        // Buang dari bookmark jika ada
         const bidx = bookmarks.indexOf(id);
         if (bidx > -1) {
           bookmarks.splice(bidx, 1);
@@ -1248,7 +1252,37 @@
     }
 
     function isOwner(id) {
-      return myVendorIds.includes(id);
+      const item = currentVendors.find(v => v.id === id);
+      if (!item || !currentUid) return false;
+      return item.ownerUid === currentUid;
+    }
+
+    // ========== Semak pemilikan post komuniti ==========
+    function isPostOwner(post) {
+      if (!post || !currentUid) return false;
+      return post.ownerUid === currentUid;
+    }
+
+    // ========== Padam post komuniti (hanya pemilik) ==========
+    async function deletePost(postId) {
+      const post = communityPosts.find(p => p.id === postId);
+      if (!post) { showToast('Hantaran tidak dijumpai'); return; }
+      if (!isPostOwner(post)) { showToast('⛔ Anda bukan pemilik hantaran ini'); return; }
+      const titlePreview = (post.title || '').substring(0, 60);
+      const ok = confirm(`Adakah anda pasti mahu memadam hantaran "${titlePreview}"?\n\nTindakan ini tidak boleh dibatalkan (termasuk semua balasan).`);
+      if (!ok) return;
+      try {
+        await remove(ref(db, `community_posts/${postId}`));
+        triggerHaptic();
+        showToast('🗑️ Hantaran berjaya dipadam');
+      } catch (err) {
+        console.error("Gagal padam post:", err);
+        if (String(err.message || '').toLowerCase().includes('permission')) {
+          showToast('❌ Firebase Rules block padam. Semak Console.');
+        } else {
+          showToast('Ralat ketika memadam. Sila cuba lagi.');
+        }
+      }
     }
 
     function openDetailModal(id) {
@@ -1280,7 +1314,6 @@
       }
       document.getElementById('modalWhatsAppBtn').href = `https://wa.me/${String(item.phone || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
 
-      // ========== BARU: Tunjuk/sorok butang Edit & Padam ikut pemilik ==========
       const ownerActions = document.getElementById('ownerActions');
       const editBtn = document.getElementById('editVendorBtn');
       const deleteBtn = document.getElementById('deleteVendorBtn');
@@ -1338,7 +1371,7 @@
     }
 
     // ==========================================
-    // 9. KOMUNITI
+    // 10. KOMUNITI
     // ==========================================
     function setCommunityFilter(cat, element) {
       triggerHaptic();
@@ -1377,12 +1410,22 @@
       feed.innerHTML = filtered.map((post, idx) => {
         const initials = getInitials(post.author || 'Jiran');
         const commentsList = post.comments || [];
+        const owned = isPostOwner(post);
+
         let contactBtn = '';
         if (post.phone && String(post.phone).trim() !== '') {
           const waText = encodeURIComponent(`Salam ${post.author}, saya baca hantaran anda di Komuniti Dapur Kita ("${post.title}").`);
           const waUrl = `https://wa.me/${String(post.phone).replace(/[^0-9]/g, '')}?text=${waText}`;
           contactBtn = `<a href="${waUrl}" target="_blank" class="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-bold text-xs border border-emerald-200"><i class="fa-brands fa-whatsapp text-emerald-600"></i><span>Hubungi Pengirim</span></a>`;
         }
+
+        const ownerDeleteBtn = owned ? `
+          <button onclick="window.deletePost('${post.id}')" class="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs border border-rose-200" title="Padam hantaran anda">
+            <i class="fa-solid fa-trash text-[10px]"></i><span>Padam</span>
+          </button>` : '';
+
+        const ownerBadge = owned ? `<span class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-md border border-emerald-200 ml-1">ANDA</span>` : '';
+
         return `
           <div class="soft-card animate-grid-item bg-white rounded-3xl border border-stone-200/80 p-4 sm:p-5 shadow-sm" style="animation-delay: ${idx * 0.05}s">
             <div class="flex items-start justify-between gap-3">
@@ -1391,6 +1434,7 @@
                 <div>
                   <div class="flex items-center gap-1.5 flex-wrap">
                     <span class="font-extrabold text-stone-900 text-xs sm:text-sm">${post.author}</span>
+                    ${ownerBadge}
                     <span class="text-[10px] bg-stone-100 text-stone-600 px-2 py-0.5 rounded-full font-medium flex items-center gap-1"><i class="fa-solid fa-location-dot text-amber-500 text-[9px]"></i> ${post.authorZone}</span>
                   </div>
                   <div class="text-[10px] text-stone-400 mt-0.5">${timeAgo(post.timestamp)}</div>
@@ -1409,11 +1453,15 @@
                 </button>
                 <button onclick="window.toggleCommentBox('${post.id}')" class="btn-tactile flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-stone-50 text-stone-600 hover:bg-stone-100 border border-stone-200 text-xs font-bold">
                   <i class="fa-regular fa-comment"></i><span>${commentsList.length} Balasan</span>
+                  <i class="fa-solid fa-chevron-down text-[9px] opacity-60"></i>
                 </button>
               </div>
-              ${contactBtn}
+              <div class="flex items-center gap-2 flex-wrap">
+                ${contactBtn}
+                ${ownerDeleteBtn}
+              </div>
             </div>
-            <div id="commentSection_${post.id}" class="mt-3 pt-3 border-t border-stone-100 transition-all duration-300">
+            <div id="commentSection_${post.id}" class="mt-3 pt-3 border-t border-stone-100 transition-all duration-300 hidden">
               <div class="space-y-2 mb-3">
                 ${commentsList.map(c => `
                   <div class="bg-amber-50/40 p-2.5 rounded-2xl border border-amber-100/60 text-xs transition duration-200">
@@ -1436,6 +1484,10 @@
 
     async function handlePostSubmit(e) {
       e.preventDefault();
+      if (!currentUid) {
+        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        return;
+      }
       const newPost = {
         author: document.getElementById('postAuthor').value.trim(),
         authorZone: document.getElementById('postZone').value,
@@ -1446,7 +1498,8 @@
         timestamp: Date.now(),
         likes: 0,
         liked: false,
-        comments: []
+        comments: [],
+        ownerUid: currentUid
       };
       try {
         await push(ref(db, 'community_posts'), newPost);
@@ -1476,28 +1529,61 @@
       catch (err) { console.error("Gagal update like:", err); }
     }
 
+    // ========== UPDATED: auto-focus bila dibuka ==========
     function toggleCommentBox(postId) {
       const el = document.getElementById(`commentSection_${postId}`);
-      if (el) el.classList.toggle('hidden');
+      if (!el) return;
+      const wasHidden = el.classList.contains('hidden');
+      el.classList.toggle('hidden');
+      if (wasHidden) {
+        setTimeout(() => {
+          document.getElementById(`commentInput_${postId}`)?.focus();
+        }, 100);
+      }
     }
 
+    // ========== UPDATED: nama dari localStorage + error handling lebih jelas ==========
     async function handleAddComment(e, postId) {
       e.preventDefault();
+      if (!currentUid) {
+        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        return;
+      }
       const input = document.getElementById(`commentInput_${postId}`);
       if (!input || !input.value.trim()) return;
-      const newComment = { author: 'Jiran Setempat', zone: 'Taiping / Kamunting', text: input.value.trim(), timestamp: Date.now() };
+
+      let commenterName = localStorage.getItem('dapur_kita_my_name');
+      if (!commenterName) {
+        const entered = (prompt('Nama anda untuk balasan komuniti:') || '').trim();
+        commenterName = entered || 'Jiran Setempat';
+        if (entered) localStorage.setItem('dapur_kita_my_name', entered);
+      }
+      const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting';
+
+      const newComment = {
+        author: commenterName,
+        zone: commenterZone,
+        text: input.value.trim(),
+        timestamp: Date.now(),
+        ownerUid: currentUid
+      };
+
       try {
         await push(ref(db, `community_posts/${postId}/comments`), newComment);
         input.value = '';
-        showToast('Balasan dihantar!');
+        showToast('✅ Balasan dihantar!');
       } catch (err) {
         console.error("Gagal hantar komen:", err);
-        showToast('Ralat ketika membalas.');
+        if (String(err.message || '').toLowerCase().includes('permission')) {
+          showToast('❌ Rules block. Semak Firebase Rules → community_posts/$postId/comments');
+        } else {
+          showToast('Ralat rangkaian. Cuba lagi.');
+        }
       }
     }
 
     // ==========================================
-    // 10. KATALOG
+    // 11. KATALOG
     // ==========================================
     function setMenuLayout(layout) {
       menuLayout = layout;
@@ -1550,7 +1636,6 @@
         grid.innerHTML = '';
         emptyState.classList.remove('hidden');
         
-        // Tunjuk sebab empty state yang lebih informatif
         const structureIssue = window.__vendorsStructureIssue;
         const hasError = firebaseStatus.vendors.error && !firebaseStatus.vendors.ok;
         
@@ -1609,7 +1694,6 @@
         }
         const waLink = `https://wa.me/${String(item.phone || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
 
-        // ========== BARU: Butang Edit & Padam pada kad ==========
         const ownerRow = owned ? `
           <div class="px-2.5 pb-2 pt-1 flex gap-1.5">
             <button onclick="event.stopPropagation(); window.openEditModal('${item.id}')" class="btn-tactile flex-1 py-1.5 rounded-lg bg-amber-100 text-amber-800 hover:bg-amber-200 font-bold text-[10px] flex items-center justify-center gap-1 border border-amber-200" title="Edit menu">
@@ -1759,7 +1843,7 @@
     }
 
     // ==========================================
-    // 11. IMAGE UPLOAD
+    // 12. IMAGE UPLOAD
     // ==========================================
     function handleImageUpload(event) {
       const file = event.target.files && event.target.files[0];
@@ -1803,6 +1887,10 @@
 
     async function handleVendorSubmit(e) {
       e.preventDefault();
+      if (!currentUid) {
+        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        return;
+      }
       const finalImage = uploadedImageBase64 || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
       const zone = document.getElementById('regZone').value;
       const newKitchen = {
@@ -1817,21 +1905,16 @@
         phone: document.getElementById('regPhone').value.trim(),
         desc: document.getElementById('regDesc').value.trim() || 'Disediakan bersih dari dapur rumah tempatan.',
         image: finalImage,
-        createdAt: Date.now()
+        createdAt: Date.now(),
+        ownerUid: currentUid
       };
       try {
         if (editingVendorId) {
-          // ========== BARU: Mod EDIT — kemaskini vendor sedia ada ==========
-          const { createdAt, ...updates } = newKitchen; // Jangan ubah tarikh asal
+          const { createdAt, ownerUid, ...updates } = newKitchen;
           await update(ref(db, `vendors/${editingVendorId}`), updates);
           showToast('✅ Menu berjaya dikemaskini!');
         } else {
-          // Mod CIpta — push baru dan simpan ID untuk tracking peniaga
-          const newRef = await push(ref(db, 'vendors'), newKitchen);
-          if (newRef && newRef.key) {
-            myVendorIds.push(newRef.key);
-            localStorage.setItem('dapur_kita_my_vendors', JSON.stringify(myVendorIds));
-          }
+          await push(ref(db, 'vendors'), newKitchen);
           showToast('Menu berjaya diterbitkan ke Firebase!');
         }
         document.getElementById('vendorForm').reset();
@@ -1843,7 +1926,7 @@
       } catch (err) {
         console.error("Gagal simpan vendor:", err);
         if (String(err.message || '').toLowerCase().includes('permission')) {
-          showToast('❌ Firebase Rules block tulis. Semak Console.');
+          showToast('❌ Firebase Rules block. Semak Console / rules.');
         } else {
           showToast('Ralat rangkaian. Sila cuba lagi.');
         }
@@ -1851,7 +1934,7 @@
     }
 
     // ==========================================
-    // 12. TOAST
+    // 13. TOAST
     // ==========================================
     function showToast(message) {
       const toast = document.getElementById('toast');
@@ -1866,7 +1949,7 @@
     }
 
     // ==========================================
-    // 13. GLOBAL WINDOW BINDINGS
+    // 14. GLOBAL WINDOW BINDINGS
     // ==========================================
     Object.assign(window, {
       switchMainTab, resetFilters, setCategoryFilter, setZoneFilter, filterVendors, clearSearch,
@@ -1875,8 +1958,10 @@
       toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage, handleVendorSubmit,
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
-      // BARU: fungsi pengurusan peniaga
-      openEditModal, deleteVendor
+      // fungsi pengurusan peniaga (vendor)
+      openEditModal, deleteVendor,
+      // fungsi padam post komuniti
+      deletePost
     });
 
     window.onclick = function(event) {
@@ -1893,7 +1978,7 @@
     };
 
     // ==========================================
-    // 14. STARTUP
+    // 15. STARTUP
     // ==========================================
     setupPWAEnvironment();
     checkNotificationStatus();
@@ -1901,7 +1986,6 @@
     const savedBookmarks = localStorage.getItem('dapur_kita_bookmarks');
     if (savedBookmarks) { try { bookmarks = JSON.parse(savedBookmarks); } catch (e) {} }
 
-    // BARU: muat senarai ID vendor milik peranti ini
     const savedMyVendors = localStorage.getItem('dapur_kita_my_vendors');
     if (savedMyVendors) { try { myVendorIds = JSON.parse(savedMyVendors); } catch (e) { myVendorIds = []; } }
     if (!Array.isArray(myVendorIds)) myVendorIds = [];
