@@ -1,5 +1,4 @@
 
-<!DOCTYPE html>
 <html lang="ms">
 <head>
   <meta charset="UTF-8">
@@ -492,8 +491,11 @@
         </div>
 
         <div>
-          <label class="block font-bold text-stone-700 mb-1">No. WhatsApp (Pilihan - jika ingin dihubungi terus)</label>
-          <input type="tel" id="postWhatsApp" placeholder="Cth: 0123456789" class="w-full p-2.5 border border-stone-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition">
+          <label class="block font-bold text-stone-700 mb-1">No. WhatsApp (Pilihan - jika ingin dihubungi)</label>
+          <div class="flex shadow-sm rounded-xl">
+            <span class="inline-flex items-center justify-center px-3 bg-stone-100 border border-r-0 border-stone-200 text-stone-600 font-bold rounded-l-xl text-xs">+60</span>
+            <input type="tel" id="postWhatsApp" placeholder="123456789" class="w-full p-2.5 border border-stone-200 rounded-r-xl focus:ring-2 focus:ring-emerald-500 outline-none transition">
+          </div>
         </div>
 
         <button type="submit" class="btn-tactile w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-bold rounded-2xl shadow-md">
@@ -607,7 +609,10 @@
           </div>
           <div>
             <label class="block font-bold text-stone-700 mb-1">No. WhatsApp Tempahan *</label>
-            <input type="tel" id="regPhone" required placeholder="Cth: 0123456789" class="w-full p-2.5 border border-stone-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition">
+            <div class="flex shadow-sm rounded-xl">
+              <span class="inline-flex items-center justify-center px-3 bg-stone-100 border border-r-0 border-stone-200 text-stone-600 font-bold rounded-l-xl text-xs">+60</span>
+              <input type="tel" id="regPhone" required placeholder="123456789" class="w-full p-2.5 border border-stone-200 rounded-r-xl focus:ring-2 focus:ring-amber-500 outline-none transition">
+            </div>
           </div>
         </div>
 
@@ -1110,7 +1115,12 @@
       document.getElementById('regKitchenName').value = item.kitchenName || '';
       document.getElementById('regMenuTitle').value = item.menuTitle || '';
       document.getElementById('regPrice').value = item.price || '';
-      document.getElementById('regPhone').value = item.phone || '';
+      
+      // Auto-buang '60' di depan untuk edit form
+      let p = item.phone || '';
+      if(p.startsWith('60')) p = p.substring(2);
+      document.getElementById('regPhone').value = p;
+      
       document.getElementById('regZone').value = item.zone || '';
       document.getElementById('regCategory').value = item.category || 'Lauk-Pauk';
       document.getElementById('regStatus').value = item.status || 'Ready Stock';
@@ -1390,13 +1400,20 @@
         return;
       }
       
+      let p = document.getElementById('postWhatsApp').value.trim();
+      if (p) {
+        p = p.replace(/[^0-9]/g, '');
+        if (p.startsWith('0')) p = '6' + p;
+        else if (!p.startsWith('6')) p = '60' + p;
+      }
+
       const newPost = {
         author: document.getElementById('postAuthor').value.trim(),
         authorZone: document.getElementById('postZone').value,
         category: document.getElementById('postCategory').value,
         title: document.getElementById('postTitle').value.trim(),
         content: document.getElementById('postContent').value.trim(),
-        phone: document.getElementById('postWhatsApp').value.trim(),
+        phone: p,
         timestamp: Date.now(),
         likes: 0,
         liked: false,
@@ -1786,6 +1803,12 @@
         showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
         return;
       }
+      
+      let p = document.getElementById('regPhone').value.trim();
+      p = p.replace(/[^0-9]/g, '');
+      if (p.startsWith('0')) p = '6' + p;
+      else if (p && !p.startsWith('6')) p = '60' + p;
+
       const finalImage = uploadedImageBase64 || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
       const zone = document.getElementById('regZone').value;
       const newKitchen = {
@@ -1797,7 +1820,7 @@
         price: parseFloat(document.getElementById('regPrice').value) || 0,
         status: document.getElementById('regStatus').value,
         delivery: document.getElementById('regDelivery').value.trim(),
-        phone: document.getElementById('regPhone').value.trim(),
+        phone: p,
         desc: document.getElementById('regDesc').value.trim() || 'Disediakan bersih dari dapur rumah tempatan.',
         image: finalImage,
         createdAt: Date.now(),
@@ -1852,7 +1875,7 @@
       toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage, handleVendorSubmit,
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
-      openEditModal, deleteVendor, deletePost, deleteComment // Ditambah deleteComment
+      openEditModal, deleteVendor, deletePost, deleteComment
     });
 
     window.onclick = function(event) {
