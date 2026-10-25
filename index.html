@@ -38,11 +38,14 @@
     }
   </script>
   <style>
+    /* Custom Scrollbar & Utils */
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-nav { background: rgba(255,255,255,0.88); backdrop-filter: blur(18px) saturate(180%); -webkit-backdrop-filter: blur(18px) saturate(180%); }
     .glass-pill { background: rgba(255,255,255,0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
     :root { --spring-easing: cubic-bezier(0.16,1,0.3,1); --bounce-easing: cubic-bezier(0.34,1.56,0.64,1); --smooth-out: cubic-bezier(0.4,0,0.2,1); }
+    
+    /* Animations & Transitions */
     .btn-tactile { transition: transform 0.22s var(--bounce-easing), box-shadow 0.22s var(--smooth-out), background-color 0.2s ease, color 0.2s ease; will-change: transform; }
     .btn-tactile:active { transform: scale(0.92) !important; }
     .soft-card { transition: transform 0.35s var(--spring-easing), box-shadow 0.35s var(--spring-easing), border-color 0.2s ease; will-change: transform, opacity; }
@@ -62,16 +65,22 @@
     .filter-pill { transition: transform 0.25s var(--bounce-easing), background-color 0.25s ease, color 0.2s ease, box-shadow 0.2s ease; }
     .filter-pill:active { transform: scale(0.90); }
     .filter-pill.active { transform: scale(1.02); }
-    body { padding-top: env(safe-area-inset-top); padding-bottom: calc(env(safe-area-inset-bottom) + 6rem); }
-    .bottom-bar-safe { padding-bottom: max(0.75rem, env(safe-area-inset-bottom)); }
     @keyframes pulse-subtle { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.12); } }
     .pulse-badge { animation: pulse-subtle 2s infinite ease-in-out; }
     #splashScreen { transition: opacity 0.5s var(--smooth-out), transform 0.6s var(--spring-easing), visibility 0.5s ease; will-change: opacity, transform; }
     #splashScreen.fade-out { opacity: 0; transform: scale(1.05); visibility: hidden; pointer-events: none; }
     @keyframes forkFloat { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-8px) rotate(-3deg); } }
     .splash-fork-icon { animation: forkFloat 2.4s ease-in-out infinite; }
-    /* Banner status sambungan Firebase */
     #firebaseStatusBanner { transition: opacity 0.3s var(--smooth-out), transform 0.3s var(--spring-easing); }
+    
+    /* SAFE AREA UTILITIES FOR MOBILE/TABLET */
+    body { 
+      padding-top: env(safe-area-inset-top); 
+      padding-bottom: calc(max(6rem, env(safe-area-inset-bottom) + 5rem)); 
+    }
+    .safe-pt { padding-top: max(0.75rem, env(safe-area-inset-top)); }
+    .safe-pb { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+    .modal-scroll-area { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
   </style>
 </head>
 <body class="bg-amber-50/40 text-stone-800 font-sans antialiased selection:bg-amber-500 selection:text-white transition-colors duration-300">
@@ -100,7 +109,7 @@
 
   <!-- ================= BANNER STATUS FIREBASE ================= -->
   <div id="firebaseStatusBanner" class="hidden bg-rose-50 border-b-2 border-rose-200 px-4 py-2 shadow-sm">
-    <div class="max-w-4xl mx-auto flex items-center gap-2.5 text-xs text-rose-800">
+    <div class="max-w-4xl mx-auto flex items-center gap-2.5 text-xs text-rose-800 safe-pt">
       <i class="fa-solid fa-triangle-exclamation text-rose-500 text-sm flex-shrink-0"></i>
       <div class="flex-1">
         <p id="firebaseStatusText" class="font-semibold">Sambungan Firebase bermasalah.</p>
@@ -114,7 +123,7 @@
 
   <!-- ================= PWA INSTALL BANNER ================= -->
   <div id="pwaInstallBanner" class="hidden bg-stone-900/95 backdrop-blur-md text-white px-4 py-2.5 shadow-xl border-b border-stone-800 sticky top-0 z-50 transition-all duration-300">
-    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 text-xs">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 text-xs safe-pt">
       <div class="flex items-center gap-2.5 overflow-hidden">
         <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-amber-500 to-emerald-600 flex items-center justify-center text-white flex-shrink-0 text-sm shadow">
           <i class="fa-solid fa-utensils"></i>
@@ -137,8 +146,8 @@
   </div>
 
   <!-- ================= TOP HEADER ================= -->
-  <header class="glass-nav sticky top-0 z-40 border-b border-amber-100/80 shadow-sm px-4 py-3 transition-all duration-200">
-    <div class="max-w-4xl mx-auto flex items-center justify-between">
+  <header class="glass-nav sticky top-0 z-40 border-b border-amber-100/80 shadow-sm px-4 safe-pt pb-3 transition-all duration-200">
+    <div class="max-w-4xl mx-auto flex items-center justify-between mt-1">
       <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('catalog'); resetFilters();">
         <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-amber-500 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 transform transition active:scale-95 duration-200">
           <i class="fa-solid fa-utensils text-lg"></i>
@@ -357,7 +366,7 @@
   </div>
 
   <!-- ================= BOTTOM NAV ================= -->
-  <nav class="fixed bottom-0 inset-x-0 glass-nav border-t border-stone-200/80 px-6 pt-2 z-40 bottom-bar-safe shadow-2xl">
+  <nav class="fixed bottom-0 inset-x-0 glass-nav border-t border-stone-200/80 px-6 pt-2 z-40 safe-pb shadow-2xl">
     <div class="max-w-md mx-auto flex items-center justify-around text-stone-500 relative">
       <button onclick="switchMainTab('catalog'); resetFilters(); window.scrollTo({top: 0, behavior: 'smooth'});" id="navCatalogBtn" class="nav-btn active flex flex-col items-center gap-1 text-amber-600 focus:outline-none py-1">
         <i class="fa-solid fa-house text-lg"></i>
@@ -387,7 +396,7 @@
 
   <!-- ================= MODAL PILIH TINDAKAN ================= -->
   <div id="actionModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-end sm:items-center justify-center p-4">
-    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-stone-100">
+    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-stone-100 modal-scroll-area">
       <div class="flex items-center justify-between pb-3 border-b border-stone-100 mb-3">
         <h3 class="font-extrabold text-stone-900 text-sm">Pilih Tindakan</h3>
         <button onclick="closeActionChooser()" class="btn-tactile w-7 h-7 rounded-full bg-stone-100 text-stone-500 flex items-center justify-center">
@@ -430,7 +439,7 @@
         </button>
       </div>
 
-      <form id="communityForm" onsubmit="handlePostSubmit(event)" class="p-5 overflow-y-auto space-y-3.5 text-xs">
+      <form id="communityForm" onsubmit="handlePostSubmit(event)" class="p-5 overflow-y-auto space-y-3.5 text-xs modal-scroll-area">
         <div class="grid grid-cols-2 gap-3">
           <div>
             <label class="block font-bold text-stone-700 mb-1">Nama / Panggilan *</label>
@@ -504,7 +513,7 @@
         </button>
         <span id="modalStatusBadge" class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm"></span>
       </div>
-      <div class="p-5 overflow-y-auto">
+      <div class="p-5 overflow-y-auto modal-scroll-area">
         <div class="flex items-start justify-between">
           <div>
             <h3 id="modalTitle" class="text-lg font-extrabold text-stone-900 leading-snug"></h3>
@@ -558,7 +567,7 @@
         </button>
       </div>
 
-      <form id="vendorForm" onsubmit="handleVendorSubmit(event)" class="p-5 overflow-y-auto space-y-3.5 text-xs">
+      <form id="vendorForm" onsubmit="handleVendorSubmit(event)" class="p-5 overflow-y-auto space-y-3.5 text-xs modal-scroll-area">
         <div>
           <label class="block font-bold text-stone-700 mb-1">Nama Dapur / Jenama Anda *</label>
           <input type="text" id="regKitchenName" required placeholder="Cth: Dapur Kak Siti Homemade" class="w-full p-2.5 border border-stone-200 rounded-xl focus:ring-2 focus:ring-amber-500 outline-none transition">
@@ -666,7 +675,7 @@
 
   <!-- ================= MODAL INFO ================= -->
   <div id="infoModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-center justify-center p-4">
-    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-stone-100">
+    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-stone-100 modal-scroll-area">
       <div class="flex items-center justify-between pb-3 border-b border-stone-100">
         <h3 class="font-extrabold text-stone-900 text-sm">Tentang Dapur Kita (PWA)</h3>
         <button onclick="closeInfoModal()" class="btn-tactile w-7 h-7 rounded-full bg-stone-100 text-stone-500 flex items-center justify-center">
@@ -695,7 +704,7 @@
   </div>
 
   <!-- ================= TOAST ================= -->
-  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-stone-900/95 backdrop-blur-md text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4 flex items-center gap-2.5 border border-stone-700 max-w-xs">
+  <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 bg-stone-900/95 backdrop-blur-md text-white text-xs font-semibold px-4 py-3 rounded-2xl shadow-2xl transition-all duration-300 opacity-0 pointer-events-none -translate-y-4 flex items-center gap-2.5 border border-stone-700 max-w-xs safe-pt mt-2">
     <i class="fa-solid fa-circle-check text-emerald-400 text-sm flex-shrink-0" id="toastIcon"></i>
     <span id="toastMessage" class="truncate">Tindakan berjaya</span>
   </div>
@@ -814,29 +823,6 @@
       }
     }
 
-    window.debugFirebase = function() {
-      console.log('=== 🔍 DEBUG FIREBASE DAPUR KITA ===');
-      console.log('📡 databaseURL:', firebaseConfig.databaseURL);
-      console.log('🔑 Current UID:', currentUid || '(belum auth)');
-      console.log('');
-      console.log('📦 Vendors Status:', firebaseStatus.vendors);
-      console.log('  • Berjaya:', firebaseStatus.vendors.ok);
-      console.log('  • Bilangan item:', firebaseStatus.vendors.count);
-      console.log('  • Error:', firebaseStatus.vendors.error?.message || '(tiada)');
-      console.log('');
-      console.log('💬 Community Posts Status:', firebaseStatus.posts);
-      console.log('  • Berjaya:', firebaseStatus.posts.ok);
-      console.log('  • Bilangan post:', firebaseStatus.posts.count);
-      console.log('  • Error:', firebaseStatus.posts.error?.message || '(tiada)');
-      console.log('');
-      console.log('🎯 currentVendors (state dalam app):', currentVendors);
-      console.log('🎯 Filter aktif:', { zone: selectedZone, category: selectedCategory, search: searchQuery });
-      console.log('');
-      console.log('💡 Tips: Jika ada error PERMISSION_DENIED → semak Firebase Rules.');
-      console.log('💡 Tips: Jika vendors count = 0 tapi data ada → semak struktur (perlu child key unik).');
-      return { uid: currentUid, vendors: firebaseStatus.vendors, posts: firebaseStatus.posts, state: currentVendors.length };
-    };
-
     // ==========================================
     // 4. VALIDATION: NORMALIZE DATA DARI FIREBASE
     // ==========================================
@@ -870,15 +856,8 @@
           invalidKeys.push(key);
           return;
         }
-        if (!item.menuTitle) {
-          console.warn(`⚠️ Vendor "${key}" tiada field "menuTitle". Item mungkin tak dipaparkan dengan betul.`);
-        }
         items.push({ id: key, ...item });
       });
-      
-      if (invalidKeys.length > 0) {
-        console.warn(`⚠️ ${invalidKeys.length} item tidak sah (bukan objek):`, invalidKeys);
-      }
       
       return { items: items.reverse(), structureIssue: null };
     }
@@ -893,39 +872,18 @@
         const { items, structureIssue } = normalizeVendors(data);
         
         currentVendors = items;
-        
-        firebaseStatus.vendors = {
-          ok: true,
-          count: items.length,
-          error: structureIssue ? new Error(structureIssue) : null,
-          lastUpdate: new Date().toISOString()
-        };
-        
-        console.log(`✅ Dapur Kita: ${items.length} menu dimuatkan dari Firebase (vendors)`);
-        
-        if (structureIssue) {
-          console.error('🚨 ' + structureIssue);
-          showToast('⚠️ Struktur data Firebase salah. Buka Console untuk semak.');
-        }
+        firebaseStatus.vendors = { ok: true, count: items.length, error: structureIssue ? new Error(structureIssue) : null, lastUpdate: new Date().toISOString() };
         
         window.__vendorsStructureIssue = structureIssue;
         updateFirebaseStatusBanner();
         renderVendors();
         
       }, (error) => {
-        console.error("❌ Gagal membaca 'vendors' dari Firebase:", error);
-        firebaseStatus.vendors = {
-          ok: false,
-          count: 0,
-          error: error,
-          lastUpdate: new Date().toISOString()
-        };
-        
+        firebaseStatus.vendors = { ok: false, count: 0, error: error, lastUpdate: new Date().toISOString() };
         currentVendors = [];
         window.__vendorsStructureIssue = null;
         updateFirebaseStatusBanner();
         renderVendors();
-        showToast('⚠️ Gagal baca data. Semak Firebase Rules / Console.');
       });
 
       const postsRef = ref(db, 'community_posts');
@@ -947,10 +905,7 @@
           
           if (isInitialDataLoaded && loadedPosts.length > communityPosts.length) {
             const newest = loadedPosts[0];
-            showSystemNotification(
-              `Topik Komuniti Baharu: ${newest.category} 📢`,
-              `${newest.author} (${newest.authorZone}): "${newest.title}"`
-            );
+            showSystemNotification(`Topik Komuniti Baharu: ${newest.category} 📢`, `${newest.author} (${newest.authorZone}): "${newest.title}"`);
             if (currentMainTab !== 'community') {
               unreadCommunityCount++;
               updateUnreadBadges();
@@ -960,26 +915,13 @@
         
         communityPosts = loadedPosts;
         isInitialDataLoaded = true;
+        firebaseStatus.posts = { ok: true, count: loadedPosts.length, error: null, lastUpdate: new Date().toISOString() };
         
-        firebaseStatus.posts = {
-          ok: true,
-          count: loadedPosts.length,
-          error: null,
-          lastUpdate: new Date().toISOString()
-        };
-        
-        console.log(`✅ Dapur Kita: ${loadedPosts.length} post komuniti dimuatkan (community_posts)`);
         updateFirebaseStatusBanner();
         renderCommunityPosts();
         
       }, (error) => {
-        console.error("❌ Gagal membaca 'community_posts' dari Firebase:", error);
-        firebaseStatus.posts = {
-          ok: false,
-          count: 0,
-          error: error,
-          lastUpdate: new Date().toISOString()
-        };
+        firebaseStatus.posts = { ok: false, count: 0, error: error, lastUpdate: new Date().toISOString() };
         communityPosts = [];
         isInitialDataLoaded = true;
         updateFirebaseStatusBanner();
@@ -1122,29 +1064,14 @@
     function initSplashScreen() {
       const splash = document.getElementById('splashScreen');
       const bar = document.getElementById('splashProgressBar');
-      const statusText = document.getElementById('splashStatusText');
-      const percentText = document.getElementById('splashPercentText');
       if (!splash || !bar) return;
-
       let progress = 0;
-      const phases = [
-        { at: 15, text: 'Menyambung Firebase Realtime Database...' },
-        { at: 45, text: 'Memuatkan masakan dapur Taiping & Kamunting...' },
-        { at: 75, text: 'Menyegerakkan perbincangan komuniti...' },
-        { at: 95, text: 'Sedia menjamu selera!' }
-      ];
-
       const interval = setInterval(() => {
         progress = Math.min(100, progress + Math.floor(Math.random() * 8) + 4);
         bar.style.width = `${progress}%`;
-        percentText.innerText = `${progress}%`;
-        for (const p of phases) if (progress >= p.at) statusText.innerText = p.text;
         if (progress >= 100) {
           clearInterval(interval);
-          setTimeout(() => {
-            splash.classList.add('fade-out');
-            setTimeout(() => splash.remove(), 600);
-          }, 250);
+          setTimeout(() => { splash.classList.add('fade-out'); setTimeout(() => splash.remove(), 600); }, 250);
         }
       }, 35);
     }
@@ -1152,24 +1079,15 @@
     // ==========================================
     // 9. MODAL & TAB
     // ==========================================
-    function openModalWithAnimation(id) {
-      triggerHaptic();
-      const m = document.getElementById(id);
-      if (!m) return;
-      m.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-    function closeModalWithAnimation(id) {
-      const m = document.getElementById(id);
-      if (!m) return;
-      m.classList.remove('active');
-      document.body.style.overflow = '';
-    }
+    function openModalWithAnimation(id) { triggerHaptic(); const m = document.getElementById(id); if (m) { m.classList.add('active'); document.body.style.overflow = 'hidden'; } }
+    function closeModalWithAnimation(id) { const m = document.getElementById(id); if (m) { m.classList.remove('active'); document.body.style.overflow = ''; } }
 
     function openActionChooser() { openModalWithAnimation('actionModal'); }
     function closeActionChooser() { closeModalWithAnimation('actionModal'); }
     function openPostModal() { openModalWithAnimation('postModal'); }
     function closePostModal() { closeModalWithAnimation('postModal'); }
+    function openInfoModal() { openModalWithAnimation('infoModal'); }
+    function closeInfoModal() { closeModalWithAnimation('infoModal'); }
 
     function openRegisterModal() {
       editingVendorId = null;
@@ -1180,24 +1098,15 @@
       openModalWithAnimation('registerModal');
     }
 
-    function closeRegisterModal() {
-      closeModalWithAnimation('registerModal');
-      resetImageUpload();
-      editingVendorId = null;
-    }
-
-    function openInfoModal() { openModalWithAnimation('infoModal'); }
-    function closeInfoModal() { closeModalWithAnimation('infoModal'); }
+    function closeRegisterModal() { closeModalWithAnimation('registerModal'); resetImageUpload(); editingVendorId = null; }
 
     function openEditModal(id) {
       const item = currentVendors.find(v => v.id === id);
-      if (!item) { showToast('Menu tidak dijumpai'); return; }
+      if (!item) return;
       if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
       editingVendorId = id;
-
       document.getElementById('registerModalTitle').innerText = 'Edit Menu Dapur Anda';
       document.getElementById('registerSubmitBtn').innerText = 'Simpan Perubahan';
-
       document.getElementById('regKitchenName').value = item.kitchenName || '';
       document.getElementById('regMenuTitle').value = item.menuTitle || '';
       document.getElementById('regPrice').value = item.price || '';
@@ -1207,48 +1116,24 @@
       document.getElementById('regStatus').value = item.status || 'Ready Stock';
       document.getElementById('regDelivery').value = item.delivery || '';
       document.getElementById('regDesc').value = item.desc || '';
-
       if (item.image) {
         uploadedImageBase64 = item.image;
         document.getElementById('imagePreview').src = item.image;
         document.getElementById('uploadPrompt').classList.add('hidden');
         document.getElementById('imagePreviewContainer').classList.remove('hidden');
-      } else {
-        resetImageUpload();
-      }
-
+      } else { resetImageUpload(); }
       openModalWithAnimation('registerModal');
     }
 
     async function deleteVendor(id) {
       if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
-      const item = currentVendors.find(v => v.id === id);
-      const nameLabel = item?.menuTitle || 'menu ini';
-      const ok = confirm(`Adakah anda pasti mahu memadam "${nameLabel}"?\n\nTindakan ini tidak boleh dibatalkan.`);
-      if (!ok) return;
+      if (!confirm('Adakah anda pasti mahu memadam menu ini?\n\nTindakan ini tidak boleh dibatalkan.')) return;
       try {
         await remove(ref(db, `vendors/${id}`));
-        const idx = myVendorIds.indexOf(id);
-        if (idx > -1) {
-          myVendorIds.splice(idx, 1);
-          localStorage.setItem('dapur_kita_my_vendors', JSON.stringify(myVendorIds));
-        }
-        const bidx = bookmarks.indexOf(id);
-        if (bidx > -1) {
-          bookmarks.splice(bidx, 1);
-          localStorage.setItem('dapur_kita_bookmarks', JSON.stringify(bookmarks));
-        }
         closeDetailModal();
         triggerHaptic();
         showToast('🗑️ Menu berjaya dipadam');
-      } catch (err) {
-        console.error("Gagal padam vendor:", err);
-        if (String(err.message || '').toLowerCase().includes('permission')) {
-          showToast('❌ Firebase Rules block padam. Semak Console.');
-        } else {
-          showToast('Ralat ketika memadam. Sila cuba lagi.');
-        }
-      }
+      } catch (err) { showToast('Ralat ketika memadam. Sila cuba lagi.'); }
     }
 
     function isOwner(id) {
@@ -1257,31 +1142,37 @@
       return item.ownerUid === currentUid;
     }
 
-    // ========== Semak pemilikan post komuniti ==========
-    function isPostOwner(post) {
-      if (!post || !currentUid) return false;
-      return post.ownerUid === currentUid;
-    }
+    // ========== KOMUNITI OWNER CHECK ==========
+    function isPostOwner(post) { return post && currentUid && post.ownerUid === currentUid; }
 
-    // ========== Padam post komuniti (hanya pemilik) ==========
     async function deletePost(postId) {
       const post = communityPosts.find(p => p.id === postId);
-      if (!post) { showToast('Hantaran tidak dijumpai'); return; }
+      if (!post) return;
       if (!isPostOwner(post)) { showToast('⛔ Anda bukan pemilik hantaran ini'); return; }
-      const titlePreview = (post.title || '').substring(0, 60);
-      const ok = confirm(`Adakah anda pasti mahu memadam hantaran "${titlePreview}"?\n\nTindakan ini tidak boleh dibatalkan (termasuk semua balasan).`);
-      if (!ok) return;
+      if (!confirm('Adakah anda pasti mahu memadam hantaran ini?\n\nTindakan ini tidak boleh dibatalkan (termasuk semua balasan).')) return;
       try {
         await remove(ref(db, `community_posts/${postId}`));
         triggerHaptic();
         showToast('🗑️ Hantaran berjaya dipadam');
+      } catch (err) { showToast('Ralat ketika memadam. Sila cuba lagi.'); }
+    }
+    
+    // ========== PADAM KOMEN/BALASAN ==========
+    async function deleteComment(postId, commentId) {
+      const post = communityPosts.find(p => p.id === postId);
+      if (!post || !post.comments) return;
+      const comment = post.comments.find(c => c.id === commentId);
+      if (!comment) return;
+      if (comment.ownerUid !== currentUid) { showToast('⛔ Anda bukan pemilik balasan ini'); return; }
+      
+      if (!confirm('Adakah anda pasti mahu memadam balasan ini?')) return;
+      try {
+        await remove(ref(db, `community_posts/${postId}/comments/${commentId}`));
+        triggerHaptic();
+        showToast('🗑️ Balasan berjaya dipadam');
       } catch (err) {
-        console.error("Gagal padam post:", err);
-        if (String(err.message || '').toLowerCase().includes('permission')) {
-          showToast('❌ Firebase Rules block padam. Semak Console.');
-        } else {
-          showToast('Ralat ketika memadam. Sila cuba lagi.');
-        }
+        console.error("Gagal padam komen:", err);
+        showToast('Ralat ketika memadam balasan. Sila cuba lagi.');
       }
     }
 
@@ -1392,9 +1283,8 @@
       if (diff < 86400) return `${Math.floor(diff / 3600)} jam lepas`;
       return `${Math.floor(diff / 86400)} hari lepas`;
     }
-    function getInitials(name) {
-      return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase() || 'W';
-    }
+    
+    function getInitials(name) { return name.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase() || 'W'; }
 
     function renderCommunityPosts() {
       const feed = document.getElementById('communityFeed');
@@ -1421,7 +1311,7 @@
 
         const ownerDeleteBtn = owned ? `
           <button onclick="window.deletePost('${post.id}')" class="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-50 text-rose-700 hover:bg-rose-100 font-bold text-xs border border-rose-200" title="Padam hantaran anda">
-            <i class="fa-solid fa-trash text-[10px]"></i><span>Padam</span>
+            <i class="fa-solid fa-trash text-[10px]"></i><span>Padam Hantaran</span>
           </button>` : '';
 
         const ownerBadge = owned ? `<span class="text-[9px] font-black bg-emerald-100 text-emerald-700 px-1.5 py-0.5 rounded-md border border-emerald-200 ml-1">ANDA</span>` : '';
@@ -1463,15 +1353,25 @@
             </div>
             <div id="commentSection_${post.id}" class="mt-3 pt-3 border-t border-stone-100 transition-all duration-300 hidden">
               <div class="space-y-2 mb-3">
-                ${commentsList.map(c => `
-                  <div class="bg-amber-50/40 p-2.5 rounded-2xl border border-amber-100/60 text-xs transition duration-200">
-                    <div class="flex items-center justify-between text-[10px] text-stone-500 mb-1">
-                      <span class="font-bold text-stone-800">${c.author} <span class="font-normal text-stone-500">(${c.zone})</span></span>
-                      <span>${timeAgo(c.timestamp)}</span>
+                ${commentsList.map(c => {
+                  const isCommentOwner = c.ownerUid && c.ownerUid === currentUid;
+                  const delBtn = isCommentOwner ? `<button type="button" onclick="window.deleteComment('${post.id}', '${c.id}')" class="text-rose-500 hover:text-rose-700 bg-rose-50 p-1 rounded hover:bg-rose-100 transition-colors ml-1.5" title="Padam balasan ini"><i class="fa-solid fa-trash text-[9px]"></i></button>` : '';
+                  return `
+                    <div class="bg-amber-50/40 p-2.5 rounded-2xl border border-amber-100/60 text-xs transition duration-200">
+                      <div class="flex items-center justify-between text-[10px] text-stone-500 mb-1">
+                        <div>
+                          <span class="font-bold text-stone-800">${c.author}</span> 
+                          <span class="font-normal text-stone-500">(${c.zone})</span>
+                        </div>
+                        <div class="flex items-center">
+                          <span>${timeAgo(c.timestamp)}</span>
+                          ${delBtn}
+                        </div>
+                      </div>
+                      <p class="text-stone-700 leading-snug">${c.text}</p>
                     </div>
-                    <p class="text-stone-700 leading-snug">${c.text}</p>
-                  </div>
-                `).join('')}
+                  `;
+                }).join('')}
               </div>
               <form onsubmit="window.handleAddComment(event, '${post.id}')" class="flex items-center gap-2">
                 <input type="text" id="commentInput_${post.id}" required placeholder="Tulis jawapan atau info tambahan..." class="flex-1 p-2 text-xs bg-stone-50 border border-stone-200 rounded-xl focus:ring-2 focus:ring-emerald-500 outline-none transition">
@@ -1486,7 +1386,7 @@
       e.preventDefault();
       
       if (!currentUid) {
-        showToast('⏳ Sedang authenticate... sila cuba sebentar lagi.');
+        showToast('⏳ Sedang menyemak pengesahan identiti (Auth)... sila cuba lagi.');
         return;
       }
       
@@ -1510,16 +1410,10 @@
         showToast('✅ Hantaran diterbitkan!');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        console.error('=== POST FAILED ===');
-        console.error('Code:', err.code);
-        console.error('Message:', err.message);
-        console.error('UID:', currentUid);
-        console.error('Payload:', newPost);
-        
         if (err.code === 'PERMISSION_DENIED') {
           showToast(`❌ Permission ditolak. UID: ${currentUid ? 'OK' : 'NULL'}`);
         } else {
-          showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat tidak diketahui'}`);
+          showToast(`❌ Gagal hantar: ${err.message?.substring(0, 80)}`);
         }
       }
     }
@@ -1533,23 +1427,19 @@
       triggerHaptic();
       renderCommunityPosts();
       try { await update(ref(db, `community_posts/${postId}`), { likes: newLikes }); }
-      catch (err) { console.error("Gagal update like:", err); }
+      catch (err) {}
     }
 
-    // ========== UPDATED: auto-focus bila dibuka ==========
     function toggleCommentBox(postId) {
       const el = document.getElementById(`commentSection_${postId}`);
       if (!el) return;
       const wasHidden = el.classList.contains('hidden');
       el.classList.toggle('hidden');
       if (wasHidden) {
-        setTimeout(() => {
-          document.getElementById(`commentInput_${postId}`)?.focus();
-        }, 100);
+        setTimeout(() => { document.getElementById(`commentInput_${postId}`)?.focus(); }, 100);
       }
     }
 
-    // ========== UPDATED: nama dari localStorage + error handling lebih jelas ==========
     async function handleAddComment(e, postId) {
       e.preventDefault();
       
@@ -1583,11 +1473,7 @@
         showToast('✅ Balasan dihantar!');
       } catch (err) {
         console.error("Comment failed:", err);
-        if (String(err.message || '').toLowerCase().includes('permission')) {
-          showToast('❌ Rules block. Semak Firebase Rules.');
-        } else {
-          showToast(`❌ ${err.message?.substring(0, 80) || 'Ralat rangkaian'}`);
-        }
+        showToast('❌ Gagal menghantar balasan.');
       }
     }
 
@@ -1933,7 +1819,6 @@
         resetFilters();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        console.error("Gagal simpan vendor:", err);
         if (String(err.message || '').toLowerCase().includes('permission')) {
           showToast('❌ Firebase Rules block. Semak Console / rules.');
         } else {
@@ -1967,10 +1852,7 @@
       toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage, handleVendorSubmit,
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
-      // fungsi pengurusan peniaga (vendor)
-      openEditModal, deleteVendor,
-      // fungsi padam post komuniti
-      deletePost
+      openEditModal, deleteVendor, deletePost, deleteComment // Ditambah deleteComment
     });
 
     window.onclick = function(event) {
