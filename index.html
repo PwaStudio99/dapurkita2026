@@ -72,7 +72,7 @@
     
     /* Forest Green Glassmorphism untuk Header */
     .glass-header-forest {
-      background: rgba(20, 83, 45, 0.88);
+      background: rgba(20, 83, 45, 0.90);
       backdrop-filter: blur(16px) saturate(190%);
       -webkit-backdrop-filter: blur(16px) saturate(190%);
       border-bottom: 1px solid rgba(134, 239, 172, 0.22);
@@ -154,7 +154,6 @@
       overflow: hidden;
       display: inline-block;
     }
-    /* ACTIVE GLASSMORPHISM STYLE */
     .nav-btn.active {
       background: rgba(220, 252, 231, 0.75);
       backdrop-filter: blur(14px) saturate(160%);
@@ -212,7 +211,7 @@
       padding-top: env(safe-area-inset-top); 
       padding-bottom: calc(max(6.25rem, env(safe-area-inset-bottom) + 5.25rem)); 
     }
-    .safe-pt { padding-top: max(0.75rem, env(safe-area-inset-top)); }
+    .safe-pt { padding-top: max(0.6rem, env(safe-area-inset-top)); }
     .safe-pb { padding-bottom: max(0.6rem, env(safe-area-inset-bottom)); }
     .modal-scroll-area { padding-bottom: max(1.5rem, env(safe-area-inset-bottom)); }
 
@@ -250,18 +249,18 @@
     }
 
     /* =================================================================
-       OPTIMISED POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (SMOOTH)
+       POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (DIPERKEMAS)
        ================================================================= */
     #pointTourOverlay {
       position: fixed;
       inset: 0;
       z-index: 120;
-      background: rgba(12, 19, 30, 0.75);
+      background: rgba(10, 15, 25, 0.78);
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.4s var(--smooth-out);
+      transition: opacity 0.35s var(--smooth-out);
       will-change: opacity;
     }
     #pointTourOverlay.active {
@@ -269,28 +268,25 @@
       pointer-events: auto;
     }
 
-    /* Target spotlight cutout frame dengan smooth spring transitions & double ring glow */
     #tourSpotlightBox {
-      position: absolute;
+      position: fixed;
       border-radius: 1.25rem;
       border: 2.5px solid #facc15;
       box-shadow: 
-        0 0 0 9999px rgba(12, 19, 30, 0.84),
-        0 0 28px 6px rgba(250, 204, 21, 0.6),
+        0 0 0 9999px rgba(10, 15, 25, 0.85),
+        0 0 28px 6px rgba(250, 204, 21, 0.65),
         inset 0 0 16px rgba(250, 204, 21, 0.35);
       transition: 
-        top 0.42s var(--spring-easing), 
-        left 0.42s var(--spring-easing), 
-        width 0.42s var(--spring-easing), 
-        height 0.42s var(--spring-easing),
-        border-color 0.3s ease;
+        top 0.35s var(--spring-easing), 
+        left 0.35s var(--spring-easing), 
+        width 0.35s var(--spring-easing), 
+        height 0.35s var(--spring-easing);
       will-change: top, left, width, height;
       pointer-events: none;
       z-index: 125;
       display: none;
     }
 
-    /* Ping pulse marker on the highlighted element */
     .tour-ping-ring {
       position: absolute;
       inset: -6px;
@@ -304,17 +300,16 @@
       70%, 100% { transform: scale(1.08); opacity: 0; }
     }
 
-    /* Floating Point Tooltip Popover with ultra-smooth transform */
     #tourFloatingCard {
-      position: absolute;
+      position: fixed;
       z-index: 130;
       max-width: 22.5rem;
       width: calc(100vw - 2rem);
       transition: 
-        top 0.42s var(--spring-easing), 
-        left 0.42s var(--spring-easing), 
-        opacity 0.3s var(--smooth-out),
-        transform 0.42s var(--spring-easing);
+        top 0.35s var(--spring-easing), 
+        left 0.35s var(--spring-easing), 
+        opacity 0.25s var(--smooth-out),
+        transform 0.35s var(--spring-easing);
       will-change: top, left, transform, opacity;
       opacity: 0;
       transform: translateY(8px) scale(0.97);
@@ -326,7 +321,6 @@
       pointer-events: auto;
     }
 
-    /* Animasi teks cross-fade untuk setiap point */
     .tour-content-fade {
       animation: tourTextSlide 0.32s var(--spring-easing) forwards;
     }
@@ -335,7 +329,6 @@
       100% { opacity: 1; transform: translateY(0); }
     }
 
-    /* Pointer arrowhead indicator */
     #tourCardArrow {
       position: absolute;
       width: 14px;
@@ -343,7 +336,7 @@
       background: #1c1917;
       border: 1px solid rgba(251, 226, 140, 0.4);
       transform: rotate(45deg);
-      transition: left 0.32s var(--spring-easing);
+      transition: left 0.3s var(--spring-easing);
       z-index: -1;
     }
     #tourCardArrow.arrow-top { top: -7px; border-bottom: none; border-right: none; }
@@ -412,48 +405,59 @@
     </div>
   </div>
 
-  <!-- ================= TOP HEADER (FOREST GREEN GLASSMORPHISM) ================= -->
-  <header class="glass-header-forest sticky top-0 z-40 px-4 safe-pt pb-3 transition-all duration-300">
-    <div class="max-w-4xl mx-auto flex items-center justify-between mt-1">
-      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchMainTab('catalog'); resetFilters();">
-        <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-leaf-950 via-leaf-800 to-butter-500 flex items-center justify-center text-butter-200 shadow-md shadow-leaf-950/40 transform transition active:scale-95 duration-200 border border-butter-300/30">
-          <i class="fa-solid fa-utensils text-lg"></i>
+  <!-- ================= TOP HEADER (DIPERORANGKAN & OPTIMUM) ================= -->
+  <header class="glass-header-forest sticky top-0 z-40 px-3.5 sm:px-4 safe-pt pb-2.5 transition-all duration-300">
+    <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
+      
+      <!-- Brand & Kawasan Dropdown Trigger -->
+      <div class="flex items-center gap-2.5 min-w-0">
+        <div onclick="switchMainTab('catalog'); resetFilters();" class="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-leaf-950 via-leaf-800 to-butter-500 flex items-center justify-center text-butter-200 shadow-md shadow-leaf-950/40 transform transition active:scale-95 duration-200 border border-butter-300/30 flex-shrink-0 cursor-pointer">
+          <i class="fa-solid fa-utensils text-base sm:text-lg"></i>
         </div>
-        <div>
-          <div class="flex items-center space-x-2">
-            <h1 class="text-lg font-extrabold tracking-tight text-white leading-tight">Dapur Kita</h1>
-            <span class="inline-flex items-center text-[10px] font-bold bg-leaf-900/80 text-butter-200 px-2.5 py-0.5 rounded-full border border-leaf-400/30 shadow-sm backdrop-blur-sm">
-              <i class="fa-solid fa-location-dot mr-1 text-butter-400"></i> Taiping & Kamunting
-            </span>
+        <div class="min-w-0">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <h1 onclick="switchMainTab('catalog'); resetFilters();" class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-tight cursor-pointer truncate">Dapur Kita</h1>
+            
+            <!-- Tombol Pilih Kawasan (Batu Kurau / Selama / Taiping & Kamunting) -->
+            <button onclick="openRegionModal()" id="headerRegionBtn" class="btn-tactile inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold bg-leaf-950/70 hover:bg-leaf-900 text-butter-200 hover:text-white px-2 py-0.5 rounded-full border border-leaf-400/30 shadow-sm backdrop-blur-sm cursor-pointer transition">
+              <i class="fa-solid fa-location-dot text-butter-400 text-[10px]"></i>
+              <span id="currentHeaderRegionText" class="truncate max-w-[110px] sm:max-w-none">Taiping & Kamunting</span>
+              <i class="fa-solid fa-chevron-down text-[8px] text-butter-300/80 ml-0.5"></i>
+            </button>
           </div>
-          <p class="text-xs text-butter-100/80 font-medium">Sokong Masakan Dapur Rumah Tempatan</p>
+          <p class="text-[11px] text-butter-100/75 font-medium truncate hidden sm:block">Sokong Masakan Dapur Rumah Tempatan</p>
         </div>
       </div>
 
-      <div class="flex items-center gap-2">
-        <!-- BUTANG PASANG PWA DI HEADER -->
-        <button id="headerPwaInstallBtn" onclick="installPWA()" class="btn-tactile flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-butter-400 hover:bg-butter-300 text-stone-900 font-black text-xs shadow-md border border-butter-200" title="Pasang Aplikasi (PWA)">
-          <i class="fa-solid fa-download text-xs text-leaf-900"></i>
-          <span class="hidden sm:inline">Pasang App</span>
+      <!-- Action Buttons Header -->
+      <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+        <!-- BUTANG PASANG PWA -->
+        <button id="headerPwaInstallBtn" onclick="installPWA()" class="btn-tactile flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl sm:rounded-2xl bg-butter-400 hover:bg-butter-300 text-stone-900 font-extrabold text-[11px] sm:text-xs shadow-md border border-butter-200" title="Pasang Aplikasi (PWA)">
+          <i class="fa-solid fa-download text-[11px] text-leaf-900"></i>
+          <span class="hidden md:inline">Pasang App</span>
         </button>
 
-        <button onclick="startInteractiveTour(0)" class="btn-tactile p-2.5 rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm relative" title="Panduan Aplikasi (Point Tour)">
+        <!-- BUTANG TOUR PANDUAN -->
+        <button onclick="startInteractiveTour(0)" class="btn-tactile w-8 h-8 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm flex items-center justify-center relative" title="Panduan Aplikasi (Point Tour)">
           <i class="fa-solid fa-wand-magic-sparkles text-xs text-butter-300"></i>
         </button>
 
-        <button onclick="requestNotificationPermissionPrompt()" id="topNotifyBtn" class="btn-tactile p-2.5 rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm relative" title="Aktifkan Notifikasi Komuniti">
-          <i class="fa-regular fa-bell text-sm" id="topBellIcon"></i>
+        <!-- NOTIFIKASI -->
+        <button onclick="requestNotificationPermissionPrompt()" id="topNotifyBtn" class="btn-tactile w-8 h-8 sm:w-9 sm:h-9 rounded-xl sm:rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm flex items-center justify-center relative" title="Aktifkan Notifikasi Komuniti">
+          <i class="fa-regular fa-bell text-xs sm:text-sm" id="topBellIcon"></i>
           <span id="unreadTopBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-rose-600 text-[9px] font-black text-white rounded-full flex items-center justify-center pulse-badge shadow">0</span>
         </button>
 
-        <button onclick="switchMainTab('community')" class="btn-tactile hidden sm:inline-flex items-center gap-1.5 bg-leaf-900/70 text-butter-100 hover:bg-leaf-800 hover:text-white border border-leaf-500/30 text-xs font-bold px-3 py-2 rounded-2xl backdrop-blur-sm">
+        <!-- DISKUSI KOMUNITI (DESKTOP) -->
+        <button onclick="switchMainTab('community')" class="btn-tactile hidden lg:inline-flex items-center gap-1.5 bg-leaf-900/70 text-butter-100 hover:bg-leaf-800 hover:text-white border border-leaf-500/30 text-xs font-bold px-3 py-2 rounded-2xl backdrop-blur-sm">
           <i class="fa-solid fa-comments text-butter-300"></i>
-          <span>Diskusi Komuniti</span>
+          <span>Komuniti</span>
         </button>
 
-        <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-butter-400 via-butter-500 to-leaf-600 hover:from-butter-500 hover:to-leaf-700 text-stone-900 hover:text-white text-xs font-black px-3.5 py-2 rounded-2xl shadow-sm border border-butter-300/50">
+        <!-- DAFTAR DAPUR (DESKTOP) -->
+        <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-butter-400 via-butter-500 to-leaf-600 hover:from-butter-500 hover:to-leaf-700 text-stone-900 hover:text-white text-xs font-black px-3 py-2 rounded-xl sm:rounded-2xl shadow-sm border border-butter-300/50">
           <i class="fa-solid fa-plus-circle"></i>
-          <span>Daftar Dapur Anda</span>
+          <span>Daftar Dapur</span>
         </button>
       </div>
     </div>
@@ -685,9 +689,78 @@
     </div>
   </nav>
 
-  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (OPTIMISED) ================= -->
+  <!-- ================= MODAL PILIH KAWASAN (HEADER REGION SELECTOR) ================= -->
+  <div id="regionModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-center justify-center p-4">
+    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-butter-100 modal-scroll-area">
+      <div class="flex items-center justify-between pb-3 border-b border-butter-100 mb-3">
+        <div class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-xl bg-leaf-100 text-leaf-800 flex items-center justify-center text-sm font-bold">
+            <i class="fa-solid fa-map-location-dot"></i>
+          </div>
+          <div>
+            <h3 class="font-extrabold text-stone-900 text-sm">Pilih Kawasan Liputan</h3>
+            <p class="text-[10px] text-stone-500">Pilih kawasan direktori makanan anda</p>
+          </div>
+        </div>
+        <button onclick="closeRegionModal()" class="btn-tactile w-7 h-7 rounded-full bg-stone-100 text-stone-500 flex items-center justify-center">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2.5">
+        <!-- 1. Taiping & Kamunting (Aktif) -->
+        <button onclick="selectRegion('Taiping & Kamunting')" class="btn-tactile w-full p-3 rounded-2xl bg-leaf-50 hover:bg-leaf-100/80 border-2 border-leaf-600 text-left flex items-center justify-between shadow-sm">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-leaf-700 text-butter-200 flex items-center justify-center text-sm font-bold">
+              <i class="fa-solid fa-house-chimney"></i>
+            </div>
+            <div>
+              <div class="text-xs font-black text-leaf-950">Taiping & Kamunting</div>
+              <div class="text-[10px] text-leaf-700 font-medium">Katalog & komuniti aktif sedia ada</div>
+            </div>
+          </div>
+          <span class="text-[10px] font-black bg-leaf-600 text-white px-2 py-0.5 rounded-full shadow-sm">AKTIF</span>
+        </button>
+
+        <!-- 2. Batu Kurau (Coming Soon) -->
+        <button onclick="selectComingSoonRegion('Batu Kurau')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 group-hover:bg-butter-200 group-hover:text-amber-800 flex items-center justify-center text-sm font-bold transition">
+              <i class="fa-solid fa-mountain-sun"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-stone-800 group-hover:text-stone-900">Batu Kurau</div>
+              <div class="text-[10px] text-stone-500">Lembah durian & masakan kampung</div>
+            </div>
+          </div>
+          <span class="text-[9px] font-black bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full group-hover:bg-amber-200">COMING SOON</span>
+        </button>
+
+        <!-- 3. Selama (Coming Soon) -->
+        <button onclick="selectComingSoonRegion('Selama')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
+          <div class="flex items-center gap-3">
+            <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 group-hover:bg-butter-200 group-hover:text-amber-800 flex items-center justify-center text-sm font-bold transition">
+              <i class="fa-solid fa-tree"></i>
+            </div>
+            <div>
+              <div class="text-xs font-bold text-stone-800 group-hover:text-stone-900">Selama</div>
+              <div class="text-[10px] text-stone-500">Kawasan daerah Selama & sekitar</div>
+            </div>
+          </div>
+          <span class="text-[9px] font-black bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full group-hover:bg-amber-200">COMING SOON</span>
+        </button>
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-butter-100 flex items-center justify-between">
+        <span class="text-[10px] text-stone-400">Liputan zon lain akan ditambah berperingkat.</span>
+        <button onclick="closeRegionModal()" class="text-xs font-bold text-leaf-800 hover:underline">Tutup</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (DIPERKEMAS) ================= -->
   <div id="pointTourOverlay">
-    <!-- Spotlight Cutout Box on Target Element -->
+    <!-- Spotlight Cutout Frame on Target Element -->
     <div id="tourSpotlightBox">
       <div class="tour-ping-ring"></div>
     </div>
@@ -696,7 +769,7 @@
     <div id="tourFloatingCard">
       <div id="tourCardArrow"></div>
       <div class="bg-stone-900/95 text-white border border-butter-300/40 rounded-3xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-        <!-- Accent Glow di latar kad -->
+        <!-- Glow effect -->
         <div class="absolute -right-8 -top-8 w-24 h-24 bg-leaf-500/20 rounded-full blur-xl pointer-events-none"></div>
 
         <!-- Header: Badge Langkah & Skip -->
@@ -709,7 +782,7 @@
           </button>
         </div>
 
-        <!-- Kandungan Utama Tour (Smooth cross-fade) -->
+        <!-- Kandungan Tour -->
         <div class="flex items-start gap-3.5 mb-3.5 relative z-10" id="pointTourContentWrap">
           <div id="pointTourIconWrap" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-leaf-700 to-butter-500 flex items-center justify-center text-butter-100 text-lg flex-shrink-0 shadow-md border border-butter-200/30">
             <i class="fa-solid fa-utensils" id="pointTourIcon"></i>
@@ -722,7 +795,7 @@
           </div>
         </div>
 
-        <!-- Butang Aksi Khas Langkah (cth: Pasang PWA) -->
+        <!-- Aksi Khas Langkah PWA -->
         <div id="pointTourActionArea" class="hidden mb-3 relative z-10">
           <button onclick="installPWA()" class="btn-tactile w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-leaf-600 to-leaf-700 hover:from-leaf-700 hover:to-leaf-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 border border-leaf-400/40 shadow-lg">
             <i class="fa-solid fa-download text-butter-300"></i>
@@ -730,7 +803,7 @@
           </button>
         </div>
 
-        <!-- Kawalan Langkah: Dots & Butang Kembali / Seterusnya -->
+        <!-- Kawalan Langkah: Dots & Butang Seterusnya -->
         <div class="flex items-center justify-between pt-3 border-t border-stone-800/80 relative z-10">
           <div class="flex items-center gap-1.5" id="pointTourDots"></div>
           <div class="flex items-center gap-2">
@@ -1408,7 +1481,7 @@
       if (!('Notification' in window)) { if (banner) banner.classList.add('hidden'); return; }
       if (Notification.permission === 'granted') {
         if (banner) banner.classList.add('hidden');
-        if (topBell) { topBell.className = 'fa-solid fa-bell text-leaf-300'; topBtn.classList.add('bg-leaf-800', 'border-leaf-400'); }
+        if (topBell) { topBell.className = 'fa-solid fa-bell text-butter-300'; topBtn.classList.add('bg-leaf-800', 'border-leaf-400'); }
       } else if (Notification.permission === 'denied') {
         if (banner) banner.classList.add('hidden');
         if (topBell) topBell.className = 'fa-solid fa-bell-slash text-stone-400';
@@ -1466,7 +1539,7 @@
     }
 
     // ==========================================
-    // 8. SPLASH SCREEN (OPTIMISED PROGRESS LOGIC)
+    // 8. SPLASH SCREEN
     // ==========================================
     let splashTargetProgress = 15;
     let splashCurrentProgress = 0;
@@ -1528,15 +1601,23 @@
     }
 
     // =========================================================================
-    // 8a. OPTIMISED POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (SMOOTH)
+    // 8a. POINT-TO-POINT INTERACTIVE TOUR ENGINE (DIPERKEMAS & TEPAT)
     // =========================================================================
     let currentTourIndex = 0;
     let tourPositionRaf = null;
 
     const tourPoints = [
       {
+        targetId: 'headerRegionBtn',
+        title: 'Point 1: Pilihan Kawasan Liputan',
+        desc: 'Sentuh lencana ini di header untuk semak status zon seperti Taiping, Kamunting, Batu Kurau atau Selama.',
+        icon: 'fa-solid fa-location-dot',
+        preferredPos: 'bottom',
+        action: () => { switchMainTab('catalog'); }
+      },
+      {
         targetId: 'tourCatalogFilters',
-        title: 'Point 1: Katalog & Pilihan Zon',
+        title: 'Point 2: Katalog & Pilihan Zon',
         desc: 'Cari lauk, kuih muih, atau tapis mengikut kawasan anda (Kamunting Mutiara, Bukit Jana, Aulong, Simpang dll).',
         icon: 'fa-solid fa-magnifying-glass',
         preferredPos: 'bottom',
@@ -1544,7 +1625,7 @@
       },
       {
         targetId: 'tourAddBtn',
-        title: 'Point 2: Tempat Letak Makanan & Menu',
+        title: 'Point 3: Tempat Letak Makanan & Menu',
         desc: 'Di sinilah suri rumah & tukang masak iklankan masakan! Tekan butang tengah ini untuk daftarkan menu dapur atau buka soalan warga.',
         icon: 'fa-solid fa-plus',
         preferredPos: 'top',
@@ -1552,19 +1633,11 @@
       },
       {
         targetId: 'navCommunityBtn',
-        title: 'Point 3: Ruang Sembang Komuniti',
+        title: 'Point 4: Ruang Sembang Komuniti',
         desc: 'Ruang interaktif untuk bertanya open order hari ini, review makanan sedap, cari runner penghantaran, atau kongsi resipi.',
         icon: 'fa-solid fa-comments',
         preferredPos: 'top',
         action: () => { switchMainTab('community'); }
-      },
-      {
-        targetId: 'bookmarkNavBtn',
-        title: 'Point 4: Fav Area (Menu Disimpan)',
-        desc: 'Simpan hidangan kegemaran anda di sini untuk akses pantas terus ke nombor WhatsApp peniaga bila-bila masa lapar.',
-        icon: 'fa-solid fa-bookmark',
-        preferredPos: 'top',
-        action: () => { switchMainTab('catalog'); }
       },
       {
         targetId: 'headerPwaInstallBtn',
@@ -1578,7 +1651,7 @@
     ];
 
     function checkFirstVisitTour() {
-      const hasSeenTour = localStorage.getItem('dapur_kita_tour_seen_v2');
+      const hasSeenTour = localStorage.getItem('dapur_kita_tour_seen_v3');
       if (!hasSeenTour) {
         setTimeout(() => {
           startInteractiveTour(0);
@@ -1622,10 +1695,9 @@
       const actionArea = document.getElementById('pointTourActionArea');
       const contentWrap = document.getElementById('pointTourContentWrap');
 
-      // Animasi pudar masuk kandungan
       if (contentWrap) {
         contentWrap.classList.remove('tour-content-fade');
-        void contentWrap.offsetWidth; // trigger reflow
+        void contentWrap.offsetWidth;
         contentWrap.classList.add('tour-content-fade');
       }
 
@@ -1656,7 +1728,6 @@
         <span class="h-2 rounded-full transition-all duration-300 ${i === currentTourIndex ? 'w-5 bg-butter-400 shadow-sm' : 'w-2 bg-stone-700 opacity-60'}"></span>
       `).join('');
 
-      // Smooth scroll target ke paparan jika terlindung
       const target = document.getElementById(point.targetId);
       if (target) {
         const rect = target.getBoundingClientRect();
@@ -1665,7 +1736,6 @@
         }
       }
 
-      // Selaraskan posisi dengan RAF
       setTimeout(() => {
         repositionTourSpotlight();
       }, 70);
@@ -1681,21 +1751,19 @@
       if (!target || !spotlight || !card) return;
 
       const rect = target.getBoundingClientRect();
-      const padding = 7;
+      const padding = 6;
 
-      // Spotlight Box placement (hardware-accelerated coordinates)
+      // Spotlight Box placement (fixed coordinates)
       spotlight.style.display = 'block';
       spotlight.style.top = `${Math.round(rect.top - padding)}px`;
       spotlight.style.left = `${Math.round(rect.left - padding)}px`;
       spotlight.style.width = `${Math.round(rect.width + (padding * 2))}px`;
       spotlight.style.height = `${Math.round(rect.height + (padding * 2))}px`;
 
-      // Floating card width & horizontal bounds calculation
       const cardWidth = Math.min(window.innerWidth - 32, 355);
       let cardX = Math.round(rect.left + (rect.width / 2) - (cardWidth / 2));
       cardX = Math.max(16, Math.min(cardX, window.innerWidth - cardWidth - 16));
 
-      // Vertical position determination (auto-detect upper/lower collision)
       let cardY = 0;
       const spaceBelow = window.innerHeight - rect.bottom;
       const spaceAbove = rect.top;
@@ -1708,12 +1776,12 @@
       }
 
       if (posDirection === 'top') {
-        cardY = Math.round(rect.top - 205);
+        cardY = Math.round(rect.top - 210);
         if (cardY < 14) cardY = 14;
         arrow.className = 'arrow-bottom';
       } else {
         cardY = Math.round(rect.bottom + 16);
-        if (cardY + 215 > window.innerHeight) cardY = window.innerHeight - 225;
+        if (cardY + 220 > window.innerHeight) cardY = window.innerHeight - 230;
         arrow.className = 'arrow-top';
       }
 
@@ -1721,7 +1789,6 @@
       card.style.left = `${cardX}px`;
       card.style.width = `${cardWidth}px`;
 
-      // Align arrow pointer exactly to center of highlighted element with safety margins
       const arrowX = Math.round((rect.left + rect.width / 2) - cardX - 7);
       arrow.style.left = `${Math.max(18, Math.min(arrowX, cardWidth - 32))}px`;
     }
@@ -1757,14 +1824,14 @@
       if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
 
       if (markAsSeen) {
-        localStorage.setItem('dapur_kita_tour_seen_v2', 'true');
+        localStorage.setItem('dapur_kita_tour_seen_v3', 'true');
         showToast('Panduan Point-to-Point selesai! Selamat meneroka 🍳');
       }
       switchMainTab('catalog');
     }
 
     // ==========================================
-    // 9. MODAL & TAB
+    // 9. MODAL & TAB & KAWASAN SELECTION
     // ==========================================
     function openModalWithAnimation(id) { triggerHaptic(); const m = document.getElementById(id); if (m) { m.classList.add('active'); document.body.style.overflow = 'hidden'; } }
     function closeModalWithAnimation(id) { const m = document.getElementById(id); if (m) { m.classList.remove('active'); document.body.style.overflow = ''; } }
@@ -1773,6 +1840,23 @@
     function closeActionChooser() { closeModalWithAnimation('actionModal'); }
     function openPostModal() { openModalWithAnimation('postModal'); }
     function closePostModal() { closeModalWithAnimation('postModal'); }
+    function openRegionModal() { openModalWithAnimation('regionModal'); }
+    function closeRegionModal() { closeModalWithAnimation('regionModal'); }
+
+    function selectRegion(regionName) {
+      triggerHaptic();
+      const txt = document.getElementById('currentHeaderRegionText');
+      if (txt) txt.innerText = regionName;
+      closeRegionModal();
+      showToast(`📍 Kawasan semasa: ${regionName}`);
+    }
+
+    function selectComingSoonRegion(regionName) {
+      triggerHaptic();
+      alert(`🚧 ${regionName}: COMING SOON!\n\nLiputan direktori bagi kawasan ${regionName} sedang dalam perancangan dan akan dibuka tidak lama lagi.`);
+      showToast(`🚧 ${regionName}: COMING SOON`);
+    }
+
     function openInfoModal() { 
       updateActiveNavText(null);
       const helpBtn = document.getElementById('navHelpBtn');
@@ -1921,7 +2005,6 @@
     }
     function closeDetailModal() { closeModalWithAnimation('detailModal'); }
 
-    // PEMBANTU KEMASKINI ACTIVE TEXT NAVIGATION
     function updateActiveNavText(activeId) {
       const navButtons = [
         { id: 'catalog', el: document.getElementById('navCatalogBtn') },
@@ -2616,6 +2699,7 @@
       switchMainTab, resetFilters, setCategoryFilter, setZoneFilter, filterVendors, clearSearch,
       setMenuLayout, openDetailModal, closeDetailModal, openRegisterModal, closeRegisterModal,
       openActionChooser, closeActionChooser, openPostModal, closePostModal, openInfoModal, closeInfoModal,
+      openRegionModal, closeRegionModal, selectRegion, selectComingSoonRegion,
       toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage, handleVendorSubmit,
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
@@ -2624,12 +2708,13 @@
     });
 
     window.onclick = function(event) {
-      ['detailModal','registerModal','infoModal','actionModal','postModal'].forEach(id => {
+      ['detailModal','registerModal','infoModal','actionModal','postModal','regionModal'].forEach(id => {
         const el = document.getElementById(id);
         if (event.target === el) {
           const closeFn = {
             detailModal: closeDetailModal, registerModal: closeRegisterModal,
-            infoModal: closeInfoModal, actionModal: closeActionChooser, postModal: closePostModal
+            infoModal: closeInfoModal, actionModal: closeActionChooser, postModal: closePostModal,
+            regionModal: closeRegionModal
           }[id];
           if (closeFn) closeFn();
         }
