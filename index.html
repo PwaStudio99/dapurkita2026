@@ -65,7 +65,7 @@
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-nav { 
-      background: rgba(255, 253, 245, 0.90); 
+      background: rgba(255, 253, 245, 0.88); 
       backdrop-filter: blur(18px) saturate(180%); 
       -webkit-backdrop-filter: blur(18px) saturate(180%); 
     }
@@ -122,7 +122,7 @@
     }
     .modal-backdrop.active .modal-sheet { opacity: 1; transform: translateY(0) scale(1); }
     
-    /* ACTIVE TEXT NAVIGATION DENGAN ANIMASI SMOOTH & KEMAS */
+    /* ACTIVE TEXT NAVIGATION DENGAN GLASSMORPHISM */
     .nav-btn {
       position: relative;
       display: flex;
@@ -135,6 +135,7 @@
       color: #78716c;
       overflow: hidden;
       white-space: nowrap;
+      border: 1px solid transparent;
     }
     .nav-btn i {
       font-size: 1.15rem;
@@ -153,11 +154,15 @@
       overflow: hidden;
       display: inline-block;
     }
+    /* ACTIVE GLASSMORPHISM STYLE */
     .nav-btn.active {
-      background-color: #dcfce7;
-      color: #166534;
+      background: rgba(220, 252, 231, 0.75);
+      backdrop-filter: blur(14px) saturate(160%);
+      -webkit-backdrop-filter: blur(14px) saturate(160%);
+      color: #14532d;
       padding: 0.5rem 1rem;
-      box-shadow: 0 4px 14px -3px rgba(22, 101, 52, 0.18);
+      border: 1px solid rgba(74, 222, 128, 0.45);
+      box-shadow: 0 4px 18px -2px rgba(22, 101, 52, 0.22), inset 0 1px 1px rgba(255, 255, 255, 0.6);
     }
     .nav-btn.active i {
       transform: scale(1.1);
@@ -231,9 +236,121 @@
       display: flex;
       flex-direction: column;
     }
+
+    /* BACKGROUND TEMA FOOD & COOK MINI LOGO OVERLAY */
+    .custom-page-bg {
+      background-color: #fefcf3;
+      background-image: 
+        radial-gradient(circle at 100% 0%, rgba(254, 240, 138, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(187, 247, 208, 0.22) 0%, transparent 45%),
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23166534' fill-opacity='0.045' stroke='%23166534' stroke-width='0.4' stroke-opacity='0.08'%3E%3C!-- Chef Hat --%3E%3Cpath d='M22 28c-1.5 0-3-1.2-3-2.8 0-1.8 1.4-3.2 3.2-3.2.4 0 .8.1 1.2.3.8-2 2.7-3.3 4.8-3.3 2 0 3.8 1.2 4.7 3 .4-.2.8-.3 1.3-.3 1.8 0 3.2 1.4 3.2 3.2 0 1.6-1.3 2.8-2.8 2.8H22zm1.5 1.5h10v2h-10v-2z'/%3E%3C!-- Fork and Knife crossed --%3E%3Cpath d='M88 20l4 4-12 12-4-4 12-12zm-3 0c.5-.5 1.4-.5 2 0l1 1-2 2-1-1c-.5-.6-.5-1.5 0-2zm7 3l2 2-2 2-2-2 2-2zM75 22l3 3-11 11-3-3 11-11zm1.5-1.5c1 .9 1.1 2.3.4 3.3l-.5.7-2.6-2.6.7-.5c1-.7 2.4-.6 3.3.4z'/%3E%3C!-- Cooking Pot / Pan --%3E%3Cpath d='M25 82h14c1.1 0 2 .9 2 2v2c0 3.3-2.7 6-6 6h-6c-3.3 0-6-2.7-6-6v-2c0-1.1.9-2 2-2zm-3 2h2v2h-2v-2zm18 0h2v2h-2v-2zm-11-4h4v2h-4v-2z'/%3E%3C!-- Bowl with Steam --%3E%3Cpath d='M80 84h16c0 5-4 9-9 9h-2c-5 0-9-4-9-9h4zm4-6c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2zm4 0c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2z'/%3E%3C!-- Whisk / Spatula --%3E%3Cpath d='M52 52l5 5-2 2-5-5 2-2zm-2-2c1.2-1.2 3.2-1.2 4.4 0l1.6 1.6-4.4 4.4-1.6-1.6c-1.2-1.2-1.2-3.2 0-4.4z'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: auto, auto, 120px 120px;
+      background-attachment: fixed;
+      background-repeat: no-repeat, no-repeat, repeat;
+    }
+
+    /* =================================================================
+       OPTIMISED POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (SMOOTH)
+       ================================================================= */
+    #pointTourOverlay {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      background: rgba(12, 19, 30, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s var(--smooth-out);
+      will-change: opacity;
+    }
+    #pointTourOverlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    /* Target spotlight cutout frame dengan smooth spring transitions & double ring glow */
+    #tourSpotlightBox {
+      position: absolute;
+      border-radius: 1.25rem;
+      border: 2.5px solid #facc15;
+      box-shadow: 
+        0 0 0 9999px rgba(12, 19, 30, 0.84),
+        0 0 28px 6px rgba(250, 204, 21, 0.6),
+        inset 0 0 16px rgba(250, 204, 21, 0.35);
+      transition: 
+        top 0.42s var(--spring-easing), 
+        left 0.42s var(--spring-easing), 
+        width 0.42s var(--spring-easing), 
+        height 0.42s var(--spring-easing),
+        border-color 0.3s ease;
+      will-change: top, left, width, height;
+      pointer-events: none;
+      z-index: 125;
+      display: none;
+    }
+
+    /* Ping pulse marker on the highlighted element */
+    .tour-ping-ring {
+      position: absolute;
+      inset: -6px;
+      border-radius: inherit;
+      border: 2px solid #fde047;
+      animation: tourPing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+      pointer-events: none;
+    }
+    @keyframes tourPing {
+      0% { transform: scale(0.96); opacity: 0.95; }
+      70%, 100% { transform: scale(1.08); opacity: 0; }
+    }
+
+    /* Floating Point Tooltip Popover with ultra-smooth transform */
+    #tourFloatingCard {
+      position: absolute;
+      z-index: 130;
+      max-width: 22.5rem;
+      width: calc(100vw - 2rem);
+      transition: 
+        top 0.42s var(--spring-easing), 
+        left 0.42s var(--spring-easing), 
+        opacity 0.3s var(--smooth-out),
+        transform 0.42s var(--spring-easing);
+      will-change: top, left, transform, opacity;
+      opacity: 0;
+      transform: translateY(8px) scale(0.97);
+      pointer-events: none;
+    }
+    #pointTourOverlay.active #tourFloatingCard {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    /* Animasi teks cross-fade untuk setiap point */
+    .tour-content-fade {
+      animation: tourTextSlide 0.32s var(--spring-easing) forwards;
+    }
+    @keyframes tourTextSlide {
+      0% { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Pointer arrowhead indicator */
+    #tourCardArrow {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      background: #1c1917;
+      border: 1px solid rgba(251, 226, 140, 0.4);
+      transform: rotate(45deg);
+      transition: left 0.32s var(--spring-easing);
+      z-index: -1;
+    }
+    #tourCardArrow.arrow-top { top: -7px; border-bottom: none; border-right: none; }
+    #tourCardArrow.arrow-bottom { bottom: -7px; border-top: none; border-left: none; }
   </style>
 </head>
-<body class="bg-butter-50/70 text-stone-800 font-sans antialiased selection:bg-leaf-600 selection:text-white transition-colors duration-300">
+<body class="custom-page-bg text-stone-800 font-sans antialiased selection:bg-leaf-600 selection:text-white transition-colors duration-300 min-h-screen">
 
   <!-- ================= SPLASH SCREEN ================= -->
   <div id="splashScreen" class="fixed inset-0 z-[100] bg-stone-900 flex flex-col items-center justify-center p-6 text-white select-none">
@@ -271,7 +388,7 @@
     </div>
   </div>
 
-  <!-- ================= PWA INSTALL BANNER ================= -->
+  <!-- ================= PWA INSTALL BANNER (TOP) ================= -->
   <div id="pwaInstallBanner" class="hidden bg-stone-900/95 backdrop-blur-md text-white px-4 py-2.5 shadow-xl border-b border-stone-800 sticky top-0 z-50 transition-all duration-300">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-3 text-xs safe-pt">
       <div class="flex items-center gap-2.5 overflow-hidden">
@@ -314,6 +431,16 @@
       </div>
 
       <div class="flex items-center gap-2">
+        <!-- BUTANG PASANG PWA DI HEADER -->
+        <button id="headerPwaInstallBtn" onclick="installPWA()" class="btn-tactile flex items-center gap-1.5 px-3 py-2 rounded-2xl bg-butter-400 hover:bg-butter-300 text-stone-900 font-black text-xs shadow-md border border-butter-200" title="Pasang Aplikasi (PWA)">
+          <i class="fa-solid fa-download text-xs text-leaf-900"></i>
+          <span class="hidden sm:inline">Pasang App</span>
+        </button>
+
+        <button onclick="startInteractiveTour(0)" class="btn-tactile p-2.5 rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm relative" title="Panduan Aplikasi (Point Tour)">
+          <i class="fa-solid fa-wand-magic-sparkles text-xs text-butter-300"></i>
+        </button>
+
         <button onclick="requestNotificationPermissionPrompt()" id="topNotifyBtn" class="btn-tactile p-2.5 rounded-2xl border border-leaf-500/30 bg-leaf-900/60 text-butter-100 hover:text-white hover:bg-leaf-800/80 backdrop-blur-sm relative" title="Aktifkan Notifikasi Komuniti">
           <i class="fa-regular fa-bell text-sm" id="topBellIcon"></i>
           <span id="unreadTopBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-rose-600 text-[9px] font-black text-white rounded-full flex items-center justify-center pulse-badge shadow">0</span>
@@ -333,7 +460,7 @@
   </header>
 
   <!-- ================= TAB SWITCHER ================= -->
-  <section class="max-w-4xl mx-auto px-4 pt-3 pb-1">
+  <section class="max-w-4xl mx-auto px-4 pt-3 pb-1" id="tourMainTabContainer">
     <div class="bg-butter-100/70 border border-butter-200/60 p-1 rounded-2xl flex items-center text-xs font-bold shadow-inner relative transition duration-300">
       <button id="tabBtnCatalog" onclick="switchMainTab('catalog')" class="btn-tactile flex-1 py-2.5 rounded-xl flex items-center justify-center gap-2 bg-white text-leaf-900 shadow-sm font-extrabold z-10 border border-butter-200/50">
         <i class="fa-solid fa-utensils text-leaf-700"></i>
@@ -349,7 +476,7 @@
 
   <!-- ================= CATALOG VIEW ================= -->
   <div id="catalogView" class="transition-opacity duration-300">
-    <section class="max-w-4xl mx-auto px-4 pt-3 pb-3">
+    <section class="max-w-4xl mx-auto px-4 pt-3 pb-3" id="tourCatalogFilters">
       <div class="relative mb-3">
         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 text-sm transition-transform duration-200"></i>
         <input type="text" id="searchInput" oninput="filterVendors()" placeholder="Cari menu, kuih, nama dapur atau kawasan..." class="w-full pl-10 pr-10 py-3 rounded-2xl bg-white border border-butter-200/90 focus:border-leaf-600 focus:ring-4 focus:ring-butter-200 outline-none text-xs font-medium transition-all duration-200 shadow-sm">
@@ -519,7 +646,7 @@
     </section>
   </div>
 
-  <!-- ================= BOTTOM NAV (ACTIVE TEXT NAVIGATION) ================= -->
+  <!-- ================= BOTTOM NAV (ACTIVE TEXT NAVIGATION DENGAN GLASSMORPHISM) ================= -->
   <nav class="fixed bottom-0 inset-x-0 glass-nav border-t border-butter-200/80 px-4 pt-2 z-40 safe-pb shadow-2xl">
     <div class="max-w-md mx-auto flex items-center justify-between relative px-1">
       
@@ -537,7 +664,7 @@
       </button>
 
       <!-- BUTANG TAMBAH TENGAH -->
-      <button onclick="openActionChooser()" class="btn-tactile flex flex-col items-center justify-center text-stone-900 focus:outline-none -mt-5 mx-0.5 group" title="Tambah Menu / Hantaran">
+      <button onclick="openActionChooser()" id="tourAddBtn" class="btn-tactile flex flex-col items-center justify-center text-stone-900 focus:outline-none -mt-5 mx-0.5 group" title="Tambah Menu / Hantaran">
         <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-leaf-700 via-leaf-600 to-butter-400 text-white flex items-center justify-center shadow-lg shadow-leaf-800/30 border-2 border-butter-100 group-hover:scale-105 transition-transform duration-200">
           <i class="fa-solid fa-plus text-lg"></i>
         </div>
@@ -557,6 +684,67 @@
       
     </div>
   </nav>
+
+  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (OPTIMISED) ================= -->
+  <div id="pointTourOverlay">
+    <!-- Spotlight Cutout Box on Target Element -->
+    <div id="tourSpotlightBox">
+      <div class="tour-ping-ring"></div>
+    </div>
+
+    <!-- Floating Dynamic Popover Card -->
+    <div id="tourFloatingCard">
+      <div id="tourCardArrow"></div>
+      <div class="bg-stone-900/95 text-white border border-butter-300/40 rounded-3xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden">
+        <!-- Accent Glow di latar kad -->
+        <div class="absolute -right-8 -top-8 w-24 h-24 bg-leaf-500/20 rounded-full blur-xl pointer-events-none"></div>
+
+        <!-- Header: Badge Langkah & Skip -->
+        <div class="flex items-center justify-between mb-3 relative z-10">
+          <span id="pointTourBadge" class="text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-butter-400 to-butter-500 text-stone-900 px-3 py-0.5 rounded-full shadow-sm">
+            Point 1 / 5
+          </span>
+          <button onclick="dismissInteractiveTour(true)" class="btn-tactile text-stone-400 hover:text-white text-xs font-bold px-2 py-0.5 rounded-lg transition-colors">
+            Langkau <i class="fa-solid fa-xmark ml-0.5"></i>
+          </button>
+        </div>
+
+        <!-- Kandungan Utama Tour (Smooth cross-fade) -->
+        <div class="flex items-start gap-3.5 mb-3.5 relative z-10" id="pointTourContentWrap">
+          <div id="pointTourIconWrap" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-leaf-700 to-butter-500 flex items-center justify-center text-butter-100 text-lg flex-shrink-0 shadow-md border border-butter-200/30">
+            <i class="fa-solid fa-utensils" id="pointTourIcon"></i>
+          </div>
+          <div class="min-w-0">
+            <h4 id="pointTourTitle" class="text-sm font-black text-butter-100 leading-snug">Katalog & Penapis Makanan</h4>
+            <p id="pointTourDesc" class="text-xs text-stone-300 mt-1 leading-relaxed">
+              Cari lauk, kuih, dan pesanan mengikut taman kediaman anda sekitar Taiping & Kamunting.
+            </p>
+          </div>
+        </div>
+
+        <!-- Butang Aksi Khas Langkah (cth: Pasang PWA) -->
+        <div id="pointTourActionArea" class="hidden mb-3 relative z-10">
+          <button onclick="installPWA()" class="btn-tactile w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-leaf-600 to-leaf-700 hover:from-leaf-700 hover:to-leaf-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 border border-leaf-400/40 shadow-lg">
+            <i class="fa-solid fa-download text-butter-300"></i>
+            <span>Pasang Dapur Kita Sekarang (PWA)</span>
+          </button>
+        </div>
+
+        <!-- Kawalan Langkah: Dots & Butang Kembali / Seterusnya -->
+        <div class="flex items-center justify-between pt-3 border-t border-stone-800/80 relative z-10">
+          <div class="flex items-center gap-1.5" id="pointTourDots"></div>
+          <div class="flex items-center gap-2">
+            <button id="pointTourPrevBtn" onclick="prevTourStep()" class="btn-tactile hidden px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold border border-stone-700 transition">
+              Kembali
+            </button>
+            <button id="pointTourNextBtn" onclick="nextTourStep()" class="btn-tactile px-4 py-1.5 rounded-xl bg-gradient-to-r from-butter-400 via-butter-500 to-leaf-600 hover:from-butter-500 hover:to-leaf-700 text-stone-900 font-black text-xs shadow-md transition-all">
+              Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- ================= MODAL PILIH TINDAKAN ================= -->
   <div id="actionModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-end sm:items-center justify-center p-4">
@@ -843,7 +1031,7 @@
     </div>
   </div>
 
-  <!-- ================= MODAL INFO ================= -->
+  <!-- ================= MODAL INFO & BANTUAN ================= -->
   <div id="infoModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-center justify-center p-4">
     <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-butter-100 modal-scroll-area">
       <div class="flex items-center justify-between pb-3 border-b border-butter-100">
@@ -854,14 +1042,37 @@
       </div>
       <div class="py-3 text-xs text-stone-600 space-y-2.5">
         <p><strong>Dapur Kita</strong> ialah inisiatif komuniti bebas berformat Progressive Web App (PWA) untuk menghubungkan pembeli dan dapur rumah tangga sekitar Taiping & Kamunting secara langsung.</p>
+        
+        <!-- Butang Pasang PWA -->
+        <div class="bg-gradient-to-r from-leaf-900 to-leaf-800 text-white p-3.5 rounded-2xl border border-leaf-700 shadow-sm">
+          <div class="flex items-center justify-between mb-1">
+            <strong class="text-butter-300 flex items-center gap-1.5 text-xs">
+              <i class="fa-solid fa-mobile-screen"></i> Pasang Aplikasi (PWA)
+            </strong>
+            <span class="text-[9px] bg-white/20 text-butter-200 px-2 py-0.2 rounded-full font-bold">Pantas & Ringan</span>
+          </div>
+          <p class="text-[11px] text-butter-100/90 leading-tight mb-2.5">Pasang ke skrin telefon pintar anda tanpa Play Store atau App Store.</p>
+          <button onclick="closeInfoModal(); installPWA();" class="btn-tactile w-full py-2 rounded-xl bg-butter-400 hover:bg-butter-300 text-stone-900 font-black text-xs flex items-center justify-center gap-1.5 shadow">
+            <i class="fa-solid fa-download"></i>
+            <span>Pasang Dapur Kita Sekarang</span>
+          </button>
+        </div>
+
         <div class="bg-leaf-50 p-3 rounded-2xl border border-leaf-200">
           <strong class="text-leaf-900">Ciri Standalone & Notifikasi:</strong>
           <ul class="list-disc list-inside mt-1 space-y-0.5 text-stone-700">
-            <li>Boleh dipasang ke Skrin Utama telefon tanpa Play Store.</li>
+            <li>Boleh dipasang ke Skrin Utama telefon dalam masa 2 saat.</li>
             <li>Dapatkan notifikasi sistem setiap kali ada perbincangan atau open order baru.</li>
             <li>Pesanan WhatsApp 100% terus kepada pemilik dapur tanpa potongan komisen.</li>
           </ul>
         </div>
+
+        <!-- Butang Ulang Panduan Point-to-Point Tour -->
+        <button onclick="closeInfoModal(); startInteractiveTour(0);" class="btn-tactile w-full py-2.5 rounded-2xl bg-butter-100 hover:bg-butter-200 text-leaf-900 font-extrabold text-xs flex items-center justify-center gap-2 border border-butter-300">
+          <i class="fa-solid fa-wand-magic-sparkles text-butter-600"></i>
+          <span>Mula Semula Panduan Interaktif (Point Tour)</span>
+        </button>
+
         <div class="bg-butter-50 p-3 rounded-2xl border border-butter-200 text-[11px]">
           <strong class="text-butter-900">🔧 Debug / Diagnostic:</strong>
           <p class="mt-1">Buka Console (F12), taip <code class="bg-butter-100 px-1 rounded font-mono text-butter-900">debugFirebase()</code> untuk semak status sambungan database.</p>
@@ -1106,7 +1317,7 @@
     }
 
     // ==========================================
-    // 6. PWA ENVIRONMENT
+    // 6. PWA ENVIRONMENT & INSTALLATION
     // ==========================================
     function setupPWAEnvironment() {
       const iconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="120" fill="#14532d"/><path d="M165 110v110c0 28 22 50 50 50h0V395c0 14 11 25 25 25s25-11 25-25V270c28 0 50-22 50-50V110" stroke="#fef9e2" stroke-width="26" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M205 110v75M275 110v75M240 110v75" stroke="#fef9e2" stroke-width="24" stroke-linecap="round"/><path d="M345 110c-26 0-45 28-45 65 0 35 18 55 35 60v160c0 14 11 25 25 25s25-11 25-25V115c0-3-1-5-15-5z" fill="#fef9e2"/></svg>`;
@@ -1147,22 +1358,42 @@
       window.addEventListener('beforeinstallprompt', (e) => {
         e.preventDefault();
         deferredInstallPrompt = e;
-        if (!window.matchMedia('(display-mode: standalone)').matches) {
-          document.getElementById('pwaInstallBanner').classList.remove('hidden');
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (!isStandalone) {
+          const banner = document.getElementById('pwaInstallBanner');
+          if (banner) banner.classList.remove('hidden');
         }
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        dismissInstallBanner();
+        showToast('🎉 Dapur Kita telah dipasang ke peranti anda!');
       });
     }
 
     function installPWA() {
+      triggerHaptic();
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+
       if (deferredInstallPrompt) {
         deferredInstallPrompt.prompt();
-        deferredInstallPrompt.userChoice.then((r) => {
-          if (r.outcome === 'accepted') showToast('Dapur Kita berjaya dipasang!');
+        deferredInstallPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            showToast('✅ Memasang Dapur Kita...');
+          }
           deferredInstallPrompt = null;
           dismissInstallBanner();
         });
+      } else if (isIOS) {
+        alert('📲 Cara Pasang di iPhone/iPad (iOS):\n\n1. Tekan ikon "Kongsi" (Share) di bawah pelayar Safari.\n2. Skrol ke bawah dan pilih "Add to Home Screen" (Tambah ke Skrin Utama).\n3. Tekan "Add".');
       } else {
-        showToast('Untuk iOS, tekan ikon Kongsi & pilih "Add to Home Screen".');
+        const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        if (isStandalone) {
+          showToast('✅ Aplikasi Dapur Kita telah dipasang.');
+        } else {
+          showToast('💡 Buka menu pelayar (3 titik) & pilih "Install App" atau "Add to Home Screen".');
+        }
       }
     }
     function dismissInstallBanner() { document.getElementById('pwaInstallBanner').classList.add('hidden'); }
@@ -1283,15 +1514,253 @@
           clearInterval(progressInterval);
           setTimeout(() => {
             splash.classList.add('fade-out');
-            setTimeout(() => { if (splash) splash.remove(); }, 600);
+            setTimeout(() => { 
+              if (splash) splash.remove(); 
+              checkFirstVisitTour();
+            }, 600);
           }, 300);
         }
       }, 30);
 
-      // Timeout pelindung: Elakkan tergantung sekiranya sambungan internet perlahan
       setTimeout(() => {
         setSplashTarget(100, 'Membuka Dapur Kita...');
       }, 2400);
+    }
+
+    // =========================================================================
+    // 8a. OPTIMISED POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (SMOOTH)
+    // =========================================================================
+    let currentTourIndex = 0;
+    let tourPositionRaf = null;
+
+    const tourPoints = [
+      {
+        targetId: 'tourCatalogFilters',
+        title: 'Point 1: Katalog & Pilihan Zon',
+        desc: 'Cari lauk, kuih muih, atau tapis mengikut kawasan anda (Kamunting Mutiara, Bukit Jana, Aulong, Simpang dll).',
+        icon: 'fa-solid fa-magnifying-glass',
+        preferredPos: 'bottom',
+        action: () => { switchMainTab('catalog'); }
+      },
+      {
+        targetId: 'tourAddBtn',
+        title: 'Point 2: Tempat Letak Makanan & Menu',
+        desc: 'Di sinilah suri rumah & tukang masak iklankan masakan! Tekan butang tengah ini untuk daftarkan menu dapur atau buka soalan warga.',
+        icon: 'fa-solid fa-plus',
+        preferredPos: 'top',
+        action: () => {}
+      },
+      {
+        targetId: 'navCommunityBtn',
+        title: 'Point 3: Ruang Sembang Komuniti',
+        desc: 'Ruang interaktif untuk bertanya open order hari ini, review makanan sedap, cari runner penghantaran, atau kongsi resipi.',
+        icon: 'fa-solid fa-comments',
+        preferredPos: 'top',
+        action: () => { switchMainTab('community'); }
+      },
+      {
+        targetId: 'bookmarkNavBtn',
+        title: 'Point 4: Fav Area (Menu Disimpan)',
+        desc: 'Simpan hidangan kegemaran anda di sini untuk akses pantas terus ke nombor WhatsApp peniaga bila-bila masa lapar.',
+        icon: 'fa-solid fa-bookmark',
+        preferredPos: 'top',
+        action: () => { switchMainTab('catalog'); }
+      },
+      {
+        targetId: 'headerPwaInstallBtn',
+        title: 'Point 5: Pasang Aplikasi (PWA)',
+        desc: 'Pasang Dapur Kita ke skrin utama telefon anda untuk akses sepantas kilat dan terima alert pesanan tanpa Google Play Store.',
+        icon: 'fa-solid fa-download',
+        preferredPos: 'bottom',
+        showInstallAction: true,
+        action: () => { switchMainTab('catalog'); }
+      }
+    ];
+
+    function checkFirstVisitTour() {
+      const hasSeenTour = localStorage.getItem('dapur_kita_tour_seen_v2');
+      if (!hasSeenTour) {
+        setTimeout(() => {
+          startInteractiveTour(0);
+        }, 450);
+      }
+    }
+
+    function startInteractiveTour(step = 0) {
+      triggerHaptic();
+      currentTourIndex = step;
+      const overlay = document.getElementById('pointTourOverlay');
+      if (!overlay) return;
+      
+      overlay.classList.add('active');
+      renderTourPoint();
+
+      window.addEventListener('resize', handleTourUpdateThrottled);
+      window.addEventListener('scroll', handleTourUpdateThrottled, { passive: true });
+    }
+
+    function handleTourUpdateThrottled() {
+      if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
+      tourPositionRaf = requestAnimationFrame(() => {
+        repositionTourSpotlight();
+      });
+    }
+
+    function renderTourPoint() {
+      const point = tourPoints[currentTourIndex];
+      if (!point) return;
+
+      if (point.action) point.action();
+
+      const badge = document.getElementById('pointTourBadge');
+      const title = document.getElementById('pointTourTitle');
+      const desc = document.getElementById('pointTourDesc');
+      const icon = document.getElementById('pointTourIcon');
+      const prevBtn = document.getElementById('pointTourPrevBtn');
+      const nextBtn = document.getElementById('pointTourNextBtn');
+      const dots = document.getElementById('pointTourDots');
+      const actionArea = document.getElementById('pointTourActionArea');
+      const contentWrap = document.getElementById('pointTourContentWrap');
+
+      // Animasi pudar masuk kandungan
+      if (contentWrap) {
+        contentWrap.classList.remove('tour-content-fade');
+        void contentWrap.offsetWidth; // trigger reflow
+        contentWrap.classList.add('tour-content-fade');
+      }
+
+      badge.innerText = `Point ${currentTourIndex + 1} / ${tourPoints.length}`;
+      title.innerText = point.title;
+      desc.innerText = point.desc;
+      icon.className = point.icon;
+
+      if (point.showInstallAction) {
+        actionArea.classList.remove('hidden');
+      } else {
+        actionArea.classList.add('hidden');
+      }
+
+      if (currentTourIndex === 0) {
+        prevBtn.classList.add('hidden');
+      } else {
+        prevBtn.classList.remove('hidden');
+      }
+
+      if (currentTourIndex === tourPoints.length - 1) {
+        nextBtn.innerHTML = `Selesai <i class="fa-solid fa-circle-check ml-1 text-leaf-950"></i>`;
+      } else {
+        nextBtn.innerHTML = `Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
+      }
+
+      dots.innerHTML = tourPoints.map((_, i) => `
+        <span class="h-2 rounded-full transition-all duration-300 ${i === currentTourIndex ? 'w-5 bg-butter-400 shadow-sm' : 'w-2 bg-stone-700 opacity-60'}"></span>
+      `).join('');
+
+      // Smooth scroll target ke paparan jika terlindung
+      const target = document.getElementById(point.targetId);
+      if (target) {
+        const rect = target.getBoundingClientRect();
+        if (rect.top < 70 || rect.bottom > window.innerHeight - 70) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+
+      // Selaraskan posisi dengan RAF
+      setTimeout(() => {
+        repositionTourSpotlight();
+      }, 70);
+    }
+
+    function repositionTourSpotlight() {
+      const point = tourPoints[currentTourIndex];
+      if (!point) return;
+      const target = document.getElementById(point.targetId);
+      const spotlight = document.getElementById('tourSpotlightBox');
+      const card = document.getElementById('tourFloatingCard');
+      const arrow = document.getElementById('tourCardArrow');
+      if (!target || !spotlight || !card) return;
+
+      const rect = target.getBoundingClientRect();
+      const padding = 7;
+
+      // Spotlight Box placement (hardware-accelerated coordinates)
+      spotlight.style.display = 'block';
+      spotlight.style.top = `${Math.round(rect.top - padding)}px`;
+      spotlight.style.left = `${Math.round(rect.left - padding)}px`;
+      spotlight.style.width = `${Math.round(rect.width + (padding * 2))}px`;
+      spotlight.style.height = `${Math.round(rect.height + (padding * 2))}px`;
+
+      // Floating card width & horizontal bounds calculation
+      const cardWidth = Math.min(window.innerWidth - 32, 355);
+      let cardX = Math.round(rect.left + (rect.width / 2) - (cardWidth / 2));
+      cardX = Math.max(16, Math.min(cardX, window.innerWidth - cardWidth - 16));
+
+      // Vertical position determination (auto-detect upper/lower collision)
+      let cardY = 0;
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      let posDirection = point.preferredPos || 'bottom';
+      if (posDirection === 'bottom' && spaceBelow < 235 && spaceAbove > spaceBelow) {
+        posDirection = 'top';
+      } else if (posDirection === 'top' && spaceAbove < 235 && spaceBelow > spaceAbove) {
+        posDirection = 'bottom';
+      }
+
+      if (posDirection === 'top') {
+        cardY = Math.round(rect.top - 205);
+        if (cardY < 14) cardY = 14;
+        arrow.className = 'arrow-bottom';
+      } else {
+        cardY = Math.round(rect.bottom + 16);
+        if (cardY + 215 > window.innerHeight) cardY = window.innerHeight - 225;
+        arrow.className = 'arrow-top';
+      }
+
+      card.style.top = `${cardY}px`;
+      card.style.left = `${cardX}px`;
+      card.style.width = `${cardWidth}px`;
+
+      // Align arrow pointer exactly to center of highlighted element with safety margins
+      const arrowX = Math.round((rect.left + rect.width / 2) - cardX - 7);
+      arrow.style.left = `${Math.max(18, Math.min(arrowX, cardWidth - 32))}px`;
+    }
+
+    function nextTourStep() {
+      triggerHaptic();
+      if (currentTourIndex < tourPoints.length - 1) {
+        currentTourIndex++;
+        renderTourPoint();
+      } else {
+        dismissInteractiveTour(true);
+      }
+    }
+
+    function prevTourStep() {
+      triggerHaptic();
+      if (currentTourIndex > 0) {
+        currentTourIndex--;
+        renderTourPoint();
+      }
+    }
+
+    function dismissInteractiveTour(markAsSeen = true) {
+      triggerHaptic();
+      const overlay = document.getElementById('pointTourOverlay');
+      const spotlight = document.getElementById('tourSpotlightBox');
+      if (overlay) overlay.classList.remove('active');
+      if (spotlight) spotlight.style.display = 'none';
+
+      window.removeEventListener('resize', handleTourUpdateThrottled);
+      window.removeEventListener('scroll', handleTourUpdateThrottled);
+
+      if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
+
+      if (markAsSeen) {
+        localStorage.setItem('dapur_kita_tour_seen_v2', 'true');
+        showToast('Panduan Point-to-Point selesai! Selamat meneroka 🍳');
+      }
+      switchMainTab('catalog');
     }
 
     // ==========================================
@@ -1567,7 +2036,7 @@
         const ownerBadge = owned ? `<span class="text-[9px] font-black bg-leaf-100 text-leaf-800 px-1.5 py-0.5 rounded-md border border-leaf-300 ml-1">ANDA</span>` : '';
 
         return `
-          <div class="soft-card animate-grid-item bg-white rounded-3xl border border-butter-200/90 p-4 sm:p-5 shadow-sm" style="animation-delay: ${idx * 0.05}s">
+          <div class="soft-card animate-grid-item bg-white/95 rounded-3xl border border-butter-200/90 p-4 sm:p-5 shadow-sm" style="animation-delay: ${idx * 0.05}s">
             <div class="flex items-start justify-between gap-3">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-leaf-800 to-leaf-600 text-butter-200 font-extrabold flex items-center justify-center text-xs shadow-sm">${initials}</div>
@@ -1864,7 +2333,7 @@
         // PAPARAN SENARAI PADAT
         if (menuLayout === 'list') {
           return `
-            <div class="soft-card animate-grid-item bg-white rounded-2xl border border-butter-200/90 shadow-sm flex flex-col hover:border-leaf-500" style="animation-delay: ${delay}s">
+            <div class="soft-card animate-grid-item bg-white/95 rounded-2xl border border-butter-200/90 shadow-sm flex flex-col hover:border-leaf-500" style="animation-delay: ${delay}s">
               <div class="compact-card cursor-pointer" onclick="window.openDetailModal('${item.id}')">
                 <div class="relative flex-shrink-0">
                   <img src="${itemImg}" alt="${item.menuTitle}">
@@ -1889,7 +2358,7 @@
         // PAPARAN GRID KECIL (KOMPAK 2-COL)
         if (menuLayout === 'compact') {
           return `
-            <div class="soft-card animate-grid-item bg-white rounded-2xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
+            <div class="soft-card animate-grid-item bg-white/95 rounded-2xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
               <div>
                 <div class="relative w-full aspect-square bg-stone-100 cursor-pointer overflow-hidden group" onclick="window.openDetailModal('${item.id}')">
                   <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
@@ -1913,7 +2382,7 @@
 
         // PAPARAN LEBAR DEFAULT (1-COL)
         return `
-          <div class="soft-card animate-grid-item bg-white rounded-3xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
+          <div class="soft-card animate-grid-item bg-white/95 rounded-3xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
             <div>
               <div class="relative h-44 w-full bg-stone-100 cursor-pointer overflow-hidden group" onclick="window.openDetailModal('${item.id}')">
                 <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
@@ -2150,7 +2619,8 @@
       toggleBookmark, toggleBookmarkView, handleImageUpload, removeUploadedImage, handleVendorSubmit,
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
-      openEditModal, deleteVendor, deletePost, deleteComment
+      openEditModal, deleteVendor, deletePost, deleteComment,
+      startInteractiveTour, nextTourStep, prevTourStep, dismissInteractiveTour
     });
 
     window.onclick = function(event) {
