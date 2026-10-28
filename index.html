@@ -65,14 +65,14 @@
     .hide-scrollbar::-webkit-scrollbar { display: none; }
     .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     .glass-nav { 
-      background: rgba(255, 253, 245, 0.88); 
+      background: rgba(255, 253, 245, 0.92); 
       backdrop-filter: blur(18px) saturate(180%); 
       -webkit-backdrop-filter: blur(18px) saturate(180%); 
     }
     
     /* Forest Green Glassmorphism untuk Header */
     .glass-header-forest {
-      background: rgba(20, 83, 45, 0.90);
+      background: rgba(20, 83, 45, 0.94);
       backdrop-filter: blur(16px) saturate(190%);
       -webkit-backdrop-filter: blur(16px) saturate(190%);
       border-bottom: 1px solid rgba(134, 239, 172, 0.22);
@@ -155,7 +155,7 @@
       display: inline-block;
     }
     .nav-btn.active {
-      background: rgba(220, 252, 231, 0.75);
+      background: rgba(220, 252, 231, 0.85);
       backdrop-filter: blur(14px) saturate(160%);
       -webkit-backdrop-filter: blur(14px) saturate(160%);
       color: #14532d;
@@ -242,49 +242,59 @@
       background-image: 
         radial-gradient(circle at 100% 0%, rgba(254, 240, 138, 0.18) 0%, transparent 45%),
         radial-gradient(circle at 0% 100%, rgba(187, 247, 208, 0.22) 0%, transparent 45%),
-        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23166534' fill-opacity='0.045' stroke='%23166534' stroke-width='0.4' stroke-opacity='0.08'%3E%3C!-- Chef Hat --%3E%3Cpath d='M22 28c-1.5 0-3-1.2-3-2.8 0-1.8 1.4-3.2 3.2-3.2.4 0 .8.1 1.2.3.8-2 2.7-3.3 4.8-3.3 2 0 3.8 1.2 4.7 3 .4-.2.8-.3 1.3-.3 1.8 0 3.2 1.4 3.2 3.2 0 1.6-1.3 2.8-2.8 2.8H22zm1.5 1.5h10v2h-10v-2z'/%3E%3C!-- Fork and Knife crossed --%3E%3Cpath d='M88 20l4 4-12 12-4-4 12-12zm-3 0c.5-.5 1.4-.5 2 0l1 1-2 2-1-1c-.5-.6-.5-1.5 0-2zm7 3l2 2-2 2-2-2 2-2zM75 22l3 3-11 11-3-3 11-11zm1.5-1.5c1 .9 1.1 2.3.4 3.3l-.5.7-2.6-2.6.7-.5c1-.7 2.4-.6 3.3.4z'/%3E%3C!-- Cooking Pot / Pan --%3E%3Cpath d='M25 82h14c1.1 0 2 .9 2 2v2c0 3.3-2.7 6-6 6h-6c-3.3 0-6-2.7-6-6v-2c0-1.1.9-2 2-2zm-3 2h2v2h-2v-2zm18 0h2v2h-2v-2zm-11-4h4v2h-4v-2z'/%3E%3C!-- Bowl with Steam --%3E%3Cpath d='M80 84h16c0 5-4 9-9 9h-2c-5 0-9-4-9-9h4zm4-6c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2zm4 0c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2z'/%3E%3C!-- Whisk / Spatula --%3E%3Cpath d='M52 52l5 5-2 2-5-5 2-2zm-2-2c1.2-1.2 3.2-1.2 4.4 0l1.6 1.6-4.4 4.4-1.6-1.6c-1.2-1.2-1.2-3.2 0-4.4z'/%3E%3C/g%3E%3C/svg%3E");
+        url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23166534' fill-opacity='0.045' stroke='%23166534' stroke-width='0.4' stroke-opacity='0.08'%3E%3Cpath d='M22 28c-1.5 0-3-1.2-3-2.8 0-1.8 1.4-3.2 3.2-3.2.4 0 .8.1 1.2.3.8-2 2.7-3.3 4.8-3.3 2 0 3.8 1.2 4.7 3 .4-.2.8-.3 1.3-.3 1.8 0 3.2 1.4 3.2 3.2 0 1.6-1.3 2.8-2.8 2.8H22zm1.5 1.5h10v2h-10v-2z'/%3E%3Cpath d='M88 20l4 4-12 12-4-4 12-12zm-3 0c.5-.5 1.4-.5 2 0l1 1-2 2-1-1c-.5-.6-.5-1.5 0-2zm7 3l2 2-2 2-2-2 2-2zM75 22l3 3-11 11-3-3 11-11zm1.5-1.5c1 .9 1.1 2.3.4 3.3l-.5.7-2.6-2.6.7-.5c1-.7 2.4-.6 3.3.4z'/%3E%3Cpath d='M25 82h14c1.1 0 2 .9 2 2v2c0 3.3-2.7 6-6 6h-6c-3.3 0-6-2.7-6-6v-2c0-1.1.9-2 2-2zm-3 2h2v2h-2v-2zm18 0h2v2h-2v-2zm-11-4h4v2h-4v-2z'/%3E%3Cpath d='M80 84h16c0 5-4 9-9 9h-2c-5 0-9-4-9-9h4zm4-6c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2zm4 0c0-1.5 1-2.5 1-3.5s-1-2-1-2.5h1.2c0 .8 1 1.5 1 2.5s-1 2-1 3.5h-1.2z'/%3E%3Cpath d='M52 52l5 5-2 2-5-5 2-2zm-2-2c1.2-1.2 3.2-1.2 4.4 0l1.6 1.6-4.4 4.4-1.6-1.6c-1.2-1.2-1.2-3.2 0-4.4z'/%3E%3C/g%3E%3C/svg%3E");
       background-size: auto, auto, 120px 120px;
       background-attachment: fixed;
       background-repeat: no-repeat, no-repeat, repeat;
     }
 
     /* =================================================================
-       POINT-TO-POINT INTERACTIVE TOUR & SPOTLIGHT ENGINE (DIPERKEMAS)
+       POINT-TO-POINT SPOTLIGHT FIX (CRYSTAL CLEAR TARGET)
        ================================================================= */
+    /* Container overlay dibiarkan telus sepenuhnya, fungsi gelap diambil alih oleh giant box-shadow */
     #pointTourOverlay {
       position: fixed;
       inset: 0;
       z-index: 120;
-      background: rgba(10, 15, 25, 0.78);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: transparent !important;
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.35s var(--smooth-out);
-      will-change: opacity;
+      transition: opacity 0.3s var(--smooth-out);
+      overflow: hidden;
     }
     #pointTourOverlay.active {
       opacity: 1;
       pointer-events: auto;
     }
 
+    /* Spotlight Box ini menghasilkan lubang potong yang terang bagi target */
     #tourSpotlightBox {
       position: fixed;
       border-radius: 1.25rem;
-      border: 2.5px solid #facc15;
+      border: 3px solid #facc15;
+      background: transparent !important; /* Dalam kotak 100% telus */
+      /* Box-shadow raksasa menggelapkan luar sasaran secara natural tanpa menggelapkan menu */
       box-shadow: 
-        0 0 0 9999px rgba(10, 15, 25, 0.85),
-        0 0 28px 6px rgba(250, 204, 21, 0.65),
-        inset 0 0 16px rgba(250, 204, 21, 0.35);
+        0 0 0 9999px rgba(10, 15, 26, 0.82),
+        0 0 25px 4px rgba(250, 204, 21, 0.75),
+        inset 0 0 10px rgba(250, 204, 21, 0.25);
       transition: 
-        top 0.35s var(--spring-easing), 
-        left 0.35s var(--spring-easing), 
-        width 0.35s var(--spring-easing), 
-        height 0.35s var(--spring-easing);
+        top 0.32s var(--spring-easing), 
+        left 0.32s var(--spring-easing), 
+        width 0.32s var(--spring-easing), 
+        height 0.32s var(--spring-easing);
       will-change: top, left, width, height;
       pointer-events: none;
       z-index: 125;
       display: none;
+    }
+
+    /* Penanda fokus aktif pada elemen sasaran asal */
+    .tour-target-active {
+      position: relative !important;
+      z-index: 126 !important;
     }
 
     .tour-ping-ring {
@@ -296,23 +306,23 @@
       pointer-events: none;
     }
     @keyframes tourPing {
-      0% { transform: scale(0.96); opacity: 0.95; }
-      70%, 100% { transform: scale(1.08); opacity: 0; }
+      0% { transform: scale(0.97); opacity: 0.95; }
+      70%, 100% { transform: scale(1.06); opacity: 0; }
     }
 
     #tourFloatingCard {
       position: fixed;
-      z-index: 130;
+      z-index: 135;
       max-width: 22.5rem;
       width: calc(100vw - 2rem);
       transition: 
-        top 0.35s var(--spring-easing), 
-        left 0.35s var(--spring-easing), 
-        opacity 0.25s var(--smooth-out),
-        transform 0.35s var(--spring-easing);
+        top 0.32s var(--spring-easing), 
+        left 0.32s var(--spring-easing), 
+        opacity 0.22s var(--smooth-out),
+        transform 0.32s var(--spring-easing);
       will-change: top, left, transform, opacity;
       opacity: 0;
-      transform: translateY(8px) scale(0.97);
+      transform: translateY(8px) scale(0.96);
       pointer-events: none;
     }
     #pointTourOverlay.active #tourFloatingCard {
@@ -322,7 +332,7 @@
     }
 
     .tour-content-fade {
-      animation: tourTextSlide 0.32s var(--spring-easing) forwards;
+      animation: tourTextSlide 0.28s var(--spring-easing) forwards;
     }
     @keyframes tourTextSlide {
       0% { opacity: 0; transform: translateY(6px); }
@@ -334,10 +344,10 @@
       width: 14px;
       height: 14px;
       background: #1c1917;
-      border: 1px solid rgba(251, 226, 140, 0.4);
+      border: 1px solid rgba(251, 226, 140, 0.45);
       transform: rotate(45deg);
       transition: left 0.3s var(--spring-easing);
-      z-index: -1;
+      z-index: 1;
     }
     #tourCardArrow.arrow-top { top: -7px; border-bottom: none; border-right: none; }
     #tourCardArrow.arrow-bottom { bottom: -7px; border-top: none; border-left: none; }
@@ -405,7 +415,7 @@
     </div>
   </div>
 
-  <!-- ================= TOP HEADER (DIPERORANGKAN & OPTIMUM) ================= -->
+  <!-- ================= TOP HEADER ================= -->
   <header class="glass-header-forest sticky top-0 z-40 px-3.5 sm:px-4 safe-pt pb-2.5 transition-all duration-300">
     <div class="max-w-4xl mx-auto flex items-center justify-between gap-2">
       
@@ -418,7 +428,7 @@
           <div class="flex items-center gap-1.5 flex-wrap">
             <h1 onclick="switchMainTab('catalog'); resetFilters();" class="text-base sm:text-lg font-extrabold tracking-tight text-white leading-tight cursor-pointer truncate">Dapur Kita</h1>
             
-            <!-- Tombol Pilih Kawasan (Batu Kurau / Selama / Taiping & Kamunting) -->
+            <!-- Tombol Pilih Kawasan -->
             <button onclick="openRegionModal()" id="headerRegionBtn" class="btn-tactile inline-flex items-center gap-1 text-[10px] sm:text-[11px] font-bold bg-leaf-950/70 hover:bg-leaf-900 text-butter-200 hover:text-white px-2 py-0.5 rounded-full border border-leaf-400/30 shadow-sm backdrop-blur-sm cursor-pointer transition">
               <i class="fa-solid fa-location-dot text-butter-400 text-[10px]"></i>
               <span id="currentHeaderRegionText" class="truncate max-w-[110px] sm:max-w-none">Taiping & Kamunting</span>
@@ -431,7 +441,6 @@
 
       <!-- Action Buttons Header -->
       <div class="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-        <!-- BUTANG PASANG PWA -->
         <button id="headerPwaInstallBtn" onclick="installPWA()" class="btn-tactile flex items-center gap-1 px-2.5 py-1.5 sm:px-3 sm:py-2 rounded-xl sm:rounded-2xl bg-butter-400 hover:bg-butter-300 text-stone-900 font-extrabold text-[11px] sm:text-xs shadow-md border border-butter-200" title="Pasang Aplikasi (PWA)">
           <i class="fa-solid fa-download text-[11px] text-leaf-900"></i>
           <span class="hidden md:inline">Pasang App</span>
@@ -448,13 +457,11 @@
           <span id="unreadTopBadge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-rose-600 text-[9px] font-black text-white rounded-full flex items-center justify-center pulse-badge shadow">0</span>
         </button>
 
-        <!-- DISKUSI KOMUNITI (DESKTOP) -->
         <button onclick="switchMainTab('community')" class="btn-tactile hidden lg:inline-flex items-center gap-1.5 bg-leaf-900/70 text-butter-100 hover:bg-leaf-800 hover:text-white border border-leaf-500/30 text-xs font-bold px-3 py-2 rounded-2xl backdrop-blur-sm">
           <i class="fa-solid fa-comments text-butter-300"></i>
           <span>Komuniti</span>
         </button>
 
-        <!-- DAFTAR DAPUR (DESKTOP) -->
         <button onclick="openRegisterModal()" class="btn-tactile hidden sm:inline-flex items-center gap-1.5 bg-gradient-to-r from-butter-400 via-butter-500 to-leaf-600 hover:from-butter-500 hover:to-leaf-700 text-stone-900 hover:text-white text-xs font-black px-3 py-2 rounded-xl sm:rounded-2xl shadow-sm border border-butter-300/50">
           <i class="fa-solid fa-plus-circle"></i>
           <span>Daftar Dapur</span>
@@ -537,8 +544,7 @@
             <button onclick="setZoneFilter('Taman Pokok Assam', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Pokok Assam</button>
             <button onclick="setZoneFilter('Kampung Boyan / Taman Indah / Simpang', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Kg Boyan</button>
             <button onclick="setZoneFilter('Pusat Bandar Taiping / Lake Gardens', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Bandar Taiping</button>
-            <button onclick="setZoneFilter('Pusat Bandar Taiping / Lake Gardens', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Simpang</button>
-            <button onclick="setZoneFilter('Pusat Bandar Taiping / Lake Gardens', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Changkat Jering</button>
+            <button onclick="setZoneFilter('Changkat Jering', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Changkat Jering</button>
           </div>
         </div>
       </div>
@@ -585,7 +591,7 @@
 
   <!-- ================= COMMUNITY VIEW ================= -->
   <div id="communityView" class="hidden transition-opacity duration-300">
-    <section class="max-w-4xl mx-auto px-4 pt-3 pb-2">
+    <section class="max-w-4xl mx-auto px-4 pt-3 pb-2" id="tourCommunitySection">
       <div id="notificationBanner" class="bg-gradient-to-r from-leaf-900 via-leaf-800 to-leaf-700 text-white rounded-3xl p-4 mb-3.5 shadow-sm flex items-center justify-between gap-3 text-xs border border-leaf-600/30">
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center text-butter-300 text-lg flex-shrink-0 border border-white/10">
@@ -652,7 +658,7 @@
     </section>
   </div>
 
-  <!-- ================= BOTTOM NAV (ACTIVE TEXT NAVIGATION DENGAN GLASSMORPHISM) ================= -->
+  <!-- ================= BOTTOM NAV ================= -->
   <nav class="fixed bottom-0 inset-x-0 glass-nav border-t border-butter-200/80 px-4 pt-2 z-40 safe-pb shadow-2xl">
     <div class="max-w-md mx-auto flex items-center justify-between relative px-1">
       
@@ -691,7 +697,7 @@
     </div>
   </nav>
 
-  <!-- ================= MODAL PILIH KAWASAN (HEADER REGION SELECTOR) ================= -->
+  <!-- ================= MODAL PILIH KAWASAN ================= -->
   <div id="regionModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-center justify-center p-4">
     <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl relative border border-butter-100 modal-scroll-area">
       <div class="flex items-center justify-between pb-3 border-b border-butter-100 mb-3">
@@ -710,7 +716,6 @@
       </div>
 
       <div class="space-y-2.5">
-        <!-- 1. Taiping & Kamunting (Aktif) -->
         <button onclick="selectRegion('Taiping & Kamunting')" class="btn-tactile w-full p-3 rounded-2xl bg-leaf-50 hover:bg-leaf-100/80 border-2 border-leaf-600 text-left flex items-center justify-between shadow-sm">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-leaf-700 text-butter-200 flex items-center justify-center text-sm font-bold">
@@ -724,7 +729,6 @@
           <span class="text-[10px] font-black bg-leaf-600 text-white px-2 py-0.5 rounded-full shadow-sm">AKTIF</span>
         </button>
 
-        <!-- 2. Batu Kurau (Coming Soon) -->
         <button onclick="selectComingSoonRegion('Batu Kurau')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 group-hover:bg-butter-200 group-hover:text-amber-800 flex items-center justify-center text-sm font-bold transition">
@@ -738,7 +742,6 @@
           <span class="text-[9px] font-black bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full group-hover:bg-amber-200">COMING SOON</span>
         </button>
 
-        <!-- 3. Selama (Coming Soon) -->
         <button onclick="selectComingSoonRegion('Selama')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 group-hover:bg-butter-200 group-hover:text-amber-800 flex items-center justify-center text-sm font-bold transition">
@@ -760,9 +763,9 @@
     </div>
   </div>
 
-  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (DIPERKEMAS) ================= -->
+  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (SELESAI DIPERBAIKI) ================= -->
   <div id="pointTourOverlay">
-    <!-- Spotlight Cutout Frame on Target Element -->
+    <!-- Spotlight Cutout Frame on Target Element (Giant Box-Shadow) -->
     <div id="tourSpotlightBox">
       <div class="tour-ping-ring"></div>
     </div>
@@ -777,7 +780,7 @@
         <!-- Header: Badge Langkah & Skip -->
         <div class="flex items-center justify-between mb-3 relative z-10">
           <span id="pointTourBadge" class="text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-butter-400 to-butter-500 text-stone-900 px-3 py-0.5 rounded-full shadow-sm">
-            Point 1 / 5
+            Point 1 / 6
           </span>
           <button onclick="dismissInteractiveTour(true)" class="btn-tactile text-stone-400 hover:text-white text-xs font-bold px-2 py-0.5 rounded-lg transition-colors">
             Langkau <i class="fa-solid fa-xmark ml-0.5"></i>
@@ -787,12 +790,12 @@
         <!-- Kandungan Tour -->
         <div class="flex items-start gap-3.5 mb-3.5 relative z-10" id="pointTourContentWrap">
           <div id="pointTourIconWrap" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-leaf-700 to-butter-500 flex items-center justify-center text-butter-100 text-lg flex-shrink-0 shadow-md border border-butter-200/30">
-            <i class="fa-solid fa-utensils" id="pointTourIcon"></i>
+            <i class="fa-solid fa-location-dot" id="pointTourIcon"></i>
           </div>
           <div class="min-w-0">
-            <h4 id="pointTourTitle" class="text-sm font-black text-butter-100 leading-snug">Katalog & Penapis Makanan</h4>
+            <h4 id="pointTourTitle" class="text-sm font-black text-butter-100 leading-snug">Kawasan Liputan</h4>
             <p id="pointTourDesc" class="text-xs text-stone-300 mt-1 leading-relaxed">
-              Cari lauk, kuih, dan pesanan mengikut taman kediaman anda sekitar Taiping & Kamunting.
+              Sentuh di sini untuk menukar atau melihat liputan seperti Taiping, Kamunting, Batu Kurau atau Selama.
             </p>
           </div>
         </div>
@@ -904,7 +907,6 @@
               <option value="Taman Pokok Assam">Taman Pokok Assam</option>
               <option value="Kampung Boyan / Taman Indah">Kampung Boyan / Taman Indah</option>
               <option value="Pusat Bandar Taiping / Lake Gardens">Pusat Bandar Taiping / Lake Gardens</option>
-
             </optgroup>
           </select>
         </div>
@@ -1121,7 +1123,6 @@
       <div class="py-3 text-xs text-stone-600 space-y-2.5">
         <p><strong>Dapur Kita</strong> ialah inisiatif komuniti bebas berformat Progressive Web App (PWA) untuk menghubungkan pembeli dan dapur rumah tangga sekitar Taiping & Kamunting secara langsung.</p>
         
-        <!-- Butang Pasang PWA -->
         <div class="bg-gradient-to-r from-leaf-900 to-leaf-800 text-white p-3.5 rounded-2xl border border-leaf-700 shadow-sm">
           <div class="flex items-center justify-between mb-1">
             <strong class="text-butter-300 flex items-center gap-1.5 text-xs">
@@ -1145,7 +1146,6 @@
           </ul>
         </div>
 
-        <!-- Butang Ulang Panduan Point-to-Point Tour -->
         <button onclick="closeInfoModal(); startInteractiveTour(0);" class="btn-tactile w-full py-2.5 rounded-2xl bg-butter-100 hover:bg-butter-200 text-leaf-900 font-extrabold text-xs flex items-center justify-center gap-2 border border-butter-300">
           <i class="fa-solid fa-wand-magic-sparkles text-butter-600"></i>
           <span>Mula Semula Panduan Interaktif (Point Tour)</span>
@@ -1297,7 +1297,7 @@
       if (flatKeys.length > 0 && flatKeys.length === keys.length) {
         return { 
           items: [], 
-          structureIssue: 'STRUKTUR SALAH: Field (kitchenName, menuTitle, dll) dijumpai TERUS di bawah "vendors". Sila buat child key unik (cth: -Nxxx) untuk setiap menu.' 
+          structureIssue: 'STRUKTUR SALAH: Field dijumpai TERUS di bawah "vendors". Sila buat child key unik (cth: -Nxxx) untuk setiap menu.' 
         };
       }
       
@@ -1606,48 +1606,57 @@
     }
 
     // =========================================================================
-    // 8a. POINT-TO-POINT INTERACTIVE TOUR ENGINE (DIPERKEMAS & TEPAT)
+    // 8a. POINT-TO-POINT INTERACTIVE TOUR ENGINE (FIXED & HIGH CLARITY)
     // =========================================================================
     let currentTourIndex = 0;
     let tourPositionRaf = null;
+    let previousTargetElement = null;
 
     const tourPoints = [
       {
         targetId: 'headerRegionBtn',
-        title: 'Point 1: Pilihan Kawasan Liputan',
-        desc: 'Sentuh lencana ini di header untuk semak status zon seperti Taiping, Kamunting, Batu Kurau atau Selama.',
+        title: 'Point 1: Pilihan Zon Liputan',
+        desc: 'Sentuh di sini untuk menukar atau melihat liputan seperti Taiping & Kamunting, Batu Kurau, atau Selama.',
         icon: 'fa-solid fa-location-dot',
         preferredPos: 'bottom',
         action: () => { switchMainTab('catalog'); }
       },
       {
+        targetId: 'tourMainTabContainer',
+        title: 'Point 2: Penukar Tab Utama',
+        desc: 'Beralih antara Direktori Masakan Dapur Rumah dan Papan Diskusi Interaktif Komuniti warga tempatan.',
+        icon: 'fa-solid fa-arrows-split-up-and-left',
+        preferredPos: 'bottom',
+        action: () => { switchMainTab('catalog'); }
+      },
+      {
         targetId: 'tourCatalogFilters',
-        title: 'Point 2: Katalog & Pilihan Zon',
-        desc: 'Cari lauk, kuih muih, atau tapis mengikut kawasan anda (Kamunting Mutiara, Bukit Jana, Aulong, Simpang dll).',
+        title: 'Point 3: Enjin Carian & Penapis Pantas',
+        desc: 'Cari mengikut makanan (kuih, lauk, sambal), ketersediaan (Ready Stock / Pre-Order) serta Zon Taman kejiranan anda.',
         icon: 'fa-solid fa-magnifying-glass',
         preferredPos: 'bottom',
         action: () => { switchMainTab('catalog'); }
       },
       {
         targetId: 'tourAddBtn',
-        title: 'Point 3: Tempat Letak Makanan & Menu',
-        desc: 'Di sinilah suri rumah & tukang masak iklankan masakan! Tekan butang tengah ini untuk daftarkan menu dapur atau buka soalan warga.',
-        icon: 'fa-solid fa-plus',
+        title: 'Point 4: Tempat Letak Makanan & Menu',
+        desc: 'Sentuh butang tambah ini untuk iklankan masakan dapur anda secara percuma (pesanan terus ke WhatsApp) atau buka soalan warga!',
+        icon: 'fa-solid fa-circle-plus',
         preferredPos: 'top',
         action: () => {}
       },
       {
         targetId: 'navCommunityBtn',
-        title: 'Point 4: Ruang Sembang Komuniti',
-        desc: 'Ruang interaktif untuk bertanya open order hari ini, review makanan sedap, cari runner penghantaran, atau kongsi resipi.',
+        title: 'Point 5: Ruang Sembang & Tanya Port Makan',
+        desc: 'Tanya open order jiran hari ini, cari runner penghantaran, kongsi review makanan, atau bincang resipi enak bersama komuniti.',
         icon: 'fa-solid fa-comments',
         preferredPos: 'top',
         action: () => { switchMainTab('community'); }
       },
       {
         targetId: 'headerPwaInstallBtn',
-        title: 'Point 5: Pasang Aplikasi (PWA)',
-        desc: 'Pasang Dapur Kita ke skrin utama telefon anda untuk akses sepantas kilat dan terima alert pesanan tanpa Google Play Store.',
+        title: 'Point 6: Pasang Aplikasi (PWA)',
+        desc: 'Pasang Dapur Kita ke skrin utama telefon anda untuk akses pantas tanpa muat turun dari Play Store atau App Store!',
         icon: 'fa-solid fa-download',
         preferredPos: 'bottom',
         showInstallAction: true,
@@ -1656,7 +1665,7 @@
     ];
 
     function checkFirstVisitTour() {
-      const hasSeenTour = localStorage.getItem('dapur_kita_tour_seen_v3');
+      const hasSeenTour = localStorage.getItem('dapur_kita_tour_seen_v4');
       if (!hasSeenTour) {
         setTimeout(() => {
           startInteractiveTour(0);
@@ -1687,6 +1696,11 @@
     function renderTourPoint() {
       const point = tourPoints[currentTourIndex];
       if (!point) return;
+
+      if (previousTargetElement) {
+        previousTargetElement.classList.remove('tour-target-active');
+        previousTargetElement = null;
+      }
 
       if (point.action) point.action();
 
@@ -1735,8 +1749,11 @@
 
       const target = document.getElementById(point.targetId);
       if (target) {
+        target.classList.add('tour-target-active');
+        previousTargetElement = target;
+
         const rect = target.getBoundingClientRect();
-        if (rect.top < 70 || rect.bottom > window.innerHeight - 70) {
+        if (rect.top < 80 || rect.bottom > window.innerHeight - 80) {
           target.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
       }
@@ -1758,7 +1775,7 @@
       const rect = target.getBoundingClientRect();
       const padding = 6;
 
-      // Spotlight Box placement (fixed coordinates)
+      // Spotlight Box placement
       spotlight.style.display = 'block';
       spotlight.style.top = `${Math.round(rect.top - padding)}px`;
       spotlight.style.left = `${Math.round(rect.left - padding)}px`;
@@ -1781,12 +1798,12 @@
       }
 
       if (posDirection === 'top') {
-        cardY = Math.round(rect.top - 210);
+        cardY = Math.round(rect.top - 215);
         if (cardY < 14) cardY = 14;
         arrow.className = 'arrow-bottom';
       } else {
         cardY = Math.round(rect.bottom + 16);
-        if (cardY + 220 > window.innerHeight) cardY = window.innerHeight - 230;
+        if (cardY + 225 > window.innerHeight) cardY = window.innerHeight - 230;
         arrow.className = 'arrow-top';
       }
 
@@ -1823,14 +1840,19 @@
       if (overlay) overlay.classList.remove('active');
       if (spotlight) spotlight.style.display = 'none';
 
+      if (previousTargetElement) {
+        previousTargetElement.classList.remove('tour-target-active');
+        previousTargetElement = null;
+      }
+
       window.removeEventListener('resize', handleTourUpdateThrottled);
       window.removeEventListener('scroll', handleTourUpdateThrottled);
 
       if (tourPositionRaf) cancelAnimationFrame(tourPositionRaf);
 
       if (markAsSeen) {
-        localStorage.setItem('dapur_kita_tour_seen_v3', 'true');
-        showToast('Panduan Point-to-Point selesai! Selamat meneroka 🍳');
+        localStorage.setItem('dapur_kita_tour_seen_v4', 'true');
+        showToast('Panduan selesai! Selamat menikmati masakan tempatan 🍳');
       }
       switchMainTab('catalog');
     }
@@ -1858,7 +1880,6 @@
 
     function selectComingSoonRegion(regionName) {
       triggerHaptic();
-      alert(`🚧 ${regionName}: COMING SOON!\n\nLiputan direktori bagi kawasan ${regionName} sedang dalam perancangan dan akan dibuka tidak lama lagi.`);
       showToast(`🚧 ${regionName}: COMING SOON`);
     }
 
@@ -1917,7 +1938,6 @@
 
     async function deleteVendor(id) {
       if (!isOwner(id)) { showToast('⛔ Anda bukan pemilik menu ini'); return; }
-      if (!confirm('Adakah anda pasti mahu memadam menu ini?\n\nTindakan ini tidak boleh dibatalkan.')) return;
       try {
         await remove(ref(db, `vendors/${id}`));
         closeDetailModal();
@@ -1939,7 +1959,6 @@
       const post = communityPosts.find(p => p.id === postId);
       if (!post) return;
       if (!isPostOwner(post)) { showToast('⛔ Anda bukan pemilik hantaran ini'); return; }
-      if (!confirm('Adakah anda pasti mahu memadam hantaran ini?\n\nTindakan ini tidak boleh dibatalkan (termasuk semua balasan).')) return;
       try {
         await remove(ref(db, `community_posts/${postId}`));
         triggerHaptic();
@@ -1955,7 +1974,6 @@
       if (!comment) return;
       if (comment.ownerUid !== currentUid) { showToast('⛔ Anda bukan pemilik balasan ini'); return; }
       
-      if (!confirm('Adakah anda pasti mahu memadam balasan ini?')) return;
       try {
         await remove(ref(db, `community_posts/${postId}/comments/${commentId}`));
         triggerHaptic();
@@ -2224,11 +2242,7 @@
         showToast('✅ Hantaran diterbitkan!');
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        if (err.code === 'PERMISSION_DENIED') {
-          showToast(`❌ Permission ditolak. UID: ${currentUid ? 'OK' : 'NULL'}`);
-        } else {
-          showToast(`❌ Gagal hantar: ${err.message?.substring(0, 80)}`);
-        }
+        showToast(`❌ Gagal hantar: ${err.message?.substring(0, 80)}`);
       }
     }
 
@@ -2350,14 +2364,8 @@
         const hasError = firebaseStatus.vendors.error && !firebaseStatus.vendors.ok;
         
         if (hasError) {
-          const errMsg = String(firebaseStatus.vendors.error.message || '').toLowerCase();
-          if (errMsg.includes('permission') || errMsg.includes('denied')) {
-            emptyMsg.innerText = 'Tidak dapat baca data dari Firebase.';
-            emptyErr.innerText = '🔒 Firebase Rules menyekat bacaan. Buka Firebase Console → Realtime Database → Rules, set ".read": true.';
-          } else {
-            emptyMsg.innerText = 'Tidak dapat sambung ke Firebase.';
-            emptyErr.innerText = `⚠️ ${firebaseStatus.vendors.error.message || 'Ralat rangkaian'}`;
-          }
+          emptyMsg.innerText = 'Tidak dapat sambung ke Firebase.';
+          emptyErr.innerText = `⚠️ ${firebaseStatus.vendors.error.message || 'Ralat rangkaian'}`;
           emptyErr.classList.remove('hidden');
         } else if (structureIssue) {
           emptyMsg.innerText = 'Struktur data Firebase salah.';
@@ -2674,11 +2682,7 @@
         resetFilters();
         window.scrollTo({ top: 0, behavior: 'smooth' });
       } catch (err) {
-        if (String(err.message || '').toLowerCase().includes('permission')) {
-          showToast('❌ Firebase Rules block. Semak Console / rules.');
-        } else {
-          showToast('Ralat rangkaian. Sila cuba lagi.');
-        }
+        showToast('Ralat rangkaian. Sila cuba lagi.');
       }
     }
 
