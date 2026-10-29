@@ -913,7 +913,7 @@
               <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
             </optgroup>
             <optgroup id="postOptKamunting" label="Zon Taman Kamunting">
-              <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
+              <option value="Taman槍Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
               <option value="Taman Impian">Taman Impian</option>
               <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
               <option value="Taman Saujana">Taman Saujana</option>
@@ -964,9 +964,15 @@
     <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative max-h-[90vh] flex flex-col border border-butter-100">
       <div class="relative h-48 w-full bg-stone-100 flex-shrink-0">
         <img id="modalImg" src="" alt="Menu" class="w-full h-full object-cover">
-        <button onclick="closeDetailModal()" class="btn-tactile absolute top-3 right-3 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60">
-          <i class="fa-solid fa-xmark"></i>
-        </button>
+        <div class="absolute top-3 right-3 flex items-center gap-1.5">
+          <!-- Butang Share di Modal -->
+          <button id="modalShareBtn" onclick="shareVendorDirect(window.__currentDetailId)" class="btn-tactile w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 shadow" title="Kongsi Menu / Peniaga">
+            <i class="fa-solid fa-share-nodes text-xs"></i>
+          </button>
+          <button onclick="closeDetailModal()" class="btn-tactile w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center hover:bg-black/60 shadow">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
         <span id="modalStatusBadge" class="absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm"></span>
       </div>
       <div class="p-5 overflow-y-auto modal-scroll-area">
@@ -994,10 +1000,18 @@
           </div>
           Pesanan anda akan terus dihantar ke WhatsApp pemilik dapur tanpa sebarang komisen orang tengah.
         </div>
-        <a id="modalWhatsAppBtn" href="#" target="_blank" class="btn-tactile w-full py-3 px-4 rounded-2xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-leaf-700/25">
-          <i class="fa-brands fa-whatsapp text-lg text-butter-300"></i>
-          <span>Hubungi Penjual WhatsApp</span>
-        </a>
+        
+        <div class="flex gap-2">
+          <button onclick="shareVendorDirect(window.__currentDetailId)" class="btn-tactile py-3 px-3.5 rounded-2xl bg-butter-100 hover:bg-butter-200 text-leaf-900 font-extrabold text-xs flex items-center justify-center gap-1.5 border border-butter-300 shadow-sm" title="Kongsi Menu & Dapur">
+            <i class="fa-solid fa-share-nodes text-butter-700"></i>
+            <span>Kongsi</span>
+          </button>
+          <button id="modalOrderBtn" onclick="openOrderModal(window.__currentDetailId)" class="btn-tactile flex-1 py-3 px-4 rounded-2xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-sm flex items-center justify-center gap-2 shadow-md shadow-leaf-700/25">
+            <i class="fa-brands fa-whatsapp text-lg text-butter-300"></i>
+            <span>Tempah Menu (WhatsApp)</span>
+          </button>
+        </div>
+
         <div id="ownerActions" class="hidden mt-2 grid grid-cols-2 gap-2">
           <button id="editVendorBtn" class="btn-tactile py-2.5 rounded-2xl bg-butter-500 hover:bg-butter-600 text-stone-900 font-bold text-xs flex items-center justify-center gap-1.5 shadow">
             <i class="fa-solid fa-pen"></i><span>Edit Menu</span>
@@ -1007,6 +1021,101 @@
           </button>
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ================= MODAL FORM BORANG TEMPAHAN WHATSAPP ================= -->
+  <div id="orderModal" class="modal-backdrop fixed inset-0 bg-stone-900/60 z-50 flex items-center justify-center p-4">
+    <div class="modal-sheet bg-white rounded-3xl max-w-sm w-full overflow-hidden shadow-2xl relative max-h-[92vh] flex flex-col border border-butter-100">
+      <div class="px-5 py-4 border-b border-butter-100 flex items-center justify-between bg-leaf-50">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-leaf-700 text-butter-200 flex items-center justify-center text-sm font-bold shadow-sm">
+            <i class="fa-brands fa-whatsapp text-base"></i>
+          </div>
+          <div>
+            <h3 class="text-sm font-black text-stone-900">Borang Tempahan WhatsApp</h3>
+            <p class="text-[10px] text-stone-500" id="orderModalSubtitle">Lengkapkan maklumat sebelum hantar ke penjual</p>
+          </div>
+        </div>
+        <button onclick="closeOrderModal()" class="btn-tactile w-8 h-8 rounded-full bg-stone-200/70 text-stone-600 flex items-center justify-center hover:bg-stone-300">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <form id="orderForm" onsubmit="handleSendWhatsAppOrder(event)" class="p-5 overflow-y-auto space-y-3.5 text-xs modal-scroll-area">
+        <!-- Info Pilihan Menu Automatik -->
+        <div class="bg-butter-50/90 border border-butter-200 p-3 rounded-2xl flex items-start gap-3">
+          <img id="orderMenuImg" src="" alt="Menu" class="w-14 h-14 rounded-xl object-cover border border-butter-200 flex-shrink-0">
+          <div class="min-w-0 flex-1">
+            <span class="text-[10px] font-bold text-leaf-800 uppercase tracking-wide truncate block" id="orderKitchenName"></span>
+            <h4 class="font-black text-xs text-stone-900 leading-snug truncate" id="orderMenuTitle"></h4>
+            <div class="flex items-center justify-between mt-1">
+              <span class="text-xs font-black text-leaf-900" id="orderMenuPrice"></span>
+              <span class="text-[9px] font-bold bg-white text-stone-700 px-2 py-0.5 rounded-full border border-butter-200" id="orderMenuStatus"></span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Nama Penuh / Panggilan Anda *</label>
+          <input type="text" id="orderCustomerName" required placeholder="Cth: Puan Hidayah / Amir" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Nombor Telefon Anda *</label>
+          <div class="flex shadow-sm rounded-xl">
+            <span class="inline-flex items-center justify-center px-3 bg-butter-100 border border-r-0 border-butter-200 text-stone-700 font-bold rounded-l-xl text-xs">+60</span>
+            <input type="tel" id="orderCustomerPhone" required placeholder="123456789" class="w-full p-2.5 border border-butter-200 rounded-r-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">Kuantiti / Bekas *</label>
+            <div class="flex items-center border border-butter-200 rounded-xl overflow-hidden bg-white">
+              <button type="button" onclick="adjustOrderQty(-1)" class="w-8 h-9 bg-butter-50 text-stone-700 font-black hover:bg-butter-100 btn-tactile">-</button>
+              <input type="number" id="orderQty" min="1" max="100" value="1" onchange="calculateOrderTotal()" class="w-full text-center font-black text-xs outline-none py-1.5">
+              <button type="button" onclick="adjustOrderQty(1)" class="w-8 h-9 bg-butter-50 text-stone-700 font-black hover:bg-butter-100 btn-tactile">+</button>
+            </div>
+          </div>
+          <div>
+            <label class="block font-bold text-stone-700 mb-1">Kaedah Ambil *</label>
+            <select id="orderDeliveryType" class="w-full p-2 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none bg-white transition">
+              <option value="Self-Pickup">Self-Pickup (Ambil Sendiri)</option>
+              <option value="Penghantaran COD / Runner">Penghantaran COD / Runner</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Tarikh & Masa / Slot Dikehendaki *</label>
+          <input type="text" id="orderDateSlot" required placeholder="Cth: Hari Ini 4:30 Petang / Esok Tengahari" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Lokasi / Alamat Penghantaran (Jika COD)</label>
+          <textarea id="orderAddress" rows="2" placeholder="Cth: No 12, Lorong 3, Taman Jana Utama (Jika self-pickup, boleh tinggalkan kosong)" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-stone-700 mb-1">Nota Tambahan / Permintaan Khas</label>
+          <input type="text" id="orderNotes" placeholder="Cth: Kurangkan pedas / bungkus asing kuah" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
+        </div>
+
+        <!-- Ringkasan Anggaran -->
+        <div class="bg-leaf-50 border border-leaf-200 rounded-2xl p-3 flex items-center justify-between">
+          <div>
+            <span class="text-[10px] text-stone-500 font-bold uppercase block">Anggaran Jumlah Pesanan:</span>
+            <span class="text-[10px] text-leaf-800 font-medium">*Tidak termasuk caj runner (jika ada)</span>
+          </div>
+          <span class="text-base font-black text-leaf-950" id="orderTotalText">RM 0.00</span>
+        </div>
+
+        <button type="submit" class="btn-tactile w-full py-3 bg-gradient-to-r from-leaf-700 via-leaf-800 to-leaf-900 hover:from-leaf-800 hover:to-leaf-950 text-white font-extrabold rounded-2xl shadow-md flex items-center justify-center gap-2 border border-leaf-600">
+          <i class="fa-brands fa-whatsapp text-lg text-butter-300"></i>
+          <span>Hantar Terus ke WhatsApp Penjual</span>
+        </button>
+      </form>
     </div>
   </div>
 
@@ -1278,6 +1387,7 @@
     let isInitialDataLoaded = false;
     let myVendorIds = [];
     let editingVendorId = null;
+    let currentOrderingVendor = null;
 
     let firebaseStatus = {
       vendors: { ok: false, count: 0, error: null, lastUpdate: null },
@@ -1376,6 +1486,7 @@
         updateFirebaseStatusBanner();
         renderVendors();
         notifySplashResourceLoaded('vendors');
+        checkDirectMenuUrl();
         
       }, (error) => {
         firebaseStatus.vendors = { ok: false, count: 0, error: error, lastUpdate: new Date().toISOString() };
@@ -1501,7 +1612,7 @@
           dismissInstallBanner();
         });
       } else if (isIOS) {
-        alert('📲 Cara Pasang di iPhone/iPad (iOS):\n\n1. Tekan ikon "Kongsi" (Share) di bawah pelayar Safari.\n2. Skrol ke bawah dan pilih "Add to Home Screen" (Tambah ke Skrin Utama).\n3. Tekan "Add".');
+        showToast('📲 Di Safari: Tekan "Share" & pilih "Add to Home Screen".');
       } else {
         const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         if (isStandalone) {
@@ -1646,7 +1757,6 @@
         }
       }, 25);
 
-      // Auto-dismiss maksimum 1.5 saat sekiranya rangkaian internet perlahan
       setTimeout(() => {
         setSplashTarget(100, 'Membuka Dapur Kita...');
       }, 800);
@@ -1926,7 +2036,6 @@
       const txt = document.getElementById('currentHeaderRegionText');
       if (txt) txt.innerText = currentRegion;
 
-      // Sembunyi / Papar di Penapis Katalog
       const filterBK = document.getElementById('filterBatuKurauGroup');
       const filterKamunting = document.getElementById('filterKamuntingGroup');
       const filterTaiping = document.getElementById('filterTaipingGroup');
@@ -1935,7 +2044,6 @@
       if (filterKamunting) filterKamunting.classList.toggle('hidden', isBK);
       if (filterTaiping) filterTaiping.classList.toggle('hidden', isBK);
 
-      // Sembunyi / Papar di Borang Post Komuniti
       const postBK = document.getElementById('postOptBatuKurau');
       const postKamunting = document.getElementById('postOptKamunting');
       const postTaiping = document.getElementById('postOptTaiping');
@@ -1949,7 +2057,6 @@
         postZoneSelect.value = isBK ? 'Pekan Batu Kurau' : 'Taman Jana / Bukit Jana';
       }
 
-      // Sembunyi / Papar di Borang Daftar Menu
       const regBK = document.getElementById('regOptBatuKurau');
       const regKamunting = document.getElementById('regOptKamunting');
       const regTaiping = document.getElementById('regOptTaiping');
@@ -1963,7 +2070,6 @@
         regZoneSelect.value = isBK ? 'Pekan Batu Kurau' : 'Taman Jana / Bukit Jana';
       }
 
-      // Kemaskini butang pada modal
       const btnTaiping = document.getElementById('regionBtnTaiping');
       const btnBK = document.getElementById('regionBtnBatuKurau');
       const badgeTaiping = document.getElementById('regionBadgeTaiping');
@@ -2111,6 +2217,7 @@
     function openDetailModal(id) {
       const item = currentVendors.find(v => v.id === id);
       if (!item) return;
+      window.__currentDetailId = id;
       document.getElementById('modalImg').src = item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
       document.getElementById('modalTitle').innerText = item.menuTitle || 'Menu';
       document.getElementById('modalKitchen').innerText = item.kitchenName || '';
@@ -2120,22 +2227,16 @@
       document.getElementById('modalDesc').innerText = item.desc || '';
 
       const badge = document.getElementById('modalStatusBadge');
-      let message = '';
-      const price = Number(item.price || 0).toFixed(2);
       if (item.status === 'Ready Stock') {
         badge.className = 'absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm bg-leaf-600';
         badge.innerHTML = '<i class="fa-solid fa-bolt mr-1 text-butter-300"></i> Ready Stock Hari Ini';
-        message = `Salam ${item.kitchenName}, saya berminat nak order *${item.menuTitle}* (RM${price}) dari portal Dapur Kita. Lokasi saya di ${item.zone}. Boleh tahu cara tempahan?`;
       } else if (item.status === 'Seminggu Awal') {
         badge.className = 'absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold text-white shadow-sm bg-butter-700';
         badge.innerHTML = '<i class="fa-regular fa-calendar-check mr-1 text-butter-200"></i> Tempahan Seminggu Awal (H-7)';
-        message = `Salam ${item.kitchenName}, saya nak buat tempahan seminggu lebih awal untuk *${item.menuTitle}* (RM${price}) untuk tarikh: [Sila nyatakan tarikh majlis]. Kawasan saya di ${item.zone}. Adakah slot masih dibuka?`;
       } else {
         badge.className = 'absolute bottom-3 left-3 px-2.5 py-1 rounded-full text-xs font-bold text-stone-900 shadow-sm bg-butter-400 font-black';
         badge.innerHTML = '<i class="fa-regular fa-clock mr-1"></i> Pre-Order H-1';
-        message = `Salam ${item.kitchenName}, saya berminat nak pre-order *${item.menuTitle}* (RM${price}) dari portal Dapur Kita (Zon ${item.zone}). Boleh tahu slot esok/hari berkenaan masih ada?`;
       }
-      document.getElementById('modalWhatsAppBtn').href = `https://wa.me/${String(item.phone || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
 
       const ownerActions = document.getElementById('ownerActions');
       const editBtn = document.getElementById('editVendorBtn');
@@ -2151,6 +2252,198 @@
       openModalWithAnimation('detailModal');
     }
     function closeDetailModal() { closeModalWithAnimation('detailModal'); }
+
+    // =========================================================
+    // PENAMBAHBAIKAN: KONGSI LINK MENU / KEDAI PENIAGA
+    // =========================================================
+    function getShareableVendorUrl(vendorId) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('menu', vendorId);
+      return url.toString();
+    }
+
+    function shareVendorDirect(vendorId) {
+      triggerHaptic();
+      const item = currentVendors.find(v => v.id === vendorId);
+      if (!item) return;
+
+      const shareUrl = getShareableVendorUrl(vendorId);
+      const shareTitle = `${item.menuTitle} - ${item.kitchenName}`;
+      const shareText = `Tengok menu "${item.menuTitle}" (RM${Number(item.price || 0).toFixed(2)}) oleh ${item.kitchenName} di Dapur Kita Taiping, Kamunting & Batu Kurau:`;
+
+      if (navigator.share) {
+        navigator.share({
+          title: shareTitle,
+          text: shareText,
+          url: shareUrl
+        }).then(() => {
+          showToast('🔗 Berjaya dikongsikan!');
+        }).catch((err) => {
+          if (err.name !== 'AbortError') {
+            copyShareUrlFallback(shareUrl);
+          }
+        });
+      } else {
+        copyShareUrlFallback(shareUrl);
+      }
+    }
+
+    function copyShareUrlFallback(url) {
+      try {
+        const dummy = document.createElement('input');
+        document.body.appendChild(dummy);
+        dummy.value = url;
+        dummy.select();
+        document.execCommand('copy');
+        document.body.removeChild(dummy);
+        showToast('📋 Pautan menu disalin ke papan keratan (clipboard)!');
+      } catch (e) {
+        showToast('Pautan: ' + url);
+      }
+    }
+
+    function checkDirectMenuUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const menuId = params.get('menu');
+      if (menuId && currentVendors.length > 0) {
+        const matched = currentVendors.find(v => v.id === menuId);
+        if (matched) {
+          setTimeout(() => {
+            openDetailModal(menuId);
+          }, 300);
+        }
+      }
+    }
+
+    // =========================================================
+    // PENAMBAHBAIKAN: BORANG TEMPAHAN SEBELUM KE WHATSAPP
+    // =========================================================
+    function openOrderModal(vendorId) {
+      triggerHaptic();
+      const item = currentVendors.find(v => v.id === vendorId);
+      if (!item) return;
+
+      currentOrderingVendor = item;
+
+      // Isi info menu mengikut apa yang ditekan oleh user
+      const imgEl = document.getElementById('orderMenuImg');
+      const titleEl = document.getElementById('orderMenuTitle');
+      const kitchenEl = document.getElementById('orderKitchenName');
+      const priceEl = document.getElementById('orderMenuPrice');
+      const statusEl = document.getElementById('orderMenuStatus');
+
+      if (imgEl) imgEl.src = item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
+      if (titleEl) titleEl.innerText = item.menuTitle || 'Menu';
+      if (kitchenEl) kitchenEl.innerText = item.kitchenName || 'Dapur Rumah';
+      if (priceEl) priceEl.innerText = `RM ${Number(item.price || 0).toFixed(2)} / unit`;
+      if (statusEl) statusEl.innerText = item.status || 'Ready Stock';
+
+      // Muatkan nama/nombor tersimpan pembeli jika ada
+      const savedCustName = localStorage.getItem('dapur_kita_customer_name') || '';
+      const savedCustPhone = localStorage.getItem('dapur_kita_customer_phone') || '';
+      if (savedCustName) document.getElementById('orderCustomerName').value = savedCustName;
+      if (savedCustPhone) document.getElementById('orderCustomerPhone').value = savedCustPhone;
+
+      document.getElementById('orderQty').value = 1;
+      document.getElementById('orderDateSlot').value = '';
+      document.getElementById('orderAddress').value = '';
+      document.getElementById('orderNotes').value = '';
+      document.getElementById('orderDeliveryType').value = 'Self-Pickup';
+
+      calculateOrderTotal();
+
+      // Tutup modal detail sekiranya dibuka dari situ, lalu buka modal tempahan
+      closeDetailModal();
+      openModalWithAnimation('orderModal');
+    }
+
+    function closeOrderModal() {
+      closeModalWithAnimation('orderModal');
+    }
+
+    function adjustOrderQty(delta) {
+      triggerHaptic();
+      const qtyInput = document.getElementById('orderQty');
+      let val = parseInt(qtyInput.value) || 1;
+      val = Math.max(1, Math.min(100, val + delta));
+      qtyInput.value = val;
+      calculateOrderTotal();
+    }
+
+    function calculateOrderTotal() {
+      if (!currentOrderingVendor) return;
+      const qtyInput = document.getElementById('orderQty');
+      let qty = parseInt(qtyInput.value) || 1;
+      if (qty < 1) qty = 1;
+      const unitPrice = parseFloat(currentOrderingVendor.price) || 0;
+      const total = qty * unitPrice;
+      const totalEl = document.getElementById('orderTotalText');
+      if (totalEl) totalEl.innerText = `RM ${total.toFixed(2)}`;
+    }
+
+    function handleSendWhatsAppOrder(e) {
+      e.preventDefault();
+      if (!currentOrderingVendor) {
+        showToast('Sila pilih menu semula.');
+        return;
+      }
+
+      const item = currentOrderingVendor;
+      const name = document.getElementById('orderCustomerName').value.trim();
+      let phone = document.getElementById('orderCustomerPhone').value.trim();
+      const qty = parseInt(document.getElementById('orderQty').value) || 1;
+      const deliveryType = document.getElementById('orderDeliveryType').value;
+      const dateSlot = document.getElementById('orderDateSlot').value.trim();
+      const address = document.getElementById('orderAddress').value.trim();
+      const notes = document.getElementById('orderNotes').value.trim();
+
+      // Format telefon pembeli
+      phone = phone.replace(/[^0-9]/g, '');
+      if (phone.startsWith('0')) phone = '6' + phone;
+      else if (phone && !phone.startsWith('6')) phone = '60' + phone;
+
+      // Simpan nama & phone untuk kemudahan pesanan seterusnya
+      if (name) localStorage.setItem('dapur_kita_customer_name', name);
+      if (phone) localStorage.setItem('dapur_kita_customer_phone', phone.replace(/^60/, ''));
+
+      const unitPrice = parseFloat(item.price) || 0;
+      const grandTotal = (qty * unitPrice).toFixed(2);
+
+      // Bina mesej WhatsApp tersusun rapi
+      let message = `*TEMPAHAN BAHARU DAPUR KITA* 🍳\n`;
+      message += `------------------------------------\n`;
+      message += `Salam ${item.kitchenName}, saya ingin membuat tempahan melalui portal *Dapur Kita*:\n\n`;
+      message += `📌 *PILIHAN MENU:* ${item.menuTitle}\n`;
+      message += `🏷️ *Harga Seunit:* RM ${unitPrice.toFixed(2)}\n`;
+      message += `🔢 *Kuantiti:* ${qty} unit/bekas\n`;
+      message += `💰 *Jumlah Anggaran:* RM ${grandTotal}\n`;
+      message += `⚡ *Status Menu:* ${item.status}\n\n`;
+      message += `👤 *MAKLUMAT PELANGGAN:*\n`;
+      message += `• Nama: ${name}\n`;
+      message += `• No. Telefon: +${phone}\n`;
+      message += `• Kaedah: ${deliveryType}\n`;
+      message += `• Slot Tarikh / Masa: ${dateSlot}\n`;
+      
+      if (deliveryType.includes('COD') || address) {
+        message += `• Alamat Penghantaran: ${address || 'Akan dimaklumkan'}\n`;
+      }
+      if (notes) {
+        message += `• Nota / Pilihan Khas: ${notes}\n`;
+      }
+      
+      message += `\nAdakah slot ini masih ada untuk disahkan? Terima kasih! 🙏`;
+
+      const vendorPhoneDigits = String(item.phone || '').replace(/[^0-9]/g, '');
+      if (!vendorPhoneDigits) {
+        showToast('Nombor WhatsApp peniaga tidak tersedia.');
+        return;
+      }
+
+      const waUrl = `https://wa.me/${vendorPhoneDigits}?text=${encodeURIComponent(message)}`;
+      closeOrderModal();
+      showToast('Membuka WhatsApp peniaga...');
+      window.open(waUrl, '_blank');
+    }
 
     function updateActiveNavText(activeId) {
       const navButtons = [
@@ -2548,22 +2841,18 @@
         const priceNum = Number(item.price) || 0;
         const delay = (index * 0.04).toFixed(2);
         const itemImg = item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
-        let statusBadge = '', compactBadge = '', message = '';
+        let statusBadge = '', compactBadge = '';
 
         if (item.status === 'Ready Stock') {
           statusBadge = `<span class="bg-leaf-600 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1"><i class="fa-solid fa-bolt text-butter-300"></i> Ready Stock</span>`;
           compactBadge = `<span class="bg-leaf-600 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">Ready</span>`;
-          message = `Salam ${item.kitchenName}, saya berminat nak order *${item.menuTitle}* (RM${priceNum.toFixed(2)}) yang diiklankan di portal Dapur Kita (Zon ${item.zone}). Boleh tahu stok hari ini masih ada?`;
         } else if (item.status === 'Seminggu Awal') {
           statusBadge = `<span class="bg-butter-700 text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1"><i class="fa-regular fa-calendar-check text-butter-200"></i> Seminggu Awal</span>`;
           compactBadge = `<span class="bg-butter-700 text-white text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">H-7</span>`;
-          message = `Salam ${item.kitchenName}, saya ingin membuat Tempahan Seminggu Awal (H-7) untuk *${item.menuTitle}* (RM${priceNum.toFixed(2)}) pada tarikh: [Nyatakan Tarikh]. Kawasan: ${item.zone}.`;
         } else {
           statusBadge = `<span class="bg-butter-400 text-stone-900 text-[10px] font-black px-2.5 py-1 rounded-full shadow-sm flex items-center gap-1"><i class="fa-regular fa-clock"></i> Pre-Order</span>`;
           compactBadge = `<span class="bg-butter-400 text-stone-900 text-[9px] font-black px-1.5 py-0.5 rounded-md shadow-sm">Pre-Order</span>`;
-          message = `Salam ${item.kitchenName}, saya berminat nak pre-order *${item.menuTitle}* (RM${priceNum.toFixed(2)}) dari portal Dapur Kita (Zon ${item.zone}). Boleh tahu slot esok/hari berkenaan masih ada?`;
         }
-        const waLink = `https://wa.me/${String(item.phone || '').replace(/[^0-9]/g, '')}?text=${encodeURIComponent(message)}`;
 
         const ownerRow = owned ? `
           <div class="px-2.5 pb-2 pt-1 flex gap-1.5 w-full">
@@ -2586,12 +2875,17 @@
                 <div class="compact-info min-w-0">
                   <div class="flex justify-between items-start gap-1 w-full">
                     <div class="text-[10px] font-bold text-leaf-800 uppercase tracking-wide truncate">${item.kitchenName || ''}</div>
-                    <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="text-stone-400 hover:text-butter-600 flex-shrink-0" title="Simpan"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark text-xs"></i></button>
+                    <div class="flex items-center gap-1">
+                      <button onclick="event.stopPropagation(); window.shareVendorDirect('${item.id}')" class="text-stone-400 hover:text-leaf-700 p-0.5" title="Kongsi Menu"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                      <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="text-stone-400 hover:text-butter-600 p-0.5" title="Simpan"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark text-xs"></i></button>
+                    </div>
                   </div>
                   <h2 class="text-xs font-black text-stone-900 line-clamp-2 leading-snug mt-0.5">${item.menuTitle}</h2>
                   <div class="mt-auto pt-1.5 flex items-center justify-between w-full">
                     <span class="text-sm font-black text-leaf-800">RM ${priceNum.toFixed(2)}</span>
-                    <span class="text-[9px] font-semibold text-stone-500 flex items-center gap-1"><i class="fa-solid fa-location-dot text-butter-500"></i><span class="truncate max-w-[80px]">${(item.zone || '').split('/')[0].trim()}</span></span>
+                    <button onclick="event.stopPropagation(); window.openOrderModal('${item.id}')" class="btn-tactile px-2.5 py-1 rounded-lg bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-[10px] flex items-center gap-1 shadow-sm">
+                      <i class="fa-brands fa-whatsapp text-butter-300"></i><span>Tempah</span>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -2607,7 +2901,10 @@
                   <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
                   <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>
                   <div class="absolute top-2 left-2">${compactBadge}</div>
-                  <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile absolute top-2 right-2 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow" title="Simpan"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark text-xs"></i></button>
+                  <div class="absolute top-2 right-2 flex items-center gap-1">
+                    <button onclick="event.stopPropagation(); window.shareVendorDirect('${item.id}')" class="btn-tactile w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow" title="Kongsi Menu"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                    <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow" title="Simpan"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark text-xs"></i></button>
+                  </div>
                   <div class="absolute bottom-1.5 left-2 right-2 text-white text-[10px] font-semibold truncate drop-shadow-md flex items-center gap-1"><i class="fa-solid fa-location-dot text-butter-300 text-[9px]"></i><span class="truncate">${(item.zone || '').split('/')[0].trim()}</span></div>
                 </div>
                 <div class="p-2.5 cursor-pointer" onclick="window.openDetailModal('${item.id}')">
@@ -2617,7 +2914,7 @@
                 </div>
               </div>
               <div class="px-2.5 pb-2.5 pt-0">
-                <a href="${waLink}" target="_blank" class="btn-tactile w-full py-1.5 rounded-xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm"><i class="fa-brands fa-whatsapp text-xs text-butter-300"></i><span>WhatsApp</span></a>
+                <button onclick="window.openOrderModal('${item.id}')" class="btn-tactile w-full py-1.5 rounded-xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-[11px] flex items-center justify-center gap-1 shadow-sm"><i class="fa-brands fa-whatsapp text-xs text-butter-300"></i><span>Tempah Menu</span></button>
               </div>
               ${ownerRow}
             </div>`;
@@ -2630,7 +2927,10 @@
                 <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 <div class="absolute top-3 left-3">${statusBadge}</div>
-                <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile absolute top-3 right-3 w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark"></i></button>
+                <div class="absolute top-3 right-3 flex items-center gap-1.5">
+                  <button onclick="event.stopPropagation(); window.shareVendorDirect('${item.id}')" class="btn-tactile w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow" title="Kongsi Menu / Dapur"><i class="fa-solid fa-share-nodes text-xs"></i></button>
+                  <button onclick="event.stopPropagation(); window.toggleBookmark('${item.id}')" class="btn-tactile w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm text-stone-700 flex items-center justify-center hover:bg-white shadow"><i class="${isBookmarked ? 'fa-solid text-butter-500' : 'fa-regular'} fa-bookmark"></i></button>
+                </div>
                 <div class="absolute bottom-2.5 left-3 text-white text-[11px] font-medium flex items-center gap-1 drop-shadow-md"><i class="fa-solid fa-location-dot text-butter-300"></i> ${item.neighborhood || item.zone || ''}</div>
               </div>
               <div class="p-4 cursor-pointer" onclick="window.openDetailModal('${item.id}')">
@@ -2643,8 +2943,14 @@
                 </div>
               </div>
             </div>
-            <div class="px-4 pb-4 pt-1">
-              <a href="${waLink}" target="_blank" class="btn-tactile w-full py-2.5 rounded-2xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm"><i class="fa-brands fa-whatsapp text-sm text-butter-300"></i><span>Order Direct WhatsApp</span></a>
+            <div class="px-4 pb-4 pt-1 flex gap-2">
+              <button onclick="window.shareVendorDirect('${item.id}')" class="btn-tactile px-3 py-2.5 rounded-2xl bg-butter-100 hover:bg-butter-200 text-leaf-900 font-extrabold text-xs flex items-center justify-center gap-1 border border-butter-300 shadow-sm" title="Kongsi Menu">
+                <i class="fa-solid fa-share-nodes text-butter-700"></i>
+              </button>
+              <button onclick="window.openOrderModal('${item.id}')" class="btn-tactile flex-1 py-2.5 rounded-2xl bg-leaf-700 hover:bg-leaf-800 text-white font-bold text-xs flex items-center justify-center gap-1.5 shadow-sm">
+                <i class="fa-brands fa-whatsapp text-sm text-butter-300"></i>
+                <span>Tempah Menu (WhatsApp)</span>
+              </button>
             </div>
             ${ownerRow}
           </div>`;
@@ -2859,15 +3165,17 @@
       handlePostSubmit, setCommunityFilter, togglePostLike, toggleCommentBox, handleAddComment,
       requestNotificationPermissionPrompt, installPWA, dismissInstallBanner,
       openEditModal, deleteVendor, deletePost, deleteComment,
-      startInteractiveTour, nextTourStep, prevTourStep, dismissInteractiveTour
+      startInteractiveTour, nextTourStep, prevTourStep, dismissInteractiveTour,
+      // Pautan Share & Borang Tempahan WhatsApp
+      shareVendorDirect, openOrderModal, closeOrderModal, adjustOrderQty, calculateOrderTotal, handleSendWhatsAppOrder
     });
 
     window.onclick = function(event) {
-      ['detailModal','registerModal','infoModal','actionModal','postModal','regionModal'].forEach(id => {
+      ['detailModal','orderModal','registerModal','infoModal','actionModal','postModal','regionModal'].forEach(id => {
         const el = document.getElementById(id);
         if (event.target === el) {
           const closeFn = {
-            detailModal: closeDetailModal, registerModal: closeRegisterModal,
+            detailModal: closeDetailModal, orderModal: closeOrderModal, registerModal: closeRegisterModal,
             infoModal: closeInfoModal, actionModal: closeActionChooser, postModal: closePostModal,
             regionModal: closeRegionModal
           }[id];
