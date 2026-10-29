@@ -913,7 +913,7 @@
               <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
             </optgroup>
             <optgroup id="postOptKamunting" label="Zon Taman Kamunting">
-              <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
+              <option value="Taman槍Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
               <option value="Taman Impian">Taman Impian</option>
               <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
               <option value="Taman Saujana">Taman Saujana</option>
@@ -1213,7 +1213,7 @@
                 <option value="Taman Pokok Assam">Taman Pokok Assam</option>
                 <option value="Kampung Boyan / Taman Indah">Kampung Boyan / Taman Indah</option>
                 <option value="Pusat Bandar Taiping / Lake Gardens">Pusat Bandar Taiping / Lake Gardens</option>
-                <option value="Simpang Taiping">Simpang</option>
+                <option value="Simpang taiping">Simpang</option>
                 <option value="Changkat Jering">Changkat Jering</option> 
               </optgroup>
             </select>
@@ -1377,7 +1377,6 @@
     let selectedZone = 'all';
     let selectedCategory = 'all';
     let searchQuery = '';
-    let searchDebounceTimer = null;
     let bookmarks = [];
     let showBookmarksOnly = false;
     let uploadedImageBase64 = '';
@@ -1389,7 +1388,6 @@
     let myVendorIds = [];
     let editingVendorId = null;
     let currentOrderingVendor = null;
-    let directMenuHandled = null;
 
     let firebaseStatus = {
       vendors: { ok: false, count: 0, error: null, lastUpdate: null },
@@ -1745,32 +1743,26 @@
       const percentEl = document.getElementById('splashPercentText');
       if (!splash || !bar) return;
 
-      // Menggunakan requestAnimationFrame untuk elak CPU hog & pause bila tab tak aktif
-      let lastUpdate = 0;
-      function tick(now) {
-        if (splashCompleted) return;
-        if (now - lastUpdate >= 25) {
-          lastUpdate = now;
-          if (splashCurrentProgress < splashTargetProgress) {
-            const step = Math.max(2, Math.ceil((splashTargetProgress - splashCurrentProgress) * 0.25));
-            splashCurrentProgress = Math.min(splashTargetProgress, splashCurrentProgress + step);
-            bar.style.width = `${splashCurrentProgress}%`;
-            if (percentEl) percentEl.innerText = `${splashCurrentProgress}%`;
-          }
-          if (splashCurrentProgress >= 100) {
-            finishSplashInstantly();
-            return;
-          }
+      const progressInterval = setInterval(() => {
+        if (splashCurrentProgress < splashTargetProgress) {
+          const step = Math.max(2, Math.ceil((splashTargetProgress - splashCurrentProgress) * 0.25));
+          splashCurrentProgress = Math.min(splashTargetProgress, splashCurrentProgress + step);
+          bar.style.width = `${splashCurrentProgress}%`;
+          if (percentEl) percentEl.innerText = `${splashCurrentProgress}%`;
         }
-        requestAnimationFrame(tick);
-      }
-      requestAnimationFrame(tick);
+
+        if (splashCurrentProgress >= 100) {
+          clearInterval(progressInterval);
+          finishSplashInstantly();
+        }
+      }, 25);
 
       setTimeout(() => {
         setSplashTarget(100, 'Membuka Dapur Kita...');
       }, 800);
 
       setTimeout(() => {
+        clearInterval(progressInterval);
         finishSplashInstantly();
       }, 1500);
     }
@@ -2313,14 +2305,13 @@
     function checkDirectMenuUrl() {
       const params = new URLSearchParams(window.location.search);
       const menuId = params.get('menu');
-      if (!menuId || directMenuHandled === menuId) return;
-      if (currentVendors.length === 0) return;
-      const matched = currentVendors.find(v => v.id === menuId);
-      if (matched) {
-        directMenuHandled = menuId;
-        setTimeout(() => {
-          openDetailModal(menuId);
-        }, 300);
+      if (menuId && currentVendors.length > 0) {
+        const matched = currentVendors.find(v => v.id === menuId);
+        if (matched) {
+          setTimeout(() => {
+            openDetailModal(menuId);
+          }, 300);
+        }
       }
     }
 
@@ -2575,7 +2566,6 @@
         const initials = getInitials(post.author || 'Jiran');
         const commentsList = post.comments || [];
         const owned = isPostOwner(post);
-        const delay = Math.min(idx * 0.04, 0.35).toFixed(2);
 
         let contactBtn = '';
         if (post.phone && String(post.phone).trim() !== '') {
@@ -2592,7 +2582,7 @@
         const ownerBadge = owned ? `<span class="text-[9px] font-black bg-leaf-100 text-leaf-800 px-1.5 py-0.5 rounded-md border border-leaf-300 ml-1">ANDA</span>` : '';
 
         return `
-          <div class="soft-card animate-grid-item bg-white/95 rounded-3xl border border-butter-200/90 p-4 sm:p-5 shadow-sm" style="animation-delay: ${delay}s">
+          <div class="soft-card animate-grid-item bg-white/95 rounded-3xl border border-butter-200/90 p-4 sm:p-5 shadow-sm" style="animation-delay: ${idx * 0.05}s">
             <div class="flex items-start justify-between gap-3">
               <div class="flex items-center gap-3">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-leaf-800 to-leaf-600 text-butter-200 font-extrabold flex items-center justify-center text-xs shadow-sm">${initials}</div>
@@ -2849,7 +2839,7 @@
         const isBookmarked = bookmarks.includes(item.id);
         const owned = isOwner(item.id);
         const priceNum = Number(item.price) || 0;
-        const delay = Math.min(index * 0.04, 0.35).toFixed(2);
+        const delay = (index * 0.04).toFixed(2);
         const itemImg = item.image || 'https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80';
         let statusBadge = '', compactBadge = '';
 
@@ -2879,7 +2869,7 @@
             <div class="soft-card animate-grid-item bg-white/95 rounded-2xl border border-butter-200/90 shadow-sm flex flex-col hover:border-leaf-500" style="animation-delay: ${delay}s">
               <div class="compact-card cursor-pointer" onclick="window.openDetailModal('${item.id}')">
                 <div class="relative flex-shrink-0">
-                  <img src="${itemImg}" alt="${item.menuTitle}" loading="lazy" decoding="async">
+                  <img src="${itemImg}" alt="${item.menuTitle}">
                   <div class="absolute top-1 left-1">${compactBadge}</div>
                 </div>
                 <div class="compact-info min-w-0">
@@ -2908,7 +2898,7 @@
             <div class="soft-card animate-grid-item bg-white/95 rounded-2xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
               <div>
                 <div class="relative w-full aspect-square bg-stone-100 cursor-pointer overflow-hidden group" onclick="window.openDetailModal('${item.id}')">
-                  <img src="${itemImg}" alt="${item.menuTitle}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
+                  <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
                   <div class="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent"></div>
                   <div class="absolute top-2 left-2">${compactBadge}</div>
                   <div class="absolute top-2 right-2 flex items-center gap-1">
@@ -2934,7 +2924,7 @@
           <div class="soft-card animate-grid-item bg-white/95 rounded-3xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
             <div>
               <div class="relative h-44 w-full bg-stone-100 cursor-pointer overflow-hidden group" onclick="window.openDetailModal('${item.id}')">
-                <img src="${itemImg}" alt="${item.menuTitle}" loading="lazy" decoding="async" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
+                <img src="${itemImg}" alt="${item.menuTitle}" class="w-full h-full object-cover group-hover:scale-108 transition duration-500 ease-out">
                 <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
                 <div class="absolute top-3 left-3">${statusBadge}</div>
                 <div class="absolute top-3 right-3 flex items-center gap-1.5">
@@ -2999,17 +2989,11 @@
       const clearBtn = document.getElementById('clearSearchBtn');
       if (searchQuery.length > 0) clearBtn.classList.remove('hidden');
       else clearBtn.classList.add('hidden');
-      
-      if (searchDebounceTimer) clearTimeout(searchDebounceTimer);
-      searchDebounceTimer = setTimeout(() => {
-        searchDebounceTimer = null;
-        renderVendors();
-      }, 120);
+      renderVendors();
     }
 
     function clearSearch() {
       triggerHaptic();
-      if (searchDebounceTimer) { clearTimeout(searchDebounceTimer); searchDebounceTimer = null; }
       document.getElementById('searchInput').value = '';
       searchQuery = '';
       document.getElementById('clearSearchBtn').classList.add('hidden');
@@ -3018,7 +3002,6 @@
 
     function resetFilters() {
       triggerHaptic();
-      if (searchDebounceTimer) { clearTimeout(searchDebounceTimer); searchDebounceTimer = null; }
       selectedZone = 'all';
       selectedCategory = 'all';
       searchQuery = '';
