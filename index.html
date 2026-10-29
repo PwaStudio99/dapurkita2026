@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Dapur Kita | Direktori Makanan Home-based Taiping & Kamunting</title>
+  <title>Dapur Kita | Direktori Makanan Home-based Taiping, Kamunting & Batu Kurau</title>
   
   <!-- PWA Meta Tags -->
   <meta name="theme-color" content="#14532d">
@@ -12,7 +12,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="DapurKita">
   <meta name="application-name" content="DapurKita">
-  <meta name="description" content="Direktori Makanan Home-based & Papan Komuniti Warga Taiping & Kamunting">
+  <meta name="description" content="Direktori Makanan Home-based & Papan Komuniti Warga Taiping, Kamunting & Batu Kurau">
 
   <!-- Google Fonts & Font Awesome Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -194,10 +194,10 @@
     .pulse-badge { animation: pulse-subtle 2s infinite ease-in-out; }
     
     #splashScreen { 
-      transition: opacity 0.5s var(--smooth-out), transform 0.6s var(--spring-easing), visibility 0.5s ease; 
+      transition: opacity 0.4s var(--smooth-out), transform 0.4s var(--spring-easing), visibility 0.4s ease; 
       will-change: opacity, transform; 
     }
-    #splashScreen.fade-out { opacity: 0; transform: scale(1.05); visibility: hidden; pointer-events: none; }
+    #splashScreen.fade-out { opacity: 0; transform: scale(1.04); visibility: hidden; pointer-events: none; }
     
     @keyframes forkFloat { 
       0%, 100% { transform: translateY(0) rotate(0deg); } 
@@ -248,10 +248,7 @@
       background-repeat: no-repeat, no-repeat, repeat;
     }
 
-    /* =================================================================
-       POINT-TO-POINT SPOTLIGHT FIX (CRYSTAL CLEAR TARGET)
-       ================================================================= */
-    /* Container overlay dibiarkan telus sepenuhnya, fungsi gelap diambil alih oleh giant box-shadow */
+    /* POINT-TO-POINT SPOTLIGHT FIX */
     #pointTourOverlay {
       position: fixed;
       inset: 0;
@@ -269,13 +266,11 @@
       pointer-events: auto;
     }
 
-    /* Spotlight Box ini menghasilkan lubang potong yang terang bagi target */
     #tourSpotlightBox {
       position: fixed;
       border-radius: 1.25rem;
       border: 3px solid #facc15;
-      background: transparent !important; /* Dalam kotak 100% telus */
-      /* Box-shadow raksasa menggelapkan luar sasaran secara natural tanpa menggelapkan menu */
+      background: transparent !important;
       box-shadow: 
         0 0 0 9999px rgba(10, 15, 26, 0.82),
         0 0 25px 4px rgba(250, 204, 21, 0.75),
@@ -291,7 +286,6 @@
       display: none;
     }
 
-    /* Penanda fokus aktif pada elemen sasaran asal */
     .tour-target-active {
       position: relative !important;
       z-index: 126 !important;
@@ -366,7 +360,7 @@
         <span>Dapur Kita</span>
         <span class="text-xs bg-leaf-500/20 text-butter-300 border border-butter-400/30 px-2 py-0.5 rounded-full font-bold">PWA</span>
       </h1>
-      <p class="text-xs text-butter-100/70 font-medium mt-1 mb-8">Masakan Rumah Taiping & Kamunting</p>
+      <p class="text-xs text-butter-100/70 font-medium mt-1 mb-8">Masakan Rumah Taiping, Kamunting & Batu Kurau</p>
       <div class="w-full bg-stone-800/90 rounded-full h-2 p-0.5 border border-stone-700/80 overflow-hidden shadow-inner mb-2.5">
         <div id="splashProgressBar" class="h-full bg-gradient-to-r from-butter-400 via-leaf-400 to-leaf-600 rounded-full transition-all duration-150 ease-out" style="width: 0%;"></div>
       </div>
@@ -516,12 +510,33 @@
       <div class="bg-white/90 border border-butter-200 rounded-3xl p-3.5 shadow-sm mb-3">
         <div class="flex items-center justify-between mb-2.5">
           <span class="text-[11px] font-extrabold text-leaf-900 uppercase tracking-wider flex items-center gap-1.5">
-            <i class="fa-solid fa-map-pin text-butter-600"></i> Zon Kawasan Taman
+            <i class="fa-solid fa-map-pin text-butter-600"></i> Zon Kawasan & Kampung
           </span>
           <button onclick="setZoneFilter('all', this)" class="zone-btn filter-pill text-[11px] font-bold text-leaf-700 hover:underline">Tunjuk Semua</button>
         </div>
 
-        <div class="mb-2.5">
+        <!-- ZON BATU KURAU -->
+        <div id="filterBatuKurauGroup" class="mb-2.5 hidden">
+          <span class="text-[10px] font-bold text-emerald-900 uppercase bg-emerald-100 px-2 py-0.5 rounded-md border border-emerald-300 flex items-center gap-1 w-max">
+            <i class="fa-solid fa-mountain-sun text-[10px] text-emerald-700"></i> Zon Batu Kurau & Kampung Home-based
+          </span>
+          <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pt-1.5 text-xs">
+            <button onclick="setZoneFilter('Pekan Batu Kurau', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Pekan Batu Kurau</button>
+            <button onclick="setZoneFilter('Kampung Perak', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Perak</button>
+            <button onclick="setZoneFilter('Pantai Besar', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Pantai Besar</button>
+            <button onclick="setZoneFilter('Kampung Anak Kurau', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Anak Kurau</button>
+            <button onclick="setZoneFilter('Kampung Repoh / Ulu Repoh', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Repoh / Ulu Repoh</button>
+            <button onclick="setZoneFilter('Kampung Jelai', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Jelai</button>
+            <button onclick="setZoneFilter('Kampung Pondok Tanjung', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Pondok Tanjung</button>
+            <button onclick="setZoneFilter('Kampung Changkat Perah', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Changkat Perah</button>
+            <button onclick="setZoneFilter('Kampung Air Hitam', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Kg Air Hitam</button>
+            <button onclick="setZoneFilter('Taman Kurau Harmoni / Kurau Mewah', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Taman Kurau Harmoni/Mewah</button>
+            <button onclick="setZoneFilter('Taman Kurau Indah / Kurau Aman', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-emerald-50/70 border border-emerald-200 text-emerald-900 whitespace-nowrap hover:bg-emerald-100 font-medium">Taman Kurau Indah/Aman</button>
+          </div>
+        </div>
+
+        <!-- ZON KAMUNTING -->
+        <div id="filterKamuntingGroup" class="mb-2.5">
           <span class="text-[10px] font-bold text-leaf-800 uppercase bg-leaf-100/90 px-2 py-0.5 rounded-md border border-leaf-200/60">Zon Taman Kamunting</span>
           <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pt-1.5 text-xs">
             <button onclick="setZoneFilter('Taman Jana / Bukit Jana', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Bukit / Taman Jana</button>
@@ -534,7 +549,8 @@
           </div>
         </div>
 
-        <div>
+        <!-- ZON TAIPING -->
+        <div id="filterTaipingGroup">
           <span class="text-[10px] font-bold text-butter-800 uppercase bg-butter-100 px-2 py-0.5 rounded-md border border-butter-200">Zon Taman Taiping & Sekitar</span>
           <div class="flex gap-1.5 overflow-x-auto hide-scrollbar pt-1.5 text-xs">
             <button onclick="setZoneFilter('Taman Kaya', this)" class="zone-btn filter-pill px-2.5 py-1 rounded-xl bg-butter-50/70 border border-butter-200 text-stone-700 whitespace-nowrap hover:bg-butter-100">Taman Kaya</button>
@@ -612,11 +628,11 @@
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="bg-leaf-900/60 text-butter-200 text-[10px] font-bold px-2.5 py-0.5 rounded-full border border-butter-400/30">Papan Warga Tempatan</span>
-              <span class="text-xs text-butter-100/90">Taiping & Kamunting</span>
+              <span class="text-xs text-butter-100/90">Taiping, Kamunting & Batu Kurau</span>
             </div>
             <h2 class="text-base sm:text-lg font-black tracking-tight text-white">Ruang Sembang & Tanya Port Makan</h2>
             <p class="text-xs text-butter-100/85 mt-0.5 max-w-md">
-              Tanya open order kuih hari ini, kongsi review jujur, cari runner hantar makanan, atau minta cadangan menu sekitar taman anda!
+              Tanya open order kuih hari ini, kongsi review jujur, cari runner hantar makanan, atau minta cadangan menu sekitar taman & kampung anda!
             </p>
           </div>
           <button onclick="openPostModal()" class="btn-tactile inline-flex items-center justify-center gap-2 bg-butter-300 text-stone-900 hover:bg-butter-200 font-extrabold text-xs px-4 py-2.5 rounded-2xl shadow whitespace-nowrap">
@@ -716,7 +732,7 @@
       </div>
 
       <div class="space-y-2.5">
-        <button onclick="selectRegion('Taiping & Kamunting')" class="btn-tactile w-full p-3 rounded-2xl bg-leaf-50 hover:bg-leaf-100/80 border-2 border-leaf-600 text-left flex items-center justify-between shadow-sm">
+        <button id="regionBtnTaiping" onclick="selectRegion('Taiping & Kamunting')" class="btn-tactile w-full p-3 rounded-2xl bg-leaf-50 hover:bg-leaf-100/80 border-2 border-leaf-600 text-left flex items-center justify-between shadow-sm">
           <div class="flex items-center gap-3">
             <div class="w-9 h-9 rounded-xl bg-leaf-700 text-butter-200 flex items-center justify-center text-sm font-bold">
               <i class="fa-solid fa-house-chimney"></i>
@@ -726,20 +742,20 @@
               <div class="text-[10px] text-leaf-700 font-medium">Katalog & komuniti aktif sedia ada</div>
             </div>
           </div>
-          <span class="text-[10px] font-black bg-leaf-600 text-white px-2 py-0.5 rounded-full shadow-sm">AKTIF</span>
+          <span id="regionBadgeTaiping" class="text-[10px] font-black bg-leaf-600 text-white px-2 py-0.5 rounded-full shadow-sm">DIPILIH</span>
         </button>
 
-        <button onclick="selectComingSoonRegion('Batu Kurau')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
+        <button id="regionBtnBatuKurau" onclick="selectRegion('Batu Kurau')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-emerald-50/80 border border-stone-200 text-left flex items-center justify-between shadow-sm">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 group-hover:bg-butter-200 group-hover:text-amber-800 flex items-center justify-center text-sm font-bold transition">
+            <div class="w-9 h-9 rounded-xl bg-stone-200 text-stone-600 flex items-center justify-center text-sm font-bold">
               <i class="fa-solid fa-mountain-sun"></i>
             </div>
             <div>
-              <div class="text-xs font-bold text-stone-800 group-hover:text-stone-900">Batu Kurau</div>
-              <div class="text-[10px] text-stone-500">Lembah durian & masakan kampung</div>
+              <div class="text-xs font-bold text-stone-800">Batu Kurau</div>
+              <div class="text-[10px] text-stone-500 font-medium">Lembah durian & dapur home-based kampung</div>
             </div>
           </div>
-          <span class="text-[9px] font-black bg-amber-100 text-amber-800 border border-amber-300 px-2 py-0.5 rounded-full group-hover:bg-amber-200">COMING SOON</span>
+          <span id="regionBadgeBatuKurau" class="hidden text-[10px] font-black bg-emerald-600 text-white px-2 py-0.5 rounded-full shadow-sm">DIPILIH</span>
         </button>
 
         <button onclick="selectComingSoonRegion('Selama')" class="btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between transition group">
@@ -763,21 +779,17 @@
     </div>
   </div>
 
-  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY (SELESAI DIPERBAIKI) ================= -->
+  <!-- ================= POINT-TO-POINT INTERACTIVE TOUR OVERLAY ================= -->
   <div id="pointTourOverlay">
-    <!-- Spotlight Cutout Frame on Target Element (Giant Box-Shadow) -->
     <div id="tourSpotlightBox">
       <div class="tour-ping-ring"></div>
     </div>
 
-    <!-- Floating Dynamic Popover Card -->
     <div id="tourFloatingCard">
       <div id="tourCardArrow"></div>
       <div class="bg-stone-900/95 text-white border border-butter-300/40 rounded-3xl p-5 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-        <!-- Glow effect -->
         <div class="absolute -right-8 -top-8 w-24 h-24 bg-leaf-500/20 rounded-full blur-xl pointer-events-none"></div>
 
-        <!-- Header: Badge Langkah & Skip -->
         <div class="flex items-center justify-between mb-3 relative z-10">
           <span id="pointTourBadge" class="text-[10px] font-black uppercase tracking-wider bg-gradient-to-r from-butter-400 to-butter-500 text-stone-900 px-3 py-0.5 rounded-full shadow-sm">
             Point 1 / 6
@@ -787,7 +799,6 @@
           </button>
         </div>
 
-        <!-- Kandungan Tour -->
         <div class="flex items-start gap-3.5 mb-3.5 relative z-10" id="pointTourContentWrap">
           <div id="pointTourIconWrap" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-leaf-700 to-butter-500 flex items-center justify-center text-butter-100 text-lg flex-shrink-0 shadow-md border border-butter-200/30">
             <i class="fa-solid fa-location-dot" id="pointTourIcon"></i>
@@ -795,12 +806,11 @@
           <div class="min-w-0">
             <h4 id="pointTourTitle" class="text-sm font-black text-butter-100 leading-snug">Kawasan Liputan</h4>
             <p id="pointTourDesc" class="text-xs text-stone-300 mt-1 leading-relaxed">
-              Sentuh di sini untuk menukar atau melihat liputan seperti Taiping, Kamunting, Batu Kurau atau Selama.
+              Sentuh di sini untuk menukar atau melihat liputan seperti Taiping & Kamunting, Batu Kurau atau Selama.
             </p>
           </div>
         </div>
 
-        <!-- Aksi Khas Langkah PWA -->
         <div id="pointTourActionArea" class="hidden mb-3 relative z-10">
           <button onclick="installPWA()" class="btn-tactile w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-leaf-600 to-leaf-700 hover:from-leaf-700 hover:to-leaf-800 text-white font-extrabold text-xs flex items-center justify-center gap-2 border border-leaf-400/40 shadow-lg">
             <i class="fa-solid fa-download text-butter-300"></i>
@@ -808,7 +818,6 @@
           </button>
         </div>
 
-        <!-- Kawalan Langkah: Dots & Butang Seterusnya -->
         <div class="flex items-center justify-between pt-3 border-t border-stone-800/80 relative z-10">
           <div class="flex items-center gap-1.5" id="pointTourDots"></div>
           <div class="flex items-center gap-2">
@@ -862,7 +871,7 @@
       <div class="px-5 py-4 border-b border-butter-100 flex items-center justify-between bg-leaf-50">
         <div>
           <h3 class="text-base font-bold text-stone-900">Buka Topik Perbincangan</h3>
-          <p class="text-[11px] text-stone-500">Tanya atau kongsi bersama jiran Taiping & Kamunting</p>
+          <p class="text-[11px] text-stone-500">Tanya atau kongsi bersama jiran Taiping, Kamunting & Batu Kurau</p>
         </div>
         <button onclick="closePostModal()" class="btn-tactile w-8 h-8 rounded-full bg-stone-200/70 text-stone-600 flex items-center justify-center hover:bg-stone-300">
           <i class="fa-solid fa-xmark"></i>
@@ -888,9 +897,22 @@
         </div>
 
         <div>
-          <label class="block font-bold text-stone-700 mb-1">Zon Kawasan (Taman Anda) *</label>
+          <label class="block font-bold text-stone-700 mb-1">Zon Kawasan (Taman / Kampung Anda) *</label>
           <select id="postZone" required class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none bg-white transition">
-            <optgroup label="Zon Taman Kamunting">
+            <optgroup id="postOptBatuKurau" label="Zon Batu Kurau (Taman & Kampung)" class="hidden">
+              <option value="Pekan Batu Kurau">Pekan Batu Kurau</option>
+              <option value="Kampung Perak">Kampung Perak</option>
+              <option value="Pantai Besar">Pantai Besar</option>
+              <option value="Kampung Anak Kurau">Kampung Anak Kurau</option>
+              <option value="Kampung Repoh / Ulu Repoh">Kampung Repoh / Ulu Repoh</option>
+              <option value="Kampung Jelai">Kampung Jelai</option>
+              <option value="Kampung Pondok Tanjung">Kampung Pondok Tanjung</option>
+              <option value="Kampung Changkat Perah">Kampung Changkat Perah</option>
+              <option value="Kampung Air Hitam">Kampung Air Hitam</option>
+              <option value="Taman Kurau Harmoni / Kurau Mewah">Taman Kurau Harmoni / Kurau Mewah</option>
+              <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
+            </optgroup>
+            <optgroup id="postOptKamunting" label="Zon Taman Kamunting">
               <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
               <option value="Taman Impian">Taman Impian</option>
               <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
@@ -899,7 +921,7 @@
               <option value="Medan Kamunting / Kota Jaya">Medan Kamunting / Kota Jaya</option>
               <option value="Kamunting Raya">Kamunting Raya</option>
             </optgroup>
-            <optgroup label="Zon Taman Taiping & Sekitar">
+            <optgroup id="postOptTaiping" label="Zon Taman Taiping & Sekitar">
               <option value="Taman Kaya">Taman Kaya</option>
               <option value="Taman Lake View">Taman Lake View</option>
               <option value="Taman Aulong / Aulong Lama & Baru">Taman Aulong / Aulong Lama & Baru</option>
@@ -907,13 +929,14 @@
               <option value="Taman Pokok Assam">Taman Pokok Assam</option>
               <option value="Kampung Boyan / Taman Indah">Kampung Boyan / Taman Indah</option>
               <option value="Pusat Bandar Taiping / Lake Gardens">Pusat Bandar Taiping / Lake Gardens</option>
+              <option value="Changkat Jering">Changkat Jering</option>
             </optgroup>
           </select>
         </div>
 
         <div>
           <label class="block font-bold text-stone-700 mb-1">Tajuk Perbincangan *</label>
-          <input type="text" id="postTitle" required placeholder="Cth: Ada siapa buat open order pulut kuning esok area Jana?" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
+          <input type="text" id="postTitle" required placeholder="Cth: Ada siapa buat open order pulut kuning esok area Batu Kurau?" class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none transition">
         </div>
 
         <div>
@@ -993,7 +1016,7 @@
       <div class="px-5 py-4 border-b border-butter-100 flex items-center justify-between bg-butter-100/60">
         <div>
           <h3 id="registerModalTitle" class="text-base font-bold text-stone-900">Daftar Dapur Anda (Iklan Percuma)</h3>
-          <p class="text-[11px] text-stone-500">Khas untuk suri rumah & peniaga home-based Taiping & Kamunting</p>
+          <p class="text-[11px] text-stone-500">Khas untuk suri rumah & peniaga home-based Taiping, Kamunting & Batu Kurau</p>
         </div>
         <button onclick="closeRegisterModal()" class="btn-tactile w-8 h-8 rounded-full bg-stone-200/70 text-stone-600 flex items-center justify-center hover:bg-stone-300">
           <i class="fa-solid fa-xmark"></i>
@@ -1049,9 +1072,22 @@
 
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block font-bold text-stone-700 mb-1">Zon Kawasan (Taman) *</label>
+            <label class="block font-bold text-stone-700 mb-1">Zon Kawasan (Taman / Kg) *</label>
             <select id="regZone" required class="w-full p-2.5 border border-butter-200 rounded-xl focus:ring-2 focus:ring-leaf-600 outline-none bg-white transition">
-              <optgroup label="Zon Taman Kamunting">
+              <optgroup id="regOptBatuKurau" label="Zon Batu Kurau (Taman & Kampung)" class="hidden">
+                <option value="Pekan Batu Kurau">Pekan Batu Kurau</option>
+                <option value="Kampung Perak">Kampung Perak</option>
+                <option value="Pantai Besar">Pantai Besar</option>
+                <option value="Kampung Anak Kurau">Kampung Anak Kurau</option>
+                <option value="Kampung Repoh / Ulu Repoh">Kampung Repoh / Ulu Repoh</option>
+                <option value="Kampung Jelai">Kampung Jelai</option>
+                <option value="Kampung Pondok Tanjung">Kampung Pondok Tanjung</option>
+                <option value="Kampung Changkat Perah">Kampung Changkat Perah</option>
+                <option value="Kampung Air Hitam">Kampung Air Hitam</option>
+                <option value="Taman Kurau Harmoni / Kurau Mewah">Taman Kurau Harmoni / Kurau Mewah</option>
+                <option value="Taman Kurau Indah / Kurau Aman">Taman Kurau Indah / Kurau Aman</option>
+              </optgroup>
+              <optgroup id="regOptKamunting" label="Zon Taman Kamunting">
                 <option value="Taman Jana / Bukit Jana">Taman Jana / Bukit Jana</option>
                 <option value="Taman Impian">Taman Impian</option>
                 <option value="Taman Kamunting Mutiara">Taman Kamunting Mutiara</option>
@@ -1060,7 +1096,7 @@
                 <option value="Medan Kamunting / Kota Jaya">Medan Kamunting / Kota Jaya</option>
                 <option value="Kamunting Raya">Kamunting Raya</option>
               </optgroup>
-              <optgroup label="Zon Taman Taiping & Sekitar">
+              <optgroup id="regOptTaiping" label="Zon Taman Taiping & Sekitar">
                 <option value="Taman Kaya">Taman Kaya</option>
                 <option value="Taman Lake View">Taman Lake View</option>
                 <option value="Taman Aulong / Aulong Lama & Baru">Taman Aulong / Aulong Lama & Baru</option>
@@ -1121,7 +1157,7 @@
         </button>
       </div>
       <div class="py-3 text-xs text-stone-600 space-y-2.5">
-        <p><strong>Dapur Kita</strong> ialah inisiatif komuniti bebas berformat Progressive Web App (PWA) untuk menghubungkan pembeli dan dapur rumah tangga sekitar Taiping & Kamunting secara langsung.</p>
+        <p><strong>Dapur Kita</strong> ialah inisiatif komuniti bebas berformat Progressive Web App (PWA) untuk menghubungkan pembeli dan dapur rumah tangga sekitar Taiping, Kamunting & Batu Kurau secara langsung.</p>
         
         <div class="bg-gradient-to-r from-leaf-900 to-leaf-800 text-white p-3.5 rounded-2xl border border-leaf-700 shadow-sm">
           <div class="flex items-center justify-between mb-1">
@@ -1215,7 +1251,7 @@
       } else {
         signInAnonymously(auth).catch((err) => {
           console.error('❌ Anonymous sign-in gagal:', err);
-          showToast('⚠️ Auth gagal — Edit/Hapus tak berfungsi.');
+          showToast('⚠️ Auth gagal — sesetengah ciri mungkin terhad.');
           notifySplashResourceLoaded('auth');
         });
       }
@@ -1227,6 +1263,7 @@
     let currentVendors = [];
     let communityPosts = [];
     let currentMainTab = 'catalog';
+    let currentRegion = localStorage.getItem('dapur_kita_region') || 'Taiping & Kamunting';
     let selectedCommunityCategory = 'all';
     let selectedZone = 'all';
     let selectedCategory = 'all';
@@ -1410,9 +1447,9 @@
       appleIcon.href = iconUrl;
 
       const manifest = {
-        name: "Dapur Kita Taiping & Kamunting",
+        name: "Dapur Kita Taiping, Kamunting & Batu Kurau",
         short_name: "DapurKita",
-        description: "Direktori Makanan Home-based & Papan Komuniti Warga Taiping & Kamunting",
+        description: "Direktori Makanan Home-based & Papan Komuniti Warga Taiping, Kamunting & Batu Kurau",
         start_url: window.location.href,
         display: "standalone",
         background_color: "#14532d",
@@ -1498,7 +1535,7 @@
       Notification.requestPermission().then((p) => {
         if (p === 'granted') {
           triggerHaptic();
-          showSystemNotification('Notifikasi Dapur Kita Aktif! 🔔', 'Anda akan menerima alert terkini dari warga Taiping & Kamunting.');
+          showSystemNotification('Notifikasi Dapur Kita Aktif! 🔔', 'Anda akan menerima alert terkini dari warga Taiping, Kamunting & Batu Kurau.');
           showToast('Notifikasi Komuniti diaktifkan!');
           checkNotificationStatus();
         } else if (p === 'denied') {
@@ -1544,12 +1581,30 @@
     }
 
     // ==========================================
-    // 8. SPLASH SCREEN
+    // 8. SPLASH SCREEN (PANTAS & ANTI-STUCK)
     // ==========================================
-    let splashTargetProgress = 15;
+    let splashTargetProgress = 20;
     let splashCurrentProgress = 0;
     let splashResources = { vendors: false, posts: false, auth: false };
     let splashCompleted = false;
+
+    function finishSplashInstantly() {
+      if (splashCompleted) return;
+      splashCompleted = true;
+      const splash = document.getElementById('splashScreen');
+      const bar = document.getElementById('splashProgressBar');
+      const percentEl = document.getElementById('splashPercentText');
+      if (bar) bar.style.width = '100%';
+      if (percentEl) percentEl.innerText = '100%';
+
+      if (splash) {
+        splash.classList.add('fade-out');
+        setTimeout(() => {
+          if (splash && splash.parentNode) splash.remove();
+          checkFirstVisitTour();
+        }, 350);
+      }
+    }
 
     function notifySplashResourceLoaded(resource) {
       if (splashResources[resource] !== undefined) {
@@ -1557,10 +1612,8 @@
       }
       const loadedCount = Object.values(splashResources).filter(Boolean).length;
       if (loadedCount === 1) {
-        setSplashTarget(55, 'Menyambung ke menu tempatan...');
-      } else if (loadedCount === 2) {
-        setSplashTarget(80, 'Memuatkan diskusi komuniti...');
-      } else if (loadedCount >= 3) {
+        setSplashTarget(65, 'Menyambung ke menu tempatan...');
+      } else if (loadedCount >= 2) {
         setSplashTarget(100, 'Dapur sedia dihidang!');
       }
     }
@@ -1581,32 +1634,31 @@
 
       const progressInterval = setInterval(() => {
         if (splashCurrentProgress < splashTargetProgress) {
-          const step = Math.max(1, Math.ceil((splashTargetProgress - splashCurrentProgress) * 0.18));
+          const step = Math.max(2, Math.ceil((splashTargetProgress - splashCurrentProgress) * 0.25));
           splashCurrentProgress = Math.min(splashTargetProgress, splashCurrentProgress + step);
           bar.style.width = `${splashCurrentProgress}%`;
           if (percentEl) percentEl.innerText = `${splashCurrentProgress}%`;
         }
 
-        if (splashCurrentProgress >= 100 && !splashCompleted) {
-          splashCompleted = true;
+        if (splashCurrentProgress >= 100) {
           clearInterval(progressInterval);
-          setTimeout(() => {
-            splash.classList.add('fade-out');
-            setTimeout(() => { 
-              if (splash) splash.remove(); 
-              checkFirstVisitTour();
-            }, 600);
-          }, 300);
+          finishSplashInstantly();
         }
-      }, 30);
+      }, 25);
 
+      // Auto-dismiss maksimum 1.5 saat sekiranya rangkaian internet perlahan
       setTimeout(() => {
         setSplashTarget(100, 'Membuka Dapur Kita...');
-      }, 2400);
+      }, 800);
+
+      setTimeout(() => {
+        clearInterval(progressInterval);
+        finishSplashInstantly();
+      }, 1500);
     }
 
     // =========================================================================
-    // 8a. POINT-TO-POINT INTERACTIVE TOUR ENGINE (FIXED & HIGH CLARITY)
+    // 8a. POINT-TO-POINT INTERACTIVE TOUR ENGINE
     // =========================================================================
     let currentTourIndex = 0;
     let tourPositionRaf = null;
@@ -1632,7 +1684,7 @@
       {
         targetId: 'tourCatalogFilters',
         title: 'Point 3: Enjin Carian & Penapis Pantas',
-        desc: 'Cari mengikut makanan (kuih, lauk, sambal), ketersediaan (Ready Stock / Pre-Order) serta Zon Taman kejiranan anda.',
+        desc: 'Cari mengikut makanan (kuih, lauk, sambal), ketersediaan (Ready Stock / Pre-Order) serta Zon kejiranan anda.',
         icon: 'fa-solid fa-magnifying-glass',
         preferredPos: 'bottom',
         action: () => { switchMainTab('catalog'); }
@@ -1669,7 +1721,7 @@
       if (!hasSeenTour) {
         setTimeout(() => {
           startInteractiveTour(0);
-        }, 450);
+        }, 350);
       }
     }
 
@@ -1775,7 +1827,6 @@
       const rect = target.getBoundingClientRect();
       const padding = 6;
 
-      // Spotlight Box placement
       spotlight.style.display = 'block';
       spotlight.style.top = `${Math.round(rect.top - padding)}px`;
       spotlight.style.left = `${Math.round(rect.left - padding)}px`;
@@ -1870,10 +1921,85 @@
     function openRegionModal() { openModalWithAnimation('regionModal'); }
     function closeRegionModal() { closeModalWithAnimation('regionModal'); }
 
+    function updateRegionUI() {
+      const isBK = (currentRegion === 'Batu Kurau');
+      const txt = document.getElementById('currentHeaderRegionText');
+      if (txt) txt.innerText = currentRegion;
+
+      // Sembunyi / Papar di Penapis Katalog
+      const filterBK = document.getElementById('filterBatuKurauGroup');
+      const filterKamunting = document.getElementById('filterKamuntingGroup');
+      const filterTaiping = document.getElementById('filterTaipingGroup');
+
+      if (filterBK) filterBK.classList.toggle('hidden', !isBK);
+      if (filterKamunting) filterKamunting.classList.toggle('hidden', isBK);
+      if (filterTaiping) filterTaiping.classList.toggle('hidden', isBK);
+
+      // Sembunyi / Papar di Borang Post Komuniti
+      const postBK = document.getElementById('postOptBatuKurau');
+      const postKamunting = document.getElementById('postOptKamunting');
+      const postTaiping = document.getElementById('postOptTaiping');
+
+      if (postBK) postBK.classList.toggle('hidden', !isBK);
+      if (postKamunting) postKamunting.classList.toggle('hidden', isBK);
+      if (postTaiping) postTaiping.classList.toggle('hidden', isBK);
+
+      const postZoneSelect = document.getElementById('postZone');
+      if (postZoneSelect) {
+        postZoneSelect.value = isBK ? 'Pekan Batu Kurau' : 'Taman Jana / Bukit Jana';
+      }
+
+      // Sembunyi / Papar di Borang Daftar Menu
+      const regBK = document.getElementById('regOptBatuKurau');
+      const regKamunting = document.getElementById('regOptKamunting');
+      const regTaiping = document.getElementById('regOptTaiping');
+
+      if (regBK) regBK.classList.toggle('hidden', !isBK);
+      if (regKamunting) regKamunting.classList.toggle('hidden', isBK);
+      if (regTaiping) regTaiping.classList.toggle('hidden', isBK);
+
+      const regZoneSelect = document.getElementById('regZone');
+      if (regZoneSelect) {
+        regZoneSelect.value = isBK ? 'Pekan Batu Kurau' : 'Taman Jana / Bukit Jana';
+      }
+
+      // Kemaskini butang pada modal
+      const btnTaiping = document.getElementById('regionBtnTaiping');
+      const btnBK = document.getElementById('regionBtnBatuKurau');
+      const badgeTaiping = document.getElementById('regionBadgeTaiping');
+      const badgeBK = document.getElementById('regionBadgeBatuKurau');
+
+      if (btnTaiping && btnBK && badgeTaiping && badgeBK) {
+        if (isBK) {
+          btnBK.className = 'btn-tactile w-full p-3 rounded-2xl bg-emerald-50 hover:bg-emerald-100/80 border-2 border-emerald-600 text-left flex items-center justify-between shadow-sm';
+          btnBK.querySelector('.w-9').className = 'w-9 h-9 rounded-xl bg-emerald-700 text-butter-200 flex items-center justify-center text-sm font-bold';
+          btnBK.querySelector('.text-xs').className = 'text-xs font-black text-emerald-950';
+          badgeBK.classList.remove('hidden');
+
+          btnTaiping.className = 'btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-butter-50/70 border border-stone-200 text-left flex items-center justify-between shadow-sm';
+          btnTaiping.querySelector('.w-9').className = 'w-9 h-9 rounded-xl bg-stone-200 text-stone-600 flex items-center justify-center text-sm font-bold';
+          btnTaiping.querySelector('.text-xs').className = 'text-xs font-bold text-stone-800';
+          badgeTaiping.classList.add('hidden');
+        } else {
+          btnTaiping.className = 'btn-tactile w-full p-3 rounded-2xl bg-leaf-50 hover:bg-leaf-100/80 border-2 border-leaf-600 text-left flex items-center justify-between shadow-sm';
+          btnTaiping.querySelector('.w-9').className = 'w-9 h-9 rounded-xl bg-leaf-700 text-butter-200 flex items-center justify-center text-sm font-bold';
+          btnTaiping.querySelector('.text-xs').className = 'text-xs font-black text-leaf-950';
+          badgeTaiping.classList.remove('hidden');
+
+          btnBK.className = 'btn-tactile w-full p-3 rounded-2xl bg-stone-50 hover:bg-emerald-50/80 border border-stone-200 text-left flex items-center justify-between shadow-sm';
+          btnBK.querySelector('.w-9').className = 'w-9 h-9 rounded-xl bg-stone-200 text-stone-600 flex items-center justify-center text-sm font-bold';
+          btnBK.querySelector('.text-xs').className = 'text-xs font-bold text-stone-800';
+          badgeBK.classList.add('hidden');
+        }
+      }
+    }
+
     function selectRegion(regionName) {
       triggerHaptic();
-      const txt = document.getElementById('currentHeaderRegionText');
-      if (txt) txt.innerText = regionName;
+      currentRegion = regionName;
+      localStorage.setItem('dapur_kita_region', regionName);
+      updateRegionUI();
+      resetFilters();
       closeRegionModal();
       showToast(`📍 Kawasan semasa: ${regionName}`);
     }
@@ -1952,7 +2078,6 @@
       return item.ownerUid === currentUid;
     }
 
-    // ========== KOMUNITI OWNER CHECK ==========
     function isPostOwner(post) { return post && currentUid && post.ownerUid === currentUid; }
 
     async function deletePost(postId) {
@@ -1966,7 +2091,6 @@
       } catch (err) { showToast('Ralat ketika memadam. Sila cuba lagi.'); }
     }
     
-    // ========== PADAM KOMEN/BALASAN ==========
     async function deleteComment(postId, commentId) {
       const post = communityPosts.find(p => p.id === postId);
       if (!post || !post.comments) return;
@@ -2089,6 +2213,27 @@
     // ==========================================
     // 10. KOMUNITI
     // ==========================================
+    const batuKurauZones = [
+      'Pekan Batu Kurau',
+      'Kampung Perak',
+      'Pantai Besar',
+      'Kampung Anak Kurau',
+      'Kampung Repoh / Ulu Repoh',
+      'Kampung Jelai',
+      'Kampung Pondok Tanjung',
+      'Kampung Changkat Perah',
+      'Kampung Air Hitam',
+      'Taman Kurau Harmoni / Kurau Mewah',
+      'Taman Kurau Indah / Kurau Aman'
+    ];
+
+    function isZoneInCurrentRegion(zoneName) {
+      if (!zoneName) return false;
+      const isBK = (currentRegion === 'Batu Kurau');
+      const inBKList = batuKurauZones.includes(zoneName);
+      return isBK ? inBKList : !inBKList;
+    }
+
     function setCommunityFilter(cat, element) {
       triggerHaptic();
       selectedCommunityCategory = cat;
@@ -2116,6 +2261,8 @@
       const emptyState = document.getElementById('communityEmptyState');
       const badge = document.getElementById('postCountBadge');
       const filtered = communityPosts.filter(p => {
+        const matchRegion = isZoneInCurrentRegion(p.authorZone);
+        if (!matchRegion) return false;
         if (selectedCommunityCategory === 'all') return true;
         return p.category === selectedCommunityCategory;
       });
@@ -2285,7 +2432,7 @@
         commenterName = entered || 'Jiran Setempat';
         if (entered) localStorage.setItem('dapur_kita_my_name', entered);
       }
-      const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting';
+      const commenterZone = localStorage.getItem('dapur_kita_my_zone') || 'Taiping / Kamunting / Batu Kurau';
 
       const newComment = {
         author: commenterName,
@@ -2338,6 +2485,8 @@
       const countBadge = document.getElementById('vendorCountBadge');
 
       const filtered = currentVendors.filter(item => {
+        const matchRegion = isZoneInCurrentRegion(item.zone);
+        if (!matchRegion) return false;
         const matchZone = (selectedZone === 'all') || (item.zone === selectedZone);
         let matchCat = true;
         if (['Ready Stock','Pre-Order','Seminggu Awal'].includes(selectedCategory)) {
@@ -2426,7 +2575,6 @@
             </button>
           </div>` : '';
 
-        // PAPARAN SENARAI PADAT
         if (menuLayout === 'list') {
           return `
             <div class="soft-card animate-grid-item bg-white/95 rounded-2xl border border-butter-200/90 shadow-sm flex flex-col hover:border-leaf-500" style="animation-delay: ${delay}s">
@@ -2451,7 +2599,6 @@
             </div>`;
         }
 
-        // PAPARAN GRID KECIL (KOMPAK 2-COL)
         if (menuLayout === 'compact') {
           return `
             <div class="soft-card animate-grid-item bg-white/95 rounded-2xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
@@ -2476,7 +2623,6 @@
             </div>`;
         }
 
-        // PAPARAN LEBAR DEFAULT (1-COL)
         return `
           <div class="soft-card animate-grid-item bg-white/95 rounded-3xl overflow-hidden border border-butter-200/90 shadow-sm flex flex-col justify-between hover:border-leaf-500" style="animation-delay: ${delay}s">
             <div>
@@ -2509,11 +2655,11 @@
       triggerHaptic();
       selectedZone = zone;
       document.querySelectorAll('.zone-btn').forEach(btn => {
-        btn.classList.remove('bg-leaf-700','text-butter-100','shadow-sm','border-transparent','active');
+        btn.classList.remove('bg-leaf-700','text-butter-100','shadow-sm','border-transparent','active','bg-emerald-700');
         btn.classList.add('bg-butter-50/70','text-stone-700','border-butter-200');
       });
       if (element && element.classList.contains('zone-btn')) {
-        element.classList.remove('bg-butter-50/70','text-stone-700','border-butter-200');
+        element.classList.remove('bg-butter-50/70','text-stone-700','border-butter-200','bg-emerald-50/70','text-emerald-900');
         element.classList.add('bg-leaf-700','text-butter-100','shadow-sm','border-transparent','active');
       }
       renderVendors();
@@ -2562,7 +2708,7 @@
       updateActiveNavText('catalog');
 
       document.querySelectorAll('.zone-btn').forEach(b => {
-        b.classList.remove('bg-leaf-700','text-butter-100','active');
+        b.classList.remove('bg-leaf-700','text-butter-100','active','bg-emerald-700');
         b.classList.add('bg-butter-50/70','text-stone-700');
       });
       const firstCat = document.querySelector('.cat-btn');
@@ -2744,6 +2890,7 @@
     if (!Array.isArray(myVendorIds)) myVendorIds = [];
 
     updateLayoutToggleButtons();
+    updateRegionUI();
     initRealtimeSync();
     initSplashScreen();
 
